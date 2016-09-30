@@ -1,8 +1,7 @@
 {
-    "name": "mean-stack-relational",
-    "description": "M*EAN - A Modern Stack: MySQL(Postgres for Heroku), ExpressJS, AngularJS, NodeJS. (BONUS: Passport User Support).",
-    "repository": "https://github.com/jpotts18/mean-stack-relational.git",
-    "logo": "https://raw.githubusercontent.com/jpotts18/mean-stack-relational/master/public/img/m_logo.png",
+    "name": "marketing_log",
+    "description": "Marketing Log for the Zen Sisters",
+    "repository": "https://github.com/AliceKindheart/marketing_log.git",
     "keywords": ["node", "express", "static"],
     "env": {
         "WEB_CONCURRENCY": {

@@ -1,3 +1,4 @@
+'use strict';
 //Setting up route
 angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlRouterProvider) {
 
@@ -11,6 +12,16 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             url : '/',
             controller : 'IndexController',
             templateUrl: 'views/index.html'
+        })
+        .state('companies',{
+            url: '/companies',
+            //controller: 'CompaniesController',
+            templateUrl: 'views/companies/list.html'
+        })
+        .state('addCompany',{
+            url: '/companies/create',
+            controller: 'CompaniesController',
+            templateUrl: 'views/companies/create.html'
         })
         .state('SignIn',{
             url : '/signin',
@@ -42,7 +53,7 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
         })
         .state('404',{
             templateUrl: 'views/404.html'
-        })
+        });
 }
 ]);
 

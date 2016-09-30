@@ -1,4 +1,4 @@
-
+'use strict';
 angular.module('mean.auth').service("FacebookAuth", ['$resource', function($resource) {
     return $resource('/auth/facebook');
 }]);

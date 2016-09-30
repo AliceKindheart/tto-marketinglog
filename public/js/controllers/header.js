@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('mean.system').controller('HeaderController', ['$scope', 'Global', 'SignOut', '$state', function ($scope, Global, SignOut, $state) {
     $scope.global = Global;
 
@@ -7,6 +9,12 @@ angular.module('mean.system').controller('HeaderController', ['$scope', 'Global'
     }, {
         "title": "Create New Article",
         "state": "createArticle"
+    }, {
+        "title": "Companies",
+        "state": "companies"
+    }, {
+        "title": "Add New Company",
+        "state": "addCompany"
     }];
     
     $scope.isCollapsed = false;
@@ -18,7 +26,7 @@ angular.module('mean.system').controller('HeaderController', ['$scope', 'Global'
                 $state.go('home');
             }
         });
-    }
+    };
 
 
 }]);
