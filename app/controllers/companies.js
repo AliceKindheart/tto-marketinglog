@@ -111,6 +111,7 @@ exports.all = function(req, res) {
     });
 };
 
+
 /**
  * Article authorizations routing middleware
  */

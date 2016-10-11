@@ -48,6 +48,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
     $scope.find = function() {
         Companies.query(function(companies) {
             $scope.companies = companies;
+            
         });
     };
 
