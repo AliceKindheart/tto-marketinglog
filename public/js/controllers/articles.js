@@ -46,6 +46,7 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
     };
 
     $scope.find = function() {
+        console.log("articles.find got called!!");
         Articles.query(function(articles) {
             $scope.articles = articles;
         });

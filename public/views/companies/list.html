@@ -1,6 +1,18 @@
 
 <body>
-	<h1>Ok, at least this is showing up!</h1>
+	<h1>Tell Me  More About These Companies</h1>
+
+<section data-ng-init="find()">
+	<ul class="companies unstyled">
+		<li data-ng-repeat="company in companies" ng-click=$state.go(SignUp)> 
+			<span>{{company.id}}</span>
+			<span>{{company.Company_name}}</span>
+			<span>Notes: {{company.Notes}}</span>
+		</li>
+	</ul>
+	<h1 data-ng-hide="!companies || companies.length">No companies yet. <br> Why don't you <a ui-sref="createCompany">Create One</a>?</h1>
+</section>
+
 </body>
 
 <section ng-include>

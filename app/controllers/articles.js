@@ -98,6 +98,7 @@ exports.show = function(req, res) {
  * List of Articles
  */
 exports.all = function(req, res) {
+    console.log("and then exports.all for articles got called");
     db.Article.findAll({include: [{model:db.User, attributes: ['id', 'username', 'name']}]}).then(function(articles){
         return res.jsonp(articles);
     }).catch(function(err){
