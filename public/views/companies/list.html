@@ -2,24 +2,30 @@
 <body>
 	<h1>Tell Me  More About These Companies</h1>
 
-<section data-ng-init="find()">
-	<ul class="companies unstyled">
-		<li data-ng-repeat="company in companies" ng-click=$state.go(SignUp)> 
-			<span>{{company.id}}</span>
-			<span>{{company.Company_name}}</span>
-			<span>Notes: {{company.Notes}}</span>
-		</li>
-	</ul>
+<section>
+	<table class="table table-bordered table-striped" data-ng-init="find()" >
+		<tr>
+			<th>ID#</th>
+			<th>Company Name</th>
+			<th>Notes</th>
+		</tr>
+		<tr data-ng-repeat="company in companies">
+			<td>{{company.id}}</td>
+			<td ui-sref="viewCompany({id: company.id})">{{company.Company_name}}</td>
+			<td>{{company.Notes}}</td>
+		</tr>
+	</class="table">
+				
 	<h1 data-ng-hide="!companies || companies.length">No companies yet. <br> Why don't you <a ui-sref="createCompany">Create One</a>?</h1>
 </section>
 
 </body>
-
+<P></P>
 <section ng-include>
 	
 	<p>hello?</p>
 	
 </section>
 
-<p>this is stupid</p>
+
 

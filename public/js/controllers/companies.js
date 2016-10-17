@@ -57,7 +57,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
         console.log("hellohello");
         console.log($stateParams);
         Companies.query({
-            companyId: $stateParams.companyId
+            id: $stateParams.id
         }, function(company) {
             $scope.company = company;
         });
