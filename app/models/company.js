@@ -2,16 +2,14 @@
 
 module.exports = function(sequelize, DataTypes) {
 
-	var Company = sequelize.define('Company', 
-		{
+	var Company = sequelize.define('Company', {
 			Company_name: DataTypes.STRING,
-			Notes: DataTypes.STRING
-
+			Notes: DataTypes.STRING,
 		},	
 		{
 			timestamps: false,
-			createdAt: false
-		},	
+			createdAt: false,
+		},
 		{
 			associate: function(models) {
 					Company.hasMany(models.Tag);
