@@ -45,20 +45,12 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
         });
     };
 
-    $scope.find = function() {
-        console.log("this ran");
-        Companies.query(function(companies) {
-            console.log("WHTHTHTHTHTHTHT");
-            $scope.companies = companies;
-        });
-    };
-
     $scope.findOne = function() {
         console.log("findOne ran");
         //console.log("$stateParams.id=");
         //console.log($stateParams.id);
         Companies.get({
-            id: $stateParams.id,
+            companyId: $stateParams.id 
         }, function(company) {
             console.log(company);
             $scope.company = company;

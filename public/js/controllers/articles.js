@@ -45,23 +45,22 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
         });
     };
 
-    $scope.find = function() {
-        console.log("articles.find got called!!");
-        Articles.query(function(articles) {
-            $scope.articles = articles;
-        });
-    };
+
 
     $scope.findOne = function() {
         Articles.get({
             articleId: $stateParams.articleId
         }, function(article) {
+            //console.log("fineOneArticle ran");
             $scope.article = article;
+            console.log(article);
         });
     };
     $scope.find = function() {
         Articles.query(function(articles) {
             $scope.articles = articles;
+            console.log("articles.find got called!!");
+            console.log(articles);
         });
     };
 

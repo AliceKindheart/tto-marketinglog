@@ -13,7 +13,8 @@ var db = require('../../config/sequelize');
  */
 exports.company = function(req, res, next, id) {
     console.log('id => ' + id);
-    db.Company.find({where: {id: id}, include: [{model:db.Company, attributes:['id', 'companyname', 'notes']}]}).then(function(company){
+    console.log("COMPANIES.COMPANIES");
+    db.Company.find({where: {id: id}, include: [{model:db.Company, attributes:['id', 'Company_name', 'notes']}]}).then(function(company){
         if(!company) {
             return next(new Error('Failed to load company ' + id));
         } else {

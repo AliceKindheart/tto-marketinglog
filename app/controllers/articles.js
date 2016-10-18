@@ -13,6 +13,7 @@ var db = require('../../config/sequelize');
  */
 exports.article = function(req, res, next, id) {
     console.log('id => ' + id);
+    console.log("ARTICLES.ARTICLES");
     db.Article.find({where: {id: id}, include: [{model:db.User, attributes:['id', 'username', 'name']}]}).then(function(article){
         if(!article) {
             return next(new Error('Failed to load article ' + id));
@@ -26,7 +27,7 @@ exports.article = function(req, res, next, id) {
 };
 
 /**
- * Create a article
+ * Create an article
  */
 exports.create = function(req, res) {
     // augment the article by adding the UserId
@@ -89,6 +90,7 @@ exports.destroy = function(req, res) {
  * Show an article
  */
 exports.show = function(req, res) {
+    console.log("LOOKLOOKLOOK!!! SHOWSHOWSHOW!!!");
     // Sending down the article that was just preloaded by the articles.article function
     // and saves article on the req object.
     return res.jsonp(req.article);
