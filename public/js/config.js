@@ -18,15 +18,15 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             controller: 'CompaniesController',
             templateUrl: 'views/companies/list.html'
         })
-        .state('viewCompany',{
-            url : '/companies/{id}',
-            controller : 'CompaniesController',
-            templateUrl: 'views/companies/view.html'
-        })
         .state('addCompany',{
             url: '/companies/create',
             controller: 'CompaniesController',
             templateUrl: 'views/companies/create.html'
+        })
+        .state('viewCompany',{
+            url : '/companies/{id}',
+            controller : 'CompaniesController',
+            templateUrl: 'views/companies/view.html'
         })
         .state('SignIn',{
             url : '/signin',

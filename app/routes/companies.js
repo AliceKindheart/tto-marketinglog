@@ -10,11 +10,14 @@ module.exports = function(app) {
 // Company Routes
 app.route('/companies')
     .get(companies.all)
-    .post(companies.create);
+    .post(users.requiresLogin, companies.create);
+//app.route('/companies/create')
+//	.get(companies.all);
 app.route('/companies/:id')
     .get(companies.show)
     .put(users.requiresLogin, companies.hasAuthorization, companies.update)
     .delete(users.requiresLogin, companies.hasAuthorization, companies.destroy);
+
 
 // Finish with setting up the id param
 // Note: the companies.company function will be called everytime then it will call the next function.

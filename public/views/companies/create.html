@@ -1,15 +1,17 @@
+<h2>Enter New Company Information</h2>
+
 <section>
 	<form class="form-horizontal" data-ng-submit="create()">
 		<div class="control-group">
-			<label class="control-label" for="title">Title</label>
+			<label class="control-label" for="name">Company Name</label>
 			<div class="controls">
-				<input type="text" data-ng-model="title" id="title" placeholder="Title" required>
+				<input type="text" data-ng-model="Company_name" id="Company_name" placeholder="Company Name" required>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label" for="content">Content</label>
+			<label class="control-label" for="notes">Notes</label>
 			<div class="controls">
-				<textarea data-ng-model="content" id="content" cols="30" rows="10" placeholder="Content"></textarea>
+				<textarea data-ng-model="notes" id="notes" cols="30" rows="10" placeholder="Notes"></textarea>
 			</div>
 		</div>
 		<div class="control-group">
