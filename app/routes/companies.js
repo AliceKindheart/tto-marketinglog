@@ -11,13 +11,13 @@ module.exports = function(app) {
 app.route('/companies')
     .get(companies.all)
     .post(companies.create);
-app.route('/companies/:company_id')
+app.route('/companies/:id')
     .get(companies.show)
     .put(users.requiresLogin, companies.hasAuthorization, companies.update)
     .delete(users.requiresLogin, companies.hasAuthorization, companies.destroy);
 
-// Finish with setting up the articleId param
-// Note: the articles.article function will be called everytime then it will call the next function.
-app.param('company_id', companies.company_id);
+// Finish with setting up the id param
+// Note: the companies.company function will be called everytime then it will call the next function.
+app.param('id', companies.show);
 };
 

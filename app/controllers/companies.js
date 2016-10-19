@@ -8,18 +8,21 @@ var db = require('../../config/sequelize');
 
 /**
  * Find company by id
- * Note: This is called every time that the parameter :companyId is used in a URL. 
+ * Note: This is called every time that the parameter :id is used in a URL. 
  * Its purpose is to preload the company on the req object then call the next function. 
  */
-exports.company = function(req, res, next, id) {
+exports.show = function(req, res, next, id) {
     console.log('id => ' + id);
-    console.log("COMPANIES.COMPANIES");
-    db.Company.find({where: {id: id}, include: [{model:db.Company, attributes:['id', 'Company_name', 'notes']}]}).then(function(company){
+    console.log("COMPANIES.COMPANy");
+    db.Company.find({where: {id: id}}).then(function(company){
         if(!company) {
             return next(new Error('Failed to load company ' + id));
         } else {
             req.company = company;
-            return next();            
+            console.log("COMPANY");
+            console.log(company);
+            return res.jsonp(company);
+           // return next();            
         }
     }).catch(function(err){
         return next(err);
@@ -89,11 +92,13 @@ exports.destroy = function(req, res) {
 /**
  * Show a company
  */
-exports.show = function(req, res) {
+//exports.show = function(req, res) {
+  //  console.log("Whatthewhat?!YAY, SHOW GOT CALLED");
     // Sending down the company that was just preloaded by the companies.company function
     // and saves company on the req object.
-    return res.jsonp(req.company);
-};
+    //return res.jsonp(req.company);
+   // return res.jsonp(req.company);
+//};
 
 /**
  * List of Companies
@@ -122,14 +127,4 @@ exports.hasAuthorization = function(req, res, next) {
     next();
 };
 
-exports.company_id = function(req, res, next, id) {
-    db.Company.find({where : { id: id }}).then(function(company){
-      if (!company) {
-          return next(new Error('Failed to load Company ' + id));
-      }
-      req.profile = company;
-      next();
-    }).catch(function(err){
-      next(err);
-    });
-};
+
