@@ -6,11 +6,14 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
     $scope.create = function() {
         var company = new Companies({
             Company_name: this.Company_name,
-            notes: this.notes
+            Notes: this.Notes
         });
+        console.log("HEYHEYTHISISTHECOMPANY");
+        console.log(company);
 
         company.$save(function(response) {
-            $state.go('viewCompany',{Company_name : response.companies_id});
+            //$state.go('viewCompany',{Company_name : responseid});
+            $state.go('viewCompany',{id : response.id});
         });
 
         this.Company_name = "";

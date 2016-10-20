@@ -35,14 +35,23 @@ exports.show = function(req, res, next, id) {
 exports.create = function(req, res) {
     // augment the company by adding the UserId
     req.body.UserId = req.user.id;
-    // save and return and instance of company on the res object. 
+    console.log("req.body");
+    console.log(req.body);
+    // save and return an instance of company on the res object. 
     db.Company.create(req.body).then(function(company){
+        console.log("TRYING TO SAVE THE COMPANY INFO");
+        //console.log(req.body);
         if(!company){
+            console.log("NOTACOMPANY!!!!");
             return res.send('users/signup', {errors: new StandardError('Company could not be created')});
         } else {
             return res.jsonp(company);
+            console.log("I THINK IT GOT SAVED");
+            console.log(company);
         }
     }).catch(function(err){
+        console.log("THROWING AN ERROR MESSAGE");
+        //return res.status(status).send(body, {
         return res.send('users/signup', { 
             errors: err,
             status: 500

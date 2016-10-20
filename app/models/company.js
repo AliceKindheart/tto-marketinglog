@@ -6,10 +6,10 @@ module.exports = function(sequelize, DataTypes) {
 			Company_name: DataTypes.STRING,
 			Notes: DataTypes.STRING,
 		},	
-		{
-			timestamps: false,
-			createdAt: false,
-		},
+		//{
+		//	timestamps: false,
+		//	createdAt: false,
+		//},
 		{
 			associate: function(models) {
 					Company.hasMany(models.Tag);

@@ -32,6 +32,8 @@ exports.article = function(req, res, next, id) {
 exports.create = function(req, res) {
     // augment the article by adding the UserId
     req.body.UserId = req.user.id;
+    console.log("req.body");
+    console.log(req.body);
     // save and return and instance of article on the res object. 
     db.Article.create(req.body).then(function(article){
         if(!article){
