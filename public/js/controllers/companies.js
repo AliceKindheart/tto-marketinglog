@@ -8,9 +8,6 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             Company_name: this.Company_name,
             Notes: this.Notes
         });
-        console.log("HEYHEYTHISISTHECOMPANY");
-        console.log(company);
-
         company.$save(function(response) {
             //$state.go('viewCompany',{Company_name : responseid});
             $state.go('viewCompany',{id : response.id});
@@ -21,16 +18,22 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
     };
 
     $scope.remove = function(company) {
+        console.log("remove was called");
+        console.log($scope.company);
+
         if (company) {
+            console.log("THERE WAS A COMPANY");
             company.$remove();  
 
             for (var i in $scope.companies) {
                 if ($scope.companies[i] === company) {
+                    console.log("that thing happened");
                     $scope.companies.splice(i, 1);
                 }
             }
         }
         else {
+            console.log("hello else");
             $scope.company.$remove();
             $state.go('companies');
         }
@@ -39,11 +42,12 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
     $scope.update = function() {
         var company = $scope.company;
         if (!company.updated) {
+            console.log("company didn't updated");
             company.updated = [];
         }
         company.updated.push(new Date().getTime());
         company.$update(function() {
-        $state.go('viewCompany',{Companies_id : Companies.Companies_id});
+        $state.go('viewCompany',{id : company.id});
 
         });
     };

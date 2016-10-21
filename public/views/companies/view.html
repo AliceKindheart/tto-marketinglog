@@ -2,4 +2,8 @@
     <h2>{{company.Company_name}}</h2>
     <p>Notes: {{company.Notes}}</p>
     <div>ID: {{company.id}}</div>
+    <div>
+        <a class="btn" ui-sref="editCompany({id : company.id})">Edit</a>
+        <a class="btn" data-ng-click="remove();">Delete</a>
+    </div>
 </section>

@@ -74,7 +74,7 @@ exports.update = function(req, res) {
  * Delete an article
  */
 exports.destroy = function(req, res) {
-
+    console.log("DESTROYDESTROYDESTROY");
     // create a new variable to hold the article that was placed on the req object.
     var article = req.article;
 

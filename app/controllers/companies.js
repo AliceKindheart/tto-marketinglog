@@ -11,7 +11,7 @@ var db = require('../../config/sequelize');
  * Note: This is called every time that the parameter :id is used in a URL. 
  * Its purpose is to preload the company on the req object then call the next function. 
  */
-exports.show = function(req, res, next, id) {
+exports.company = function(req, res, next, id) {
     console.log('id => ' + id);
     console.log("COMPANIES.COMPANy");
     db.Company.find({where: {id: id}}).then(function(company){
@@ -20,15 +20,24 @@ exports.show = function(req, res, next, id) {
         } else {
             req.company = company;
             console.log("COMPANY");
-            console.log(company);
-            return res.jsonp(company);
-           // return next();            
+            //console.log(company);
+            //return res.jsonp(company);
+           return next();            
         }
     }).catch(function(err){
         return next(err);
     });
 };
 
+/**
+ * Show an article
+ */
+exports.show = function(req, res) {
+    console.log("LOOKLOOKLOOK!!! SHOWSHOWSHOW!!!");
+    // Sending down the article that was just preloaded by the articles.article function
+    // and saves article on the req object.
+    return res.jsonp(req.company);
+};
 /**
  * Create a company
  */
@@ -68,7 +77,7 @@ exports.update = function(req, res) {
     var company = req.company;
 
     company.updateAttributes({
-        companyname: req.body.companyname,
+        Company_name: req.body.Company_name,
         notes: req.body.notes
     }).then(function(a){
         return res.jsonp(a);
@@ -84,11 +93,13 @@ exports.update = function(req, res) {
  * Delete a company
  */
 exports.destroy = function(req, res) {
-
+    console.log("DESTROYDESTROYDESTROY");
+    //console.log(req.company);
     // create a new variable to hold the company that was placed on the req object.
     var company = req.company;
 
     company.destroy().then(function(){
+        console.log("MADEITTHISFAR");
         return res.jsonp(company);
     }).catch(function(err){
         return res.render('error', {

@@ -18,10 +18,15 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
     };
 
     $scope.remove = function(article) {
+        console.log("remove an article was called");
+        console.log($scope.articles);
         if (article) {
+            console.log("there once was an article");
             article.$remove();  
 
             for (var i in $scope.articles) {
+                console.log("$scope.articles");
+                console.log($scope.articles);
                 if ($scope.articles[i] === article) {
                     $scope.articles.splice(i, 1);
                 }
