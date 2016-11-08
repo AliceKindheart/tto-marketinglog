@@ -30,15 +30,6 @@ exports.company = function(req, res, next, id) {
 };
 
 /**
- * Show an article
- */
-exports.show = function(req, res) {
-    console.log("LOOKLOOKLOOK!!! SHOWSHOWSHOW!!!");
-    // Sending down the article that was just preloaded by the articles.article function
-    // and saves article on the req object.
-    return res.jsonp(req.company);
-};
-/**
  * Create a company
  */
 exports.create = function(req, res) {
@@ -78,7 +69,7 @@ exports.update = function(req, res) {
 
     company.updateAttributes({
         Company_name: req.body.Company_name,
-        notes: req.body.notes
+        Notes: req.body.Notes
     }).then(function(a){
         return res.jsonp(a);
     }).catch(function(err){
@@ -110,16 +101,15 @@ exports.destroy = function(req, res) {
 };
 
 /**
+
  * Show a company
  */
-//exports.show = function(req, res) {
-  //  console.log("Whatthewhat?!YAY, SHOW GOT CALLED");
-    // Sending down the company that was just preloaded by the companies.company function
-    // and saves company on the req object.
-    //return res.jsonp(req.company);
-   // return res.jsonp(req.company);
-//};
-
+exports.show = function(req, res) {
+    console.log("LOOKLOOKLOOK!!! SHOWSHOWSHOW!!!");
+    // Sending down the article that was just preloaded by the articles.article function
+    // and saves article on the req object.
+    return res.jsonp(req.company);
+};
 /**
  * List of Companies
  */

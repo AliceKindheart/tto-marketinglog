@@ -40,7 +40,10 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
 
     $scope.update = function() {
         var article = $scope.article;
+        console.log($scope.article);
+        console.log(article.updated);
         if (!article.updated) {
+            console.log("article didn't updated");
             article.updated = [];
         }
         article.updated.push(new Date().getTime());

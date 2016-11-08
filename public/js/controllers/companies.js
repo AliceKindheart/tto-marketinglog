@@ -41,6 +41,8 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
 
     $scope.update = function() {
         var company = $scope.company;
+        console.log("$scope.comapny");
+        console.log($scope.company);
         if (!company.updated) {
             console.log("company didn't updated");
             company.updated = [];
