@@ -1,0 +1,21 @@
+<body>
+	<h1>Look at All These Contacts!! Wow.</h1>
+
+	<section>
+		<table class="table table-bordered table-striped" data-ng-init="find()" >
+			<tr>
+				<th>ID#</th>
+				<th>Contact Name</th>
+				<th>Notes</th>
+			</tr>
+			<tr data-ng-repeat="contact in contacts">
+				<td>{{contact.id}}</td>
+				<td ui-sref="viewContact({id : contact.id})">{{contact_name}}</td>
+				<td>{{contact.Notes}}</td>
+			</tr>
+		</class="table">
+					
+		<h1 data-ng-hide="!contacts || contacts.length">No contacts yet. <br> Why don't you <a ui-sref="createContact">Create One</a>?</h1>
+	</section>
+
+</body>
