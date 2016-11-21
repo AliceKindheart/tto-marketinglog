@@ -4,13 +4,13 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
     $scope.global = Global;
 
     $scope.create = function() {
-        var contact = new Contact({
+        var contact = new Contacts({
             Contact_name: this.Contact_name,
             Notes: this.Notes
         });
         contact.$save(function(response) {
             //$state.go('viewCompany',{Company_name : responseid});
-            $state.go('viewCompany',{id : response.id});
+            $state.go('viewContact',{id : response.id});
         });
 
         this.Contact_name = "";
@@ -67,7 +67,7 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
     };
     $scope.find = function() {
         Contacts.query(function(contacts) {
-            console.log("findfindfind");
+            console.log("contactcontactcontact");
             $scope.contacts = contacts;
             console.log(contacts);
         });

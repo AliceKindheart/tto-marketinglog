@@ -114,10 +114,10 @@ exports.show = function(req, res) {
  * List of Contacts
  */
 exports.all = function(req, res) {
-    console.log("exports.all happened");
+    console.log("exports.all for contacts happened");
     
     db.Contact.findAll().then(function(contacts){
-        console.log("MMMMMMMMMMMMMMMMMMMMMM");
+        console.log("CCCCCContacts");
         return res.jsonp(contacts);
     }).catch(function(err){
         return res.render('error', {

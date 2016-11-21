@@ -61,6 +61,11 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             controller : 'ArticlesController',
             templateUrl: 'views/articles/view.html'
         })
+        .state('contacts',{
+            url: '/contacts',
+            controller: 'ContactsController',
+            templateUrl: 'views/contacts/list.html'
+        })
         .state('addContact',{
             url : '/contacts/create',
             controller : 'ContactsController',

@@ -19,6 +19,9 @@ angular.module('mean.system').controller('HeaderController', ['$scope', 'Global'
     {
         "title": "Add New Contact",
         "state": "addContact"
+    }, {
+        "title": "Contacts",
+        "state": "contacts"
     }];
     
     $scope.isCollapsed = false;
