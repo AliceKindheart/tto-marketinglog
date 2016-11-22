@@ -23,6 +23,16 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             controller: 'CompaniesController',
             templateUrl: 'views/companies/create.html'
         })
+        .state('editCompany',{
+            url : '/companies/{id}/edit',
+            controller : 'CompaniesController',
+            templateUrl: 'views/companies/edit.html'
+        })
+        .state('viewCompany',{
+            url : '/companies/{id}',
+            controller : 'CompaniesController',
+            templateUrl: 'views/companies/view.html'
+        })
         .state('SignIn',{
             url : '/signin',
             templateUrl: 'views/users/signin.html'
@@ -50,6 +60,26 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             url : '/articles/{articleId}',
             controller : 'ArticlesController',
             templateUrl: 'views/articles/view.html'
+        })
+        .state('contacts',{
+            url: '/contacts',
+            controller: 'ContactsController',
+            templateUrl: 'views/contacts/list.html'
+        })
+        .state('addContact',{
+            url : '/contacts/create',
+            controller : 'ContactsController',
+            templateUrl: 'views/contacts/create.html'
+        })
+        .state('viewContact',{
+            url : '/contacts/{id}',
+            controller : 'ContactsController',
+            templateUrl: 'views/contacts/view.html'
+        })
+        .state('editContact',{
+            url : '/contacts/{id}/edit',
+            controller : 'ContactsController',
+            templateUrl: 'views/contacts/edit.html'
         })
         .state('404',{
             templateUrl: 'views/404.html'

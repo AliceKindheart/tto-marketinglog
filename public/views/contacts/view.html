@@ -1,0 +1,18 @@
+<section data-ng-init="findOne()">
+    <h4>Contact</h4>
+    <h2>Name: {{contact.Contact_name}}</h2>
+    <p>Company: {{contact.Company_name}}</p>
+    <p>Title: {{contact.Contact_title}}</p>
+    <p>Email: {{contact.Contact_email}}</p>
+    <p>Phone: {{contact.Contact_phone}}</p>
+    <p>Notes: {{contact.Notes}}</p>
+    <div>ID: {{contact.id}}</div>
+    <div>
+        <a class="btn" ui-sref="editContact({id : contact.id})">Edit</a>
+        <a class="btn" data-ng-click="remove();">Delete</a>
+    </div>
+
+    <div>
+    	
+	</div>
+</section>

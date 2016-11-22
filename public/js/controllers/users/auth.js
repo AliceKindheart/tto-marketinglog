@@ -13,18 +13,18 @@ angular.module('mean.auth').controller('socialAuth', ['$scope', 'Global','$state
 
     $scope.isCollapsed = false;
 
-    $scope.fbAuth = function(){
+    //$scope.fbAuth = function(){
         // implement your Facebook login strategy here.
         // FacebookAuth.get();
-    };
-    $scope.twitterAuth = function(){
+    //};
+    //$scope.twitterAuth = function(){
         // implement your Twitter login strategy here.
         // TwitterAuth.get();
-    };
-    $scope.googleAuth = function(){
+    //};
+    //$scope.googleAuth = function(){
         // implement your Google login strategy here.
         // GoogleAuth.get();
-    };
+    //};
 
 
 }]);

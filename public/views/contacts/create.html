@@ -1,0 +1,47 @@
+<h2>Enter New Contact Information</h2>
+
+<section>
+	<form class="form-horizontal" data-ng-submit="create()">
+		<div class="control-group">
+			<label class="control-label" for="name">Contact Name</label>
+			<div class="controls">
+				<input type="text" data-ng-model="Contact_name" id="Contact_name" placeholder="Contact Name" required>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="Company_name">Company</label>
+			<div class="controls">
+				<input type="text" data-ng-model="Company_name" id="Company" placeholder="Company" required>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="Contact_title">Title</label>
+			<div class="controls">
+				<input type="text" data-ng-model="Contact_title" id="title" placeholder="Title">
+			</div>
+		</div>	
+		<div class="control-group">
+			<label class="control-label" for="Contact_email">Email</label>
+			<div class="controls">
+				<input type="text" data-ng-model="Contact_email" id="Email" placeholder="Email">
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="Contact_phone">Phone</label>
+			<div class="controls">
+				<input type="text" data-ng-model="Contact_phone" id="Phone" placeholder="Phone number" required>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="notes">Notes</label>
+			<div class="controls">
+				<textarea data-ng-model="Notes" id="Notes" cols="30" rows="10" placeholder="Notes"></textarea>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<input type="submit" class="btn">
+			</div>
+		</div>
+	</form>
+</section>
