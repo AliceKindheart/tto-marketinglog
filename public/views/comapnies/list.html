@@ -1,22 +1,24 @@
 
 <body>
-	<h1>Ok, at least this is showing up!</h1>
+	<h1>Tell Me  More About These Companies</h1>
+
+	<section>
+		<table class="table table-bordered table-striped" data-ng-init="find()" >
+			<tr>
+				<th>ID#</th>
+				<th>Company Name</th>
+				<th>Tags</th>
+				<th>Notes</th>
+			</tr>
+			<tr data-ng-repeat="company in companies">
+				<td>{{company.id}}</td>
+				<td ui-sref="viewCompany({id : company.id})">{{company.Company_name}}</td>
+				<td>{{company.Tag_name}}</td>
+				<td>{{company.Notes}}</td>
+			</tr>
+		</class="table">
+					
+		<h1 data-ng-hide="!companies || companies.length">No companies yet. <br> Why don't you <a ui-sref="createCompany">Create One</a>?</h1>
+	</section>
+
 </body>
-
-<section ng-include>
-	
-	<p>hello?</p>
-	
-</section>
-
-<p>this is stupid</p>
-
-<section data-ng-init="find()">
-	<ul class="articles unstyled">
-		<li data-ng-repeat="company in companies">
-			<span>{{company.company_name}}</span> /
-			<span>{{company.notes}}</span>
-		</li>
-	</ul>
-	<h1 data-ng-hide="!companies || companies.length">No companies yet. <br> Why don't you <a ui-sref="createCompany">Create One</a>?</h1>
-</section>

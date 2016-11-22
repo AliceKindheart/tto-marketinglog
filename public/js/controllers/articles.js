@@ -18,10 +18,15 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
     };
 
     $scope.remove = function(article) {
+        console.log("remove an article was called");
+        console.log($scope.articles);
         if (article) {
+            console.log("there once was an article");
             article.$remove();  
 
             for (var i in $scope.articles) {
+                console.log("$scope.articles");
+                console.log($scope.articles);
                 if ($scope.articles[i] === article) {
                     $scope.articles.splice(i, 1);
                 }
@@ -35,7 +40,10 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
 
     $scope.update = function() {
         var article = $scope.article;
+        console.log($scope.article);
+        console.log(article.updated);
         if (!article.updated) {
+            console.log("article didn't updated");
             article.updated = [];
         }
         article.updated.push(new Date().getTime());
@@ -45,21 +53,25 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
         });
     };
 
-    $scope.find = function() {
-        Articles.query(function(articles) {
-            $scope.articles = articles;
-        });
-    };
+
 
     $scope.findOne = function() {
         Articles.get({
             articleId: $stateParams.articleId
         }, function(article) {
+            //console.log("fineOneArticle ran");
             $scope.article = article;
+            console.log(article);
         });
     };
-    
-    
+    $scope.find = function() {
+        Articles.query(function(articles) {
+            $scope.articles = articles;
+            console.log("articles.find got called!!");
+            console.log(articles);
+        });
+    };
+
 
 
 }]);
