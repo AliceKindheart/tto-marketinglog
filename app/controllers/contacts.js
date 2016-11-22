@@ -12,7 +12,7 @@ var db = require('../../config/sequelize');
  * Its purpose is to preload the company on the req object then call the next function. 
  */
 exports.contact = function(req, res, next, id) {
-    console.log('id => ' + id);
+    console.log('contactid => ' + id);
     console.log("CONTACTS.CONTACT");
     db.Contact.find({where: {id: id}}).then(function(contact){
         if(!contact) {
@@ -21,8 +21,8 @@ exports.contact = function(req, res, next, id) {
             req.contact = contact;
             console.log("CONTACT");
             //console.log(company);
-            //return res.jsonp(company);
-           return next();            
+            return res.jsonp(contact);
+           //return next();            
         }
     }).catch(function(err){
         return next(err);
@@ -69,6 +69,10 @@ exports.update = function(req, res) {
 
     contact.updateAttributes({
         Contact_name: req.body.Contact_name,
+        Contact_title: req.body.Contact_title,
+        Contact_email: req.body.Contact_email,
+        Contact_phone: req.body.Contact_phone,
+        Company_name: req.body.Company_name,
         Notes: req.body.Notes
     }).then(function(a){
         return res.jsonp(a);
@@ -104,8 +108,8 @@ exports.destroy = function(req, res) {
 
  * Show a contact
  */
-exports.show = function(req, res) {
-    console.log("LOOKLOOKLOOK!!! SHOWSHOWSHOW!!!");
+exports.showy = function(req, res) {
+    console.log("LOOKLOOKLOOK!!! SHOWySHOWySHOWy!!!");
     // Sending down the contact that was just preloaded by the contacts.contact function
     // and saves contact on the req object.
     return res.jsonp(req.contact);

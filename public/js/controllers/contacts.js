@@ -1,11 +1,15 @@
 'use strict';
 
-angular.module('mean.contacts').controller('ContactsController', ['$scope', '$stateParams', 'Global', 'Contacts', 'Companies', '$state', function ($scope, $stateParams, Global, Companies, Contacts, $state) {
+angular.module('mean.contacts').controller('ContactsController', ['$scope', '$stateParams', 'Global', 'Contacts', '$state', function ($scope, $stateParams, Global, Contacts, $state) {
     $scope.global = Global;
 
     $scope.create = function() {
         var contact = new Contacts({
             Contact_name: this.Contact_name,
+            Contact_email: this.Contact_email,
+            Contact_phone: this.Contact_phone,
+            Contact_title: this.Contact_title,
+            Company_name: this.Company_name,
             Notes: this.Notes
         });
         contact.$save(function(response) {
@@ -55,10 +59,10 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
     };
 
     $scope.findOne = function() {
-        console.log("findOne ran");
+        console.log("findOne contact ran");
         //console.log("$stateParams.id=");
         //console.log($stateParams.id);
-        Companies.get({
+        Contacts.get({
             id: $stateParams.id 
         }, function(contact) {
             console.log(contact);
@@ -66,6 +70,7 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
         });
     };
     $scope.find = function() {
+        console.log("LOOKINGFOR CONTACTS!~!!!!");
         Contacts.query(function(contacts) {
             console.log("contactcontactcontact");
             $scope.contacts = contacts;

@@ -71,6 +71,16 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             controller : 'ContactsController',
             templateUrl: 'views/contacts/create.html'
         })
+        .state('viewContact',{
+            url : '/contacts/{id}',
+            controller : 'ContactsController',
+            templateUrl: 'views/contacts/view.html'
+        })
+        .state('editContact',{
+            url : '/contacts/{id}/edit',
+            controller : 'ContactsController',
+            templateUrl: 'views/contacts/edit.html'
+        })
         .state('404',{
             templateUrl: 'views/404.html'
         });

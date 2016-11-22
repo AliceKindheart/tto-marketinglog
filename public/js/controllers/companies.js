@@ -56,8 +56,8 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
 
     $scope.findOne = function() {
         console.log("findOne ran");
-        //console.log("$stateParams.id=");
-        //console.log($stateParams.id);
+        console.log("$stateParams.id=");
+        console.log($stateParams.id);
         Companies.get({
             id: $stateParams.id 
         }, function(company) {

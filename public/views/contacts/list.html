@@ -6,12 +6,20 @@
 			<tr>
 				<th>ID#</th>
 				<th>Contact Name</th>
+				<th>Company</th>
+				<th>Title</th>
+				<th>Email</th>
+				<th>Phone</th>
 				<th>Notes</th>
 			</tr>
 			<tr data-ng-repeat="contact in contacts">
 				<td>{{contact.id}}</td>
-				<td ui-sref="viewContact({id : contact.id})">{{contact_name}}</td>
-				<td>{{contact.Notes}}</td>
+				<td ui-sref="viewContact({id : contact.id})">{{contact.Contact_name}}</td>
+				<td ui-sref="viewContact({id : contact.id})">{{contact.Company_name}}</td>
+				<td ui-sref="viewContact({id : contact.id})">{{contact.Contact_title}}</td>
+				<td ui-sref="viewContact({id : contact.id})">{{contact.Contact_email}}</td>
+				<td ui-sref="viewContact({id : contact.id})">{{contact.Contact_phone}}</td>
+				<td ui-sref="viewContact({id : contact.id})">{{contact.Notes}}</td>
 			</tr>
 		</class="table">
 					

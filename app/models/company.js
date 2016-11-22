@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
 		//},
 		{
 			associate: function(models) {
-					Company.hasMany(models.Tag);
+					Company.belongsToMany(models.Tag, {through: 'CompanyTags'});
 					Company.hasMany(models.Contact);
 			}
 		}

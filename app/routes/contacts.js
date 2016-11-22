@@ -15,13 +15,13 @@ app.route('/contacts')
 //app.route('/companies/create')
 //	.get(companies.all);
 app.route('/contacts/:id')
-    .get(contacts.show)
+    .get(contacts.showy)
     .put(users.requiresLogin, contacts.update)
     .delete(users.requiresLogin, contacts.destroy);
 
 
 // Finish with setting up the id param
-// Note: the companies.company function will be called everytime then it will call the next function.
+// Note: the conctacts.contact function will be called everytime then it will call the next function.
 app.param('id', contacts.contact);
 };
 

@@ -7,6 +7,23 @@ var StandardError = require('standard-error');
 var db = require('../../config/sequelize');
 
 /**
+ * List of Companies
+ */
+exports.all = function(req, res) {
+    console.log("exports.all happened");
+    
+    db.Company.findAll().then(function(companies){
+        console.log("MMMMMMMMMMMMMMMMMMMMMM");
+        return res.jsonp(companies);
+    }).catch(function(err){
+        return res.render('error', {
+            error: err,
+            status: 500
+        });
+    });
+};
+
+/**
  * Find company by id
  * Note: This is called every time that the parameter :id is used in a URL. 
  * Its purpose is to preload the company on the req object then call the next function. 
@@ -15,20 +32,29 @@ exports.company = function(req, res, next, id) {
     console.log('id => ' + id);
     console.log("COMPANIES.COMPANy");
     db.Company.find({where: {id: id}}).then(function(company){
+        //console.log(id);
         if(!company) {
             return next(new Error('Failed to load company ' + id));
         } else {
             req.company = company;
             console.log("COMPANY");
-            //console.log(company);
-            //return res.jsonp(company);
-           return next();            
+            console.log(company);
+            return res.jsonp(company);
+           //return next();            
         }
     }).catch(function(err){
         return next(err);
     });
 };
 
+/* Show a company
+ */
+exports.show = function(req, res) {
+    console.log("LOOKLOOKLOOK!!! SHOWSHOWSHOW!!!");
+    // Sending down the article that was just preloaded by the companies.company function
+    // and saves company on the req object.
+    return res.jsonp(req.company);
+};
 /**
  * Create a company
  */
@@ -39,6 +65,7 @@ exports.create = function(req, res) {
     console.log(req.body);
     // save and return an instance of company on the res object. 
     db.Company.create(req.body).then(function(company){
+        company.addTag(company.Tag_name);
         console.log("TRYING TO SAVE THE COMPANY INFO");
         //console.log(req.body);
         if(!company){
@@ -102,30 +129,6 @@ exports.destroy = function(req, res) {
 
 /**
 
- * Show a company
- */
-exports.show = function(req, res) {
-    console.log("LOOKLOOKLOOK!!! SHOWSHOWSHOW!!!");
-    // Sending down the article that was just preloaded by the articles.article function
-    // and saves article on the req object.
-    return res.jsonp(req.company);
-};
-/**
- * List of Companies
- */
-exports.all = function(req, res) {
-    console.log("exports.all happened");
-    
-    db.Company.findAll().then(function(companies){
-        console.log("MMMMMMMMMMMMMMMMMMMMMM");
-        return res.jsonp(companies);
-    }).catch(function(err){
-        return res.render('error', {
-            error: err,
-            status: 500
-        });
-    });
-};
 
 /**
  * Article authorizations routing middleware
