@@ -11,10 +11,10 @@
 				<th>Notes</th>
 			</tr>
 			<tr data-ng-repeat="company in companies">
-				<td>{{company.id}}</td>
+				<td ui-sref="viewCompany({id : company.id})">{{company.id}}</td>
 				<td ui-sref="viewCompany({id : company.id})">{{company.Company_name}}</td>
-				<td>{{company.Tag_name}}</td>
-				<td>{{company.Notes}}</td>
+				<td ui-sref="viewCompany({id : company.id})">{{company.Tag_name}}</td>
+				<td ui-sref="viewCompany({id : company.id})">{{company.Notes}}</td>
 			</tr>
 		</class="table">
 					
@@ -22,10 +22,3 @@
 	</section>
 
 </body>
-<<<<<<< HEAD
-
-
-
-
-=======
->>>>>>> master
