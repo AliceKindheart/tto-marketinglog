@@ -81,6 +81,46 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             controller : 'ContactsController',
             templateUrl: 'views/contacts/edit.html'
         })
+        .state('techs',{
+            url: '/technologies',
+            controller: 'TechController',
+            templateUrl: 'views/technologies/list.html'
+        })
+        .state('addTech',{
+            url: '/technologies/create',
+            controller: 'TechController',
+            templateUrl: 'views/technologies/create.html'
+        })
+        .state('viewTech',{
+            url: '/technologies/{id}',
+            controller: 'TechController',
+            templateUrl: 'views/technologies/view.html'
+        })
+        .state('editTech',{
+            url: '/technologies/{id}/edit',
+            controller: 'TechController',
+            templateUrl: 'views/technologies/edit.html'
+        })
+        .state('events',{
+            url: '/events',
+            controller: 'EventController',
+            templateUrl: 'views/events/list.html'
+        })
+        .state('addEvent',{
+            url: '/events/create',
+            controller: 'EventController',
+            templateUrl: 'views/events/create.html'
+        })
+        .state('viewEvent',{
+            url: '/events/{id}',
+            controller: 'EventController',
+            templateUrl: 'views/events/view.html'
+        })
+        .state('editEvent',{
+            url: '/events/{id}/edit',
+            controller: 'EventController',
+            templateUrl: 'views/events/edit.html'
+        })
         .state('404',{
             templateUrl: 'views/404.html'
         });

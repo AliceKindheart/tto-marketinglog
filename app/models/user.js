@@ -47,6 +47,7 @@ module.exports = function(sequelize, DataTypes) {
 			},
 			associate: function(models) {
 				User.hasMany(models.Article);
+				User.belongsToMany(models.Event, {through: 'TechEvents'});
 			}
 		}
 	);

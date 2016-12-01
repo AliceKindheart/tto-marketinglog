@@ -22,6 +22,6 @@ app.route('/contacts/:id')
 
 // Finish with setting up the id param
 // Note: the conctacts.contact function will be called everytime then it will call the next function.
-app.param('id', contacts.contact);
+app.param(':id', contacts.contact);
 };
 

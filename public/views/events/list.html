@@ -1,0 +1,21 @@
+<body>
+	<h1>Recent Marketing Events</h1>
+
+	<section>
+		<table class="table table-bordered table-striped" data-ng-init="find()" >
+			<tr>
+				<th>ID#</th>
+				<th>Date</th>
+				<th>Notes</th>
+			</tr>
+			<tr data-ng-repeat="event in events">
+				<td ui-sref="viewEvent({id : event.id})">{{event.id}}</td>
+				<td ui-sref="viewEvent({id : event.id})">{{event.Event_date}}</td>
+				<td ui-sref="viewEvent({id : event.id})">{{event.Event_notes}}</td>
+			</tr>
+		</class="table">
+					
+		<h1 data-ng-hide="!events || events.length">No events yet. <br> Why don't you <a ui-sref="createEvent">Create One</a>?</h1>
+	</section>
+
+</body>

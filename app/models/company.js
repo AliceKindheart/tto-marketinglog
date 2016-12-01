@@ -6,14 +6,11 @@ module.exports = function(sequelize, DataTypes) {
 			Company_name: DataTypes.STRING,
 			Notes: DataTypes.STRING,
 		},	
-		//{
-		//	timestamps: false,
-		//	createdAt: false,
-		//},
 		{
 			associate: function(models) {
 					Company.belongsToMany(models.Tag, {through: 'CompanyTags'});
-					Company.hasMany(models.Contact);
+					Company.belongsToMany(models.Contact, {through: 'CompanyEvents'});
+					Company.belongsToMany(models.Event, {through: 'CompanyEvents'});
 			}
 		}
 	);

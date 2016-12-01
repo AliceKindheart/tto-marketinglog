@@ -1,0 +1,16 @@
+<section data-ng-init="findOne()">
+    <h2>TECHNOLOGY: {{technology.Tech_name}}</h2>
+    <ul>
+        <li>RU Number: {{technology.Tech_RUNumber}}</li>
+        <li>Inventor: {{technology.Tech_inventor}}</li>
+        <li>ID: {{technology.id}}</li>
+        <li>Tags: {{technology.Tag_name}}</li>
+        <li>Events: </li>
+    </ul>
+	
+    <div>
+        <a class="btn" ui-sref="editTech({id : technology.id})">Edit</a>
+        <a class="btn" data-ng-click="remove();">Delete</a>
+    </div>
+
+</section>

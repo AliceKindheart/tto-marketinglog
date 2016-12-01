@@ -4,23 +4,23 @@
 * Module dependencies.
 */
 var users = require('../../app/controllers/users'),
-companies = require('../../app/controllers/companies');
+events = require('../../app/controllers/events');
 
 module.exports = function(app) {
 // Company Routes
-app.route('/companies')
-    .get(companies.all)
-    .post(users.requiresLogin, companies.create);
+app.route('/events')
+    .get(events.all)
+    .post(users.requiresLogin, events.create);
 //app.route('/companies/create')
 //	.get(companies.all);
 app.route('/companies/:id')
-    .get(companies.show)
-    .put(users.requiresLogin, companies.update)
-    .delete(users.requiresLogin, companies.destroy);
+    .get(events.show)
+    .put(users.requiresLogin, events.update)
+    .delete(users.requiresLogin, events.destroy);
 
 
 // Finish with setting up the id param
 // Note: the companies.company function will be called everytime then it will call the next function.
-app.param(':id', companies.company);
+app.param(':id', events.event);
 };
 

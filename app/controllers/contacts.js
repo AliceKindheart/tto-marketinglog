@@ -16,13 +16,14 @@ exports.contact = function(req, res, next, id) {
     console.log("CONTACTS.CONTACT");
     db.Contact.find({where: {id: id}}).then(function(contact){
         if(!contact) {
-            return next(new Error('Failed to load contact ' + id));
+            //return next(new Error('Failed to load contact ' + id));
+            return next();
         } else {
             req.contact = contact;
             console.log("CONTACT");
             //console.log(company);
-            return res.jsonp(contact);
-           //return next();            
+            //return res.jsonp(contact);
+           return next();            
         }
     }).catch(function(err){
         return next(err);
@@ -46,8 +47,8 @@ exports.create = function(req, res) {
             return res.send('users/signup', {errors: new StandardError('Contact could not be created')});
         } else {
             return res.jsonp(contact);
-            console.log("I THINK IT GOT SAVED");
-            console.log(contact);
+       //     console.log("I THINK IT GOT SAVED");
+       //     console.log(contact);
         }
     }).catch(function(err){
         console.log("THROWING AN ERROR MESSAGE");

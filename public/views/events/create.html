@@ -1,0 +1,24 @@
+<section>
+	<form class="form-horizontal" data-ng-submit="create()">
+		<div class="control-group">
+			<label class="control-label" for="date">Event Date</label>
+			<div class="controls">
+				<input type="text" data-ng-model="Event_date" id="date" placeholder="Event Date" required>
+			</div>
+		</div>
+
+
+		<div class="control-group">
+			<label class="control-label" for="notes">Notes</label>
+			<div class="controls">
+				<textarea data-ng-model="Event_notes" id="Notes" cols="30" rows="5" placeholder="Notes"></textarea>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<div class="controls">
+				<input type="submit" class="btn">
+			</div>
+		</div>
+	</form>
+</section>

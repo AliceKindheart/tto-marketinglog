@@ -1,0 +1,25 @@
+<body>
+	<h1>Tell Me  More About These Technologies</h1>
+
+	<section>
+		<table class="table table-bordered table-striped" data-ng-init="find()" >
+			<tr>
+				<th>ID#</th>
+				<th>RU Number</th>
+				<th>Title</th>
+				<th>Inventor</th>
+				<th>Tags</th>
+			</tr>
+			<tr data-ng-repeat="technology in technologies">
+				<td ui-sref="viewTech({id : technology.id})">{{technology.id}}</td>
+				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_RUNumber}}</td>
+				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_name}}</td>
+				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_inventor}}</td>
+				<td ui-sref="viewTech({id : technology.id})">{{technology.Tag_name}}</td>
+			</tr>
+		</class="table">
+					
+		<h1 data-ng-hide="!technologies || technologies.length">No technologies yet. <br> Why don't you <a ui-sref="createTech">Create One</a>?</h1>
+	</section>
+
+</body>

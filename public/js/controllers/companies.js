@@ -65,6 +65,8 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             $scope.company = company;
         });
     };
+
+    
     $scope.find = function() {
         Companies.query(function(companies) {
             console.log("findfindfind");

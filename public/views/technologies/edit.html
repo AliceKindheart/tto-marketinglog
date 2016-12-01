@@ -1,0 +1,42 @@
+<section data-ng-init="findOne()">
+	<form class="form-horizontal" data-ng-submit="update()">
+		<div class="control-group">
+			<label class="control-label" for="title">Technology Title</label>
+			<div class="controls">
+				<input type="text" data-ng-model="technology.Tech_name" id="name" placeholder="Technology Title" required>
+				</input>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="RUNumber">RU Number</label>
+			<div class="controls">
+				<input type="text" data-ng-model="technology.Tech_RUNumber" id="RUNumber" placeholder="RU Number">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="notes">Inventor</label>
+
+			<div class="controls">
+				<textarea data-ng-model="technology.Tech_inventor" id="inventor" cols="30" rows="5" placeholder="Inventor">
+				</textarea>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="tags">Tags</label>
+
+			<div class="controls">
+				<textarea data-ng-model="technology.Tag_name" id="tags" placeholder="tags">
+				</textarea>
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<div class="controls">
+				<input type="submit" class="btn">
+			</div>
+		</div>
+	</form>
+</section>

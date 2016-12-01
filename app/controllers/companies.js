@@ -7,6 +7,31 @@ var StandardError = require('standard-error');
 var db = require('../../config/sequelize');
 
 /**
+ * Find company by id
+ * Note: This is called every time that the parameter :id is used in a URL. 
+ * Its purpose is to preload the company on the req object then call the next function. 
+ */
+exports.company = function(req, res, next, id) {
+    console.log('id => ' + id);
+    console.log("COMPANIES.COMPANy");
+    db.Company.find({where: {id: id}}).then(function(company){
+        //console.log(id);
+        if(!company) {
+            //return next(new Error('Failed to load company ' + id));
+            return next();
+        } else {
+            req.company = company;
+            console.log("COMPANY");
+            console.log(company);
+            //return res.jsonp(company);
+           return next();            
+        }
+    }).catch(function(err){
+        return next(err);
+    });
+};
+
+/**
  * List of Companies
  */
 exports.all = function(req, res) {
@@ -23,35 +48,12 @@ exports.all = function(req, res) {
     });
 };
 
-/**
- * Find company by id
- * Note: This is called every time that the parameter :id is used in a URL. 
- * Its purpose is to preload the company on the req object then call the next function. 
- */
-exports.company = function(req, res, next, id) {
-    console.log('id => ' + id);
-    console.log("COMPANIES.COMPANy");
-    db.Company.find({where: {id: id}}).then(function(company){
-        //console.log(id);
-        if(!company) {
-            return next(new Error('Failed to load company ' + id));
-        } else {
-            req.company = company;
-            console.log("COMPANY");
-            console.log(company);
-            return res.jsonp(company);
-           //return next();            
-        }
-    }).catch(function(err){
-        return next(err);
-    });
-};
-
 /* Show a company
  */
 exports.show = function(req, res) {
+    console.log("COMPANIES.SHOW");
     console.log("LOOKLOOKLOOK!!! SHOWSHOWSHOW!!!");
-    // Sending down the article that was just preloaded by the companies.company function
+        // Sending down the company that was just preloaded by the companies.company function
     // and saves company on the req object.
     return res.jsonp(req.company);
 };
@@ -65,7 +67,7 @@ exports.create = function(req, res) {
     console.log(req.body);
     // save and return an instance of company on the res object. 
     db.Company.create(req.body).then(function(company){
-        company.addTag(company.Tag_name);
+        company.addTags([req.body.company.Tag_name]);
         console.log("TRYING TO SAVE THE COMPANY INFO");
         //console.log(req.body);
         if(!company){
@@ -73,8 +75,8 @@ exports.create = function(req, res) {
             return res.send('users/signup', {errors: new StandardError('Company could not be created')});
         } else {
             return res.jsonp(company);
-            console.log("I THINK IT GOT SAVED");
-            console.log(company);
+           // console.log("I THINK IT GOT SAVED");
+            //console.log(company);
         }
     }).catch(function(err){
         console.log("THROWING AN ERROR MESSAGE");
@@ -91,13 +93,15 @@ exports.create = function(req, res) {
  */
 exports.update = function(req, res) {
 
-    // create a new variable to hold the copmany that was placed on the req object.
+    // create a new variable to hold the company that was placed on the req object.
     var company = req.company;
+    company.addTags(company.Tag_name, {through: 'CompanyTags'});
 
     company.updateAttributes({
         Company_name: req.body.Company_name,
         Notes: req.body.Notes
     }).then(function(a){
+        company.addTag([req.body.CompanyTags]);
         return res.jsonp(a);
     }).catch(function(err){
         return res.render('error', {
