@@ -4,7 +4,7 @@
         name: "pretend_db",
         password: "techtransfer",
         username: "techtransfer",
-        host: "localhost",
+        host: "129.85.127.115",
         port: 3306
     },
     app: {

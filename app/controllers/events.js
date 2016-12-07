@@ -7,31 +7,6 @@ var StandardError = require('standard-error');
 var db = require('../../config/sequelize');
 
 /**
- * Find event by id
- * Note: This is called every time that the parameter :id is used in a URL. 
- * Its purpose is to preload the company on the req object then call the next function. 
- */
-exports.event = function(req, res, next, id) {
-    console.log('eventid => ' + id);
-    console.log("EVENTS.EVENT");
-    db.Event.find({where: {id: id}}).then(function(event){
-        //console.log(id);
-        if(!event) {
-            //return next(new Error('Failed to load company ' + id));
-            return next();
-        } else {
-            req.event = event;
-            console.log("EVENT");
-            console.log(event);
-            //return res.jsonp(company);
-           return next();            
-        }
-    }).catch(function(err){
-        return next(err);
-    });
-};
-
-/**
  * List of Events
  */
 exports.all = function(req, res) {
@@ -47,6 +22,34 @@ exports.all = function(req, res) {
         });
     });
 };
+
+/**
+ * Find event by id
+ * Note: This is called every time that the parameter :id is used in a URL. 
+ * Its purpose is to preload the company on the req object then call the next function. 
+ */
+exports.event = function(req, res, next, id) {
+    console.log('eventid => ' + id);
+    console.log("EVENTS.EVENT");
+    db.Event.find({where: {id: id}}).then(function(event){
+        //console.log(id);
+        if(!event) {
+            console.log("not an event");
+            //return next(new Error('Failed to load company ' + id));
+            return next();
+        } else {
+            req.event = event;
+            console.log("EVENT");
+            console.log(event);
+            //return res.jsonp(company);
+           return next();            
+        }
+    }).catch(function(err){
+        return next(err);
+    });
+};
+
+
 
 /* Show an event
  */

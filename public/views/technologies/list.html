@@ -1,6 +1,16 @@
 <body>
-	<h1>Tell Me  More About These Technologies</h1>
-
+	<h1>Oooh. Ahhhh. Technologies!!</h1>
+	<div class="row">
+	  <div class="col-lg-6">
+	    <div class="input-group">
+	      <input type="text" class="form-control" placeholder="Search for..." style="margin-top: 10px">
+	      <span class="input-group-btn">
+	        <button class="btn btn-default" type="button">Go!</button>
+	      </span>
+	    </div><!-- /input-group -->
+	  </div><!-- /.col-lg-6 -->
+	</div><!-- /.row -->
+	<button type="button" class="btn btn-primary" ui-sref="addTech">Add Technology</button>
 	<section>
 		<table class="table table-bordered table-striped" data-ng-init="find()" >
 			<tr>
@@ -17,9 +27,11 @@
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_inventor}}</td>
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tag_name}}</td>
 			</tr>
+			<tr data-ng-show="!technologies">
+				<td>No technologies yet</td>
+			</tr>
 		</class="table">
 					
-		<h1 data-ng-hide="!technologies || technologies.length">No technologies yet. <br> Why don't you <a ui-sref="createTech">Create One</a>?</h1>
 	</section>
 
 </body>

@@ -1,16 +1,18 @@
 <section data-ng-init="findOne()">
-    <h2>TECHNOLOGY: {{technology.Tech_name}}</h2>
-    <ul>
-        <li>RU Number: {{technology.Tech_RUNumber}}</li>
-        <li>Inventor: {{technology.Tech_inventor}}</li>
-        <li>ID: {{technology.id}}</li>
-        <li>Tags: {{technology.Tag_name}}</li>
-        <li>Events: </li>
-    </ul>
+    <h2>{{technology.Tech_name}}</h2>
+    
+    <h4>RU Number: <small>{{technology.Tech_RUNumber}}</small></h4>
+    <h4>Inventor: <small>{{technology.Tech_inventor}}</small></h4>           
+    <h4>Tags:
+        <small data-ng-hide="!technology.Tag_name">{{technology.Tag_name}}</small>
+        <small data-ng-show="!technology.Tag_name">No Tags</small>
+    </h4>
+    <h4>Events: </h4>
 	
-    <div>
+    <div style="margin-top:10px">
         <a class="btn" ui-sref="editTech({id : technology.id})">Edit</a>
-        <a class="btn" data-ng-click="remove();">Delete</a>
+        <a class="btn btn-danger" data-ng-click="remove();">Delete</a>
     </div>
 
 </section>
+

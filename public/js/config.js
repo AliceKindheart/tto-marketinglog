@@ -10,7 +10,7 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
     $stateProvider
         .state('home',{
             url : '/',
-            controller : 'IndexController',
+            controller : 'EventController',
             templateUrl: 'views/index.html'
         })
         .state('companies',{

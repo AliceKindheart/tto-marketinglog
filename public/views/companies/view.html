@@ -1,15 +1,32 @@
 <section data-ng-init="findOne()">
-    <h2>COMPANY: {{company.Company_name}}</h2>
-    <p>Notes: {{company.Notes}}</p>
-    <p>ID: {{company.id}}</p>
-    <p>Tags: {{company.Tag_name}}</p>
-
-    <h4>Contacts</h4>
-    <p>Name: {{company.Contact_name}}</p>
-	
+    <h2>{{company.Company_name}}</h2>
+    
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h4 class="panel-title ">Company Information</h4>
+      </div>
+      <div class="panel-body">
+        Notes: 
+            <p data-ng-hide="!company.Notes">{{company.Notes}}</p>
+            <p data-ng-show="!company.Notes">No Notes</p>  
+        <h4>Tags:
+            <small data-ng-hide="!company.Tag_name">{{company.Tag_name}}</small>
+            <small data-ng-show="!company.Tag_name">No Tags</small>
+        </h4>
+        <h4>Company Contacts:</h4>
+            <ul>
+                <li data-ng-hide="!company.Contact_name">{{company.Contact_name}}</li>
+                <p data-ng-show="!company.Contact_name">No company contacts</p>
+            </ul>
+      </div>
+    </div>     
+            
     <div>
-        <a class="btn" ui-sref="editCompany({id : company.id})">Edit</a>
-        <a class="btn" data-ng-click="remove();">Delete</a>
+        <a class="btn" ui-sref="editCompany({id : company.id})">Edit Company</a>
+        <a class="btn btn-danger" data-ng-click="remove();">Delete</a>
     </div>
 
 </section>
+
+
+

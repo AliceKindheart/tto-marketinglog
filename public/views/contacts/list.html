@@ -1,6 +1,17 @@
 <body>
 	<h1>Look at All These Contacts!! Wow.</h1>
+	<div class="row">
+	  <div class="col-lg-6">
+	    <div class="input-group">
+	      <input type="text" class="form-control" placeholder="Search for..." style="margin-top: 10px">
+	      <span class="input-group-btn">
+	        <button class="btn btn-default" type="button">Go!</button>
+	      </span>
+	    </div><!-- /input-group -->
+	  </div><!-- /.col-lg-6 -->
+	</div><!-- /.row -->
 
+	<button type="button" class="btn btn-primary" ui-sref="addContact">Add Contact</button>
 	<section>
 		<table class="table table-bordered table-striped" data-ng-init="find()" >
 			<tr>
@@ -21,9 +32,11 @@
 				<td ui-sref="viewContact({id : contact.id})">{{contact.Contact_phone}}</td>
 				<td ui-sref="viewContact({id : contact.id})">{{contact.Notes}}</td>
 			</tr>
+			<tr data-ng-show="!contacts">
+				<td>No contacts yet</td>
+			</tr>
 		</class="table">
 					
-		<h1 data-ng-hide="!contacts || contacts.length">No contacts yet. <br> Why don't you <a ui-sref="createContact">Create One</a>?</h1>
 	</section>
 
 </body>

@@ -1,18 +1,32 @@
+
 <section data-ng-init="findOne()">
-    <h4>Contact</h4>
-    <h2>Name: {{contact.Contact_name}}</h2>
-    <p>Company: {{contact.Company_name}}</p>
-    <p>Title: {{contact.Contact_title}}</p>
-    <p>Email: {{contact.Contact_email}}</p>
-    <p>Phone: {{contact.Contact_phone}}</p>
-    <p>Notes: {{contact.Notes}}</p>
-    <div>ID: {{contact.id}}</div>
-    <div>
+    <h2>{{contact.Contact_name}}</h2>
+
+    
+    <h4>Company: 
+        <small>{{contact.Company_name}}</small>
+    </h4>
+    <h4>Title: 
+        <small data-ng-hide="!contact.Contact_title">{{contact.Contact_title}}</small>
+        <small data-ng-show="!contact.Contact_title">No title</small>
+    </h4>
+    <h4>Email: 
+        <small data-ng-hide="!contact.Contact_email">{{contact.Contact_email}}</small>
+        <small data-ng-show="!contact.Contact_email">No current email address</small>
+    </h4>
+    <h4>Phone: 
+        <small data-ng-hide="!contact.Contact_phone">{{contact.Contact_phone}}</small>
+        <small data-ng-show="!contact.Contact_phone">No current phone number</small>
+    </h4>
+    <h4>Notes: 
+        <small data-ng-hide="!contact.Notes">{{contact.Notes}}</small>
+        <small data-ng-show="!contact.Notes">No Notes</small>
+    </h4>
+    
+    
+    <div style="margin-top:10px">
         <a class="btn" ui-sref="editContact({id : contact.id})">Edit</a>
-        <a class="btn" data-ng-click="remove();">Delete</a>
+        <a class="btn btn-danger" data-ng-click="remove();">Delete</a>
     </div>
 
-    <div>
-    	
-	</div>
 </section>

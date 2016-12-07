@@ -13,11 +13,8 @@ angular.module('mean.system').controller('HeaderController', ['$scope', 'Global'
         "title": "Technologies",
         "state": "techs"
     }, {
-        "title": "Event",
+        "title": "Events",
         "state": "events"
-    }, {
-        "title": "Add New Event",
-        "state": "addEvent"
     }];
     
     $scope.isCollapsed = false;

@@ -3,6 +3,7 @@
         <li>
             <a class="brand" ui-sref="home">Tech Transfer Marketing Log</a>
         </li>
+        
         <li data-ng-repeat="item in menu" data-ng-show="global.user" ui-route="/{{item.link}}" ng-class="{active: $uiRoute}">
             <a ui-sref="{{item.state}}">{{item.title}}</a>
         </li>

@@ -1,13 +1,13 @@
 {
-  "name": "mean-stack-relational",
-  "description": "M*EAN - A Modern Stack: MySQL(Postgres for Heroku), ExpressJS, AngularJS, NodeJS. (BONUS: Passport User Support).",
-  "version": "0.2.2",
+  "name": "Marketing Log",
+  "description": "Marketing Log for Tech Transfer",
+  "version": "1.0.0",
   "private": false,
-  "author": "Jeff Potter",
+  "author": "Alice Kindheart Waltman",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jpotts18/mean-stack-relational.git"
+    "url": "https://github.com/AliceKindheart/marketing_log"
   },
   "engines": {
     "node": "4.2.x",
