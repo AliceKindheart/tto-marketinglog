@@ -1,24 +1,30 @@
 <body>
-	<h1>Oooh. Ahhhh. Technologies!!</h1>
+	<h1>So-and-so's Marketing Campaigns</h1>
 	<div class="row">
 	  <div class="col-lg-6">
 	    <div class="input-group">
-	      <input type="text" class="form-control" placeholder="Search for..." style="margin-top: 10px">
+	      <input type="text" class="form-control" placeholder="Search by RU number...." style="margin-top: 10px">
 	      <span class="input-group-btn">
 	        <button class="btn btn-default" type="button">Go!</button>
 	      </span>
 	    </div><!-- /input-group -->
 	  </div><!-- /.col-lg-6 -->
 	</div><!-- /.row -->
-	<button type="button" class="btn btn-primary" ui-sref="addTech">Add Technology</button>
-	<section>
+	
+	<div>
+		<button type="button" class="btn btn-primary" ui-sref="addTech">Start a New Campaign</button>
+		<button type="button" class="btn btn-info">All ACTIVE Marketing Campaigns</button>
+		<button type="button" class="btn btn-info">ALL Marketing Campaigns</button>
+	
+	</div>
 		<table class="table table-bordered table-striped" data-ng-init="find()" >
 			<tr>
 				<th>ID#</th>
 				<th>RU Number</th>
-				<th>Title</th>
+				<th>Technology</th>
 				<th>Inventor</th>
 				<th>Tags</th>
+				<th>Primary Marketer</th>
 			</tr>
 			<tr data-ng-repeat="technology in technologies">
 				<td ui-sref="viewTech({id : technology.id})">{{technology.id}}</td>
@@ -26,12 +32,22 @@
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_name}}</td>
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_inventor}}</td>
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tag_name}}</td>
+				<td>{{technology.User}}</td>
 			</tr>
 			<tr data-ng-show="!technologies">
 				<td>No technologies yet</td>
 			</tr>
-		</class="table">
-					
-	</section>
+		</table>
+
+		<div class="panel panel-primary">
+          <div class="panel-heading">
+            <h4 class="panel-title ">Events Marked for Follow-Up</h4>
+          </div>
+          <div class="panel-body"> 
+            <p>Nothing to follow up with at this time.</p>
+          </div>
+    	</div>  
+
 
 </body>
+

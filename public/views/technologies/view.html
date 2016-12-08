@@ -1,18 +1,31 @@
 <section data-ng-init="findOne()">
-    <h2>{{technology.Tech_name}}</h2>
-    
-    <h4>RU Number: <small>{{technology.Tech_RUNumber}}</small></h4>
-    <h4>Inventor: <small>{{technology.Tech_inventor}}</small></h4>           
-    <h4>Tags:
-        <small data-ng-hide="!technology.Tag_name">{{technology.Tag_name}}</small>
-        <small data-ng-show="!technology.Tag_name">No Tags</small>
-    </h4>
-    <h4>Events: </h4>
-	
-    <div style="margin-top:10px">
-        <a class="btn" ui-sref="editTech({id : technology.id})">Edit</a>
+    <h2>{{technology.Tech_name}} Marketing Campaign</h2>
+    <div>
+        <a class="btn btn-primary" ui-sref="editTech({id : technology.id})">Edit</a>
         <a class="btn btn-danger" data-ng-click="remove();">Delete</a>
     </div>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h4 class="panel-title ">Camapaign Information</h4>
+      </div>
+      <div class="panel-body"> 
+        <p> Primary Marketer:</p>
+        <p>RU Number: {{technology.Tech_RUNumber}}</p>
+        <p>Inventor: {{technology.Tech_inventor}}</p>   
+        <p data-ng-hide="!technology.Tag_name">Tags: {{technology.Tag_name}}</p>
+        <p data-ng-show="!technology.Tag_name">Tags: No Tags</p>
+      </div>
+    </div>  
+    <a class="btn btn-primary" ui-sref="addEvent({id : technology.id})">Add Event</a>
+   <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h4 class="panel-title ">Events</h4>
+      </div>
+      <div class="panel-body"> 
+        <p>nothing yet</p>
+      </div>
+    </div>  
+    <div>
 
 </section>
 

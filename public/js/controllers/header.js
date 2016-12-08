@@ -10,11 +10,8 @@ angular.module('mean.system').controller('HeaderController', ['$scope', 'Global'
         "title": "Contacts",
         "state": "contacts"
     }, {
-        "title": "Technologies",
+        "title": "Marketing Campaigns",
         "state": "techs"
-    }, {
-        "title": "Events",
-        "state": "events"
     }];
     
     $scope.isCollapsed = false;
