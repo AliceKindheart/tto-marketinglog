@@ -24,7 +24,7 @@
 			<tr data-ng-repeat="company in companies">
 				<td ui-sref="viewCompany({id : company.id})">{{company.id}}</td>
 				<td ui-sref="viewCompany({id : company.id})">{{company.Company_name}}</td>
-				<td ui-sref="viewCompany({id : company.id})">{{company.Tag_name}}</td>
+				<td ui-sref="viewCompany({id : company.id})">{{tag.Tag_name}}</td>
 				<td ui-sref="viewCompany({id : company.id})">{{company.Notes}}</td>
 			</tr>
 			<tr data-ng-show="!companies">

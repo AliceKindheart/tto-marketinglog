@@ -13,7 +13,7 @@ app.route('/companies')
     .post(users.requiresLogin, companies.create);
 //app.route('/companies/create')
 //	.get(companies.all);
-app.route('/companies/:id')
+app.route('/companies/:companyid')
     .get(companies.show)
     .put(users.requiresLogin, companies.update)
     .delete(users.requiresLogin, companies.destroy);
@@ -21,6 +21,6 @@ app.route('/companies/:id')
 
 // Finish with setting up the id param
 // Note: the companies.company function will be called everytime then it will call the next function.
-app.param(':id', companies.company);
+app.param('companyid', companies.company);
 };
 

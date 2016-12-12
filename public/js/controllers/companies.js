@@ -6,7 +6,8 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
     $scope.create = function() {
         var company = new Companies({
             Company_name: this.Company_name,
-            Notes: this.Notes
+            Notes: this.Notes,
+            Tag_name: this.Tag_name
         });
         company.$save(function(response) {
             //$state.go('viewCompany',{Company_name : responseid});
@@ -41,8 +42,18 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
 
     $scope.update = function() {
         var company = $scope.company;
-        console.log("$scope.comapny");
-        console.log($scope.company);
+        
+        console.log("$SCOPE.TAG_NAME", $scope.Tag_name);
+        var tagname = $scope.Tag_name;
+
+        if(tagname) {
+               // company.update.push(new Date().getTime());
+                company.$update(function() {
+                    $state.go('viewCompany', {id: company.id});
+                });
+            };
+
+        console.log("$scope.company", $scope.company);
         if (!company.updated) {
             console.log("company didn't updated");
             company.updated = [];
@@ -52,7 +63,26 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
         $state.go('viewCompany',{id : company.id});
 
         });
+
+//            company.update.push(new Date().getTime());
+  //          company.$update(function() {
+    //            $state.go('viewCompany', {id: company.id});
+      //      });
     };
+
+        //var newtag = $scope.tag.Tag_name;
+        //console.log("$scope.tag.Tag_name", $scope.tag.Tag_name);
+//        console.log("$scope.company", $scope.company);
+  //      if (!company.updated) {
+    //        console.log("company didn't updated");
+      //      company.updated = [];
+        //}
+//        company.updated.push(new Date().getTime());
+  //      company.$update(function() {
+    //    $state.go('viewCompany',{id : company.id});
+
+      //  });
+    //};
 
     $scope.findOne = function() {
         console.log("findOne ran");

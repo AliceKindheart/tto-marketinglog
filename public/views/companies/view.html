@@ -11,8 +11,8 @@
       <div class="panel-body"> 
             <p data-ng-hide="!company.Notes">Notes: {{company.Notes}}</p>
                 <p data-ng-show="!company.Notes">Notes: none</p>                 
-            <p data-ng-hide="!company.Tag_name">Tags: {{company.Tag_name}}</p>
-                <p data-ng-show="!company.Tag_name">Tags: No Tags</p>
+            <p data-ng-hide="company.Tags.length==0"><span ng-repeat="tag in company.Tags">Tags: {{tag.Tag_name}}</span></p>
+                <p data-ng-show="company.Tags.length==0">Tags: No Tags</p>
             <p data-ng-hide="!company.Contact_name">Company Contacts: {{company.Contact_name}}</p>
             <p data-ng-show="!company.Contact_name">Company Contacts: None</p>
       </div>

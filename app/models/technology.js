@@ -11,6 +11,7 @@ module.exports = function(sequelize, DataTypes) {
 			associate: function(models) {
 					Technology.belongsToMany(models.Tag, {through: 'TechTags'});
 					Technology.belongsToMany(models.Event, {through: 'TechEvents'});
+					Technology.belongsTo(models.User), {through: 'UserTechnologies'};
 			}
 		}
 
