@@ -3,6 +3,14 @@
 angular.module('mean.companies').controller('CompaniesController', ['$scope', '$stateParams', 'Global', 'Companies', '$state', function ($scope, $stateParams, Global, Companies, $state) {
     $scope.global = Global;
 
+    $scope.gettags =  function(){
+        console.log("HELLOGETTAGS");
+        Companies.get(function(tags){
+            $scope.tags = tags;
+            console.log("TAGS", tags)
+        });
+    };
+
     $scope.create = function() {
         var company = new Companies({
             Company_name: this.Company_name,
@@ -44,45 +52,25 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
         var company = $scope.company;
         
         console.log("$SCOPE.TAG_NAME", $scope.Tag_name);
+
         var tagname = $scope.Tag_name;
 
         if(tagname) {
-               // company.update.push(new Date().getTime());
-                company.$update(function() {
-                    $state.go('viewCompany', {id: company.id});
-                });
-            };
-
-        console.log("$scope.company", $scope.company);
-        if (!company.updated) {
-            console.log("company didn't updated");
+            console.log("THERE WAS A TAGNAME");
+            company.Tag_name = tagname;
+        };
+            
+       // console.log("$scope.company", company);
+       // if (!company.updated) {
+         //   console.log("company didn't updated");
             company.updated = [];
-        }
-        company.updated.push(new Date().getTime());
-        company.$update(function() {
-        $state.go('viewCompany',{id : company.id});
-
+       // }
+            company.updated.push(new Date().getTime());
+            company.$update(function() {
+            $state.go('viewCompany',{id : $stateParams.id});
         });
-
-//            company.update.push(new Date().getTime());
-  //          company.$update(function() {
-    //            $state.go('viewCompany', {id: company.id});
-      //      });
     };
 
-        //var newtag = $scope.tag.Tag_name;
-        //console.log("$scope.tag.Tag_name", $scope.tag.Tag_name);
-//        console.log("$scope.company", $scope.company);
-  //      if (!company.updated) {
-    //        console.log("company didn't updated");
-      //      company.updated = [];
-        //}
-//        company.updated.push(new Date().getTime());
-  //      company.$update(function() {
-    //    $state.go('viewCompany',{id : company.id});
-
-      //  });
-    //};
 
     $scope.findOne = function() {
         console.log("findOne ran");

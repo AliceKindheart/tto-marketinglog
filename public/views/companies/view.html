@@ -1,3 +1,4 @@
+
 <section data-ng-init="findOne()">
     <h2>{{company.Company_name}}</h2>
 
@@ -9,12 +10,29 @@
         <h4 class="panel-title ">Company Information</h4>
       </div>
       <div class="panel-body"> 
-            <p data-ng-hide="!company.Notes">Notes: {{company.Notes}}</p>
-                <p data-ng-show="!company.Notes">Notes: none</p>                 
-            <p data-ng-hide="company.Tags.length==0"><span ng-repeat="tag in company.Tags">Tags: {{tag.Tag_name}}</span></p>
-                <p data-ng-show="company.Tags.length==0">Tags: No Tags</p>
-            <p data-ng-hide="!company.Contact_name">Company Contacts: {{company.Contact_name}}</p>
-            <p data-ng-show="!company.Contact_name">Company Contacts: None</p>
+          <table>
+            <tr>
+              <td><strong>Notes:</strong></td>
+              <td data-ng-hide="!company.Notes">{{company.Notes}}</td>
+              <td data-ng-show="!company.Notes">None</td>
+            </tr>
+          </table>
+          <table>
+            <tr>
+              <td><strong>Tags:</strong></td>
+              <td data-ng-hide="company.Tags.length==0" ng-repeat="tag in company.Tags">{{tag.Tag_name}}  </td>
+              <td data-ng-show="company.Tags.length==0">No tags</td>
+            </tr>
+          </table>
+         <table>
+          <tr>
+            <th>Company Contacts:</th>
+          </tr>
+          <tr>
+            <td data-ng-hide="!company.Contact_name">{{company.Contact_name}}</td>
+            <td data-ng-show="!company.Contact_name">None</td>
+          </tr>
+        </table>
       </div>
     </div>  
     <div class="panel panel-primary">
@@ -27,6 +45,4 @@
     </div>  
 
 </section>
-
-
 

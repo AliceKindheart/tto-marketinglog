@@ -11,12 +11,14 @@ module.exports = function(app) {
 app.route('/companies')
     .get(companies.all)
     .post(users.requiresLogin, companies.create);
-//app.route('/companies/create')
-//	.get(companies.all);
+
 app.route('/companies/:companyid')
     .get(companies.show)
     .put(users.requiresLogin, companies.update)
     .delete(users.requiresLogin, companies.destroy);
+
+app.route('companies/create')
+	.get(companies.listtags);
 
 
 // Finish with setting up the id param

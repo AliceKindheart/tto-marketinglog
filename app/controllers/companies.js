@@ -21,8 +21,8 @@ exports.company = function(req, res, next, id) {
             return next();
         } else {
             req.company = company; // {Company_name: "Whatever", Notes: "Stuff", tags: [{Tag_name: "Foo"}]}
-            console.log("COMPANY");
-            console.log(company);
+           // console.log("COMPANY");
+            //console.log(company);
             //return res.jsonp(company);
            return next();            
         }
@@ -37,7 +37,7 @@ exports.company = function(req, res, next, id) {
 exports.all = function(req, res) {
     console.log("exports.all happened");
     
-    db.Company.findAll().then(function(companies){
+    db.Company.findAll({include: [{model: db.Tag}]}).then(function(companies){
         console.log("MMMMMMMMMMMMMMMMMMMMMM");
         return res.jsonp(companies);
     }).catch(function(err){
@@ -67,36 +67,68 @@ exports.create = function(req, res) {
     console.log(req.body);
     var tagrows;
     var thecompany;
-    var Tagnames = req.body.Tag_name.split(", ");
-    db.Tag.findAll({where:{Tag_name:{$in:Tagnames}}})
-        .then(function(rowoftags){
-            tagrows=rowoftags
-            return db.Company.create(req.body)
-        })
-    // save and return an instance of company on the res object. 
-    .then(function(company){
-        //company.addTags([req.body.Tag_name]);
+    
+    if (req.body.Tag_name){
+        var Tagnames = req.body.Tag_name.split(", ");
+
+        db.Tag.findAll({where:{Tag_name:{$in:Tagnames}}})
+            .then(function(rowoftags){
+                tagrows=rowoftags
+                return db.Company.create(req.body)
+            })
+        // save and return an instance of company on the res object. 
+        .then(function(company){
+            //company.addTags([req.body.Tag_name]);
+            console.log("TRYING TO SAVE THE COMPANY INFO");
+            thecompany= company;
+            return company.addTags(tagrows)
+        }).then(function(){
+            //console.log(req.body);
+            if(!thecompany){
+                console.log("NOTACOMPANY!!!!");
+                return res.send('users/signup', {errors: new StandardError('Company could not be created')});
+            } else {
+                return res.jsonp(thecompany);
+               // console.log("I THINK IT GOT SAVED");
+                //console.log(company);
+            }
+        }).catch(function(err){
+            console.log("THROWING AN ERROR MESSAGE", err);
+            //return res.status(status).send(body, {
+            return res.send('users/signup', { 
+                errors: err,
+                status: 500
+            });
+        });
+    } else {
+        db.Company.create(req.body).then(function(company){
+        company.addTag(company.Tag_name);
         console.log("TRYING TO SAVE THE COMPANY INFO");
-        thecompany= company;
-        return company.addTags(tagrows)
-    }).then(function(){
         //console.log(req.body);
-        if(!thecompany){
+        if(!company){
             console.log("NOTACOMPANY!!!!");
             return res.send('users/signup', {errors: new StandardError('Company could not be created')});
         } else {
-            return res.jsonp(thecompany);
-           // console.log("I THINK IT GOT SAVED");
-            //console.log(company);
-        }
-    }).catch(function(err){
-        console.log("THROWING AN ERROR MESSAGE", err);
-        //return res.status(status).send(body, {
-        return res.send('users/signup', { 
-            errors: err,
-            status: 500
+            return res.jsonp(company);
+            console.log("I THINK IT GOT SAVED");
+            console.log(company);
+         }   
+        }).catch(function(err){
+            console.log("THROWING AN ERROR MESSAGE");
+            //return res.status(status).send(body, {
+            return res.send('users/signup', { 
+                errors: err,
+                status: 500
+            });
         });
-    });
+
+}
+
+
+
+
+
+
 };
 
 exports.addtag = function(req, res) {
@@ -104,7 +136,7 @@ exports.addtag = function(req, res) {
     console.log(req.body);
     var id = req.body.id
     var tagrows;
-    var Tagnames = req.body.Tag_name.split(", ");
+    var Tagnames = req.body.tag.Tag_name.split(", ");
     db.Tag.findAll({where:{Tag_name:{$in:Tagnames}}})
         .then(function(rowoftags){
             tagrows=rowoftags
@@ -124,76 +156,61 @@ exports.update = function(req, res) {
 
     // create a new variable to hold the company that was placed on the req object.
     var company = req.company;
-    console.log("req.body.Tag_name", req.body.Tag_name);
-    var newtags = req.body.Tag_name;
+    console.log("req.body", req.body);
+    console.log("COMPANY", company);
+   // var newtags = req.body.Tag_name;
+    var newtags = req.body.Tag_name.split(", ");
+
     var tagrows;
-    var thecompany
-    var Tagnames = req.body.Tag_name;
-//    var Tagnames = req.body.Tag_name.split(", ");
-    db.Tag.findAll({where:{Tag_name: {$in:newtags}}})
-        .then(function(rowoftags){
-            tagrows=rowoftags
-            //var Tagnames = req.body.Tag_name.split(", ");
-            //db.Tag.findAll({where:{Tag_name:{$in:Tagnames}}})
-                //.then(function(rowoftags){
-                   // tagrows=rowoftags
-                    return db.Company.find({where: {id: id}, include: [{model: db.Tag}]}).then(function(company){
-                        return company.addTags(tagrows);
-                    }).then(function(comp){
-                        return db.Company.updateAttributes({
-                            Company_name: req.body.Company_name,
-                            Notes: req.body.Notes
-                        })
-                    }).then(function(company){
-                        return res.jsonp();
-                    }).catch(function(err){
-
-                    })        
-
-
-                        return res.jsonp(comp);
-                    }).catch(function(err){
-                        console.log("ERRRRRRORRRR", err);
-                        return res.render('error',{
-                            error: err,
-                            status: 500
-                        });
+    var companyid = req.body.id;
+    //var Tagnames = req.body.Tag_name;
+//    
+    
+    if (newtags){
+        db.Tag.findAll({where:{Tag_name: {$in:newtags}}})
+            .then(function(rowoftags){
+                tagrows=rowoftags
+                console.log("TAGROWS", tagrows);
+               
+                return db.Company.findOne({where: {id: companyid}, include: [{model: db.Tag}]}).then(function(company){
+                    return company.addTags(tagrows);
+                }).then(function(comp){
+                    return comp.updateAttributes({
+                        Company_name: req.body.Company_name,
+                        Notes: req.body.Notes,
+                        //Tags: tagrows
+                    })
+                }).then(function(company){
+                    return res.jsonp(company);
+                }).catch(function(err){
+                    console.log("ERRRRRRORRRR", err);
+                    return res.render('error',{
+                        error: err,
+                        status: 500
                     });
-                };
+                });
+            })
+    } else {
+            company.updateAttributes({
+                Company_name: req.body.Company_name,
+                Notes: req.body.Notes
+        }).then(function(a){
+            return res.jsonp(a);
+        }).catch(function(err){
+            return res.render('error', {
+                error: err, 
+                status: 500
+            });
+        });
+    }
+};
 
-
-//            return db.Company.updateAttributes({
-  //              Company_name: req.body.Company_name,
-    //            Notes: req.body.Notes,
-      //      })
-        //}).then(function(comp){
-          //  return company.addTags(tagrows)
-//        }).then(function(){
-  //          return res.jsonp(a);
-    //    }).catch(function(err){
-      //      console.log("ERRORERRORERROR", err);
-        //    return res.render('error', {
-          //      error: err,
-            //    status: 500
-//            });   
-  //      });
-//};
-
-
-//    company.updateAttributes({
-  //      Company_name: req.body.Company_name,
-    //    Notes: req.body.Notes
-       // Tagnames: req.body.Tag_name
-//    }).then(function(a){
-  //      company.addTag([req.body.CompanyTags]);
-    //    return res.jsonp(a);
-//    }).catch(function(err){
-  //      return res.render('error', {
-    //        error: err, 
-      //      status: 500
-//        });
-  //  });
-//};
+exports.listtags = function(req, res) {
+    console.log("LISTTAGS RAN");
+    db.Tag.findAll().then(function(tags){
+        return res.jsonp(tags.Tag_name);
+    })
+};
 
 /**
  * Delete a company
@@ -216,9 +233,6 @@ exports.destroy = function(req, res) {
 };
 
 /**
-
-
-
 /**
  * Article authorizations routing middleware
  */

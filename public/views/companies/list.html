@@ -11,21 +11,21 @@
 	    </div><!-- /input-group -->
 	  </div><!-- /.col-lg-6 -->
 	</div><!-- /.row -->
-	<button type="button" class="btn btn-primary" ui-sref="addCompany">Add Company</button>
+	<button type="button" class="btn btn-primary" data-ng-click="gettags()" ui-sref="addCompany">Add Company</button>
 
 	<section>
 		<table class="table table-bordered table-striped" data-ng-init="find()" >
 			<tr>
 				<th>ID#</th>
 				<th>Company Name</th>
-				<th>Tags</th>
 				<th>Notes</th>
+				<th>Tags</th>
 			</tr>
 			<tr data-ng-repeat="company in companies">
 				<td ui-sref="viewCompany({id : company.id})">{{company.id}}</td>
 				<td ui-sref="viewCompany({id : company.id})">{{company.Company_name}}</td>
-				<td ui-sref="viewCompany({id : company.id})">{{tag.Tag_name}}</td>
 				<td ui-sref="viewCompany({id : company.id})">{{company.Notes}}</td>
+				<td ng-repeat="tag in company.Tags">{{tag.Tag_name}}</td>
 			</tr>
 			<tr data-ng-show="!companies">
 				<td>No companies yet</td>
