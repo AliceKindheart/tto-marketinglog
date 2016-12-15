@@ -14,7 +14,7 @@ app.route('/technologies')
     .post(users.requiresLogin, technologies.create);
 //app.route('/companies/create')
 //	.get(companies.all);
-app.route('/technologies/:id')
+app.route('/technologies/:technologyid')
     .get(technologies.show)
     .put(users.requiresLogin, technologies.update)
     .delete(users.requiresLogin, technologies.destroy);
@@ -22,6 +22,6 @@ app.route('/technologies/:id')
 
 // Finish with setting up the id param
 // Note: the techs.tech function will be called everytime then it will call the next function.
-app.param(':id', technologies.technology);
+app.param('technologyid', technologies.technology);
 };
 

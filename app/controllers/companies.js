@@ -73,15 +73,15 @@ exports.create = function(req, res) {
 
         db.Tag.findAll({where:{Tag_name:{$in:Tagnames}}})
             .then(function(rowoftags){
-                tagrows=rowoftags
-                return db.Company.create(req.body)
+                tagrows=rowoftags;
+                return db.Company.create(req.body);
             })
         // save and return an instance of company on the res object. 
         .then(function(company){
             //company.addTags([req.body.Tag_name]);
             console.log("TRYING TO SAVE THE COMPANY INFO");
             thecompany= company;
-            return company.addTags(tagrows)
+            return company.addTags(tagrows);
         }).then(function(){
             //console.log(req.body);
             if(!thecompany){
@@ -102,7 +102,7 @@ exports.create = function(req, res) {
         });
     } else {
         db.Company.create(req.body).then(function(company){
-        company.addTag(company.Tag_name);
+        //company.addTag(company.Tag_name);
         console.log("TRYING TO SAVE THE COMPANY INFO");
         //console.log(req.body);
         if(!company){
@@ -110,8 +110,6 @@ exports.create = function(req, res) {
             return res.send('users/signup', {errors: new StandardError('Company could not be created')});
         } else {
             return res.jsonp(company);
-            console.log("I THINK IT GOT SAVED");
-            console.log(company);
          }   
         }).catch(function(err){
             console.log("THROWING AN ERROR MESSAGE");
@@ -121,25 +119,18 @@ exports.create = function(req, res) {
                 status: 500
             });
         });
-
-}
-
-
-
-
-
-
+    }
 };
 
 exports.addtag = function(req, res) {
     console.log("req.body");
     console.log(req.body);
-    var id = req.body.id
+    var id = req.body.id;
     var tagrows;
     var Tagnames = req.body.tag.Tag_name.split(", ");
     db.Tag.findAll({where:{Tag_name:{$in:Tagnames}}})
         .then(function(rowoftags){
-            tagrows=rowoftags
+            tagrows=rowoftags;
             return db.Company.find({where: {id: id}, include: [{model: db.Tag}]}).then(function(company){
                 return company.addTags(tagrows);
             }).then(function(comp){
@@ -163,13 +154,12 @@ exports.update = function(req, res) {
 
     var tagrows;
     var companyid = req.body.id;
-    //var Tagnames = req.body.Tag_name;
-//    
+     
     
     if (newtags){
         db.Tag.findAll({where:{Tag_name: {$in:newtags}}})
             .then(function(rowoftags){
-                tagrows=rowoftags
+                tagrows=rowoftags;
                 console.log("TAGROWS", tagrows);
                
                 return db.Company.findOne({where: {id: companyid}, include: [{model: db.Tag}]}).then(function(company){
@@ -179,7 +169,7 @@ exports.update = function(req, res) {
                         Company_name: req.body.Company_name,
                         Notes: req.body.Notes,
                         //Tags: tagrows
-                    })
+                    });
                 }).then(function(company){
                     return res.jsonp(company);
                 }).catch(function(err){
@@ -189,7 +179,7 @@ exports.update = function(req, res) {
                         status: 500
                     });
                 });
-            })
+            });
     } else {
             company.updateAttributes({
                 Company_name: req.body.Company_name,
@@ -208,8 +198,8 @@ exports.update = function(req, res) {
 exports.listtags = function(req, res) {
     console.log("LISTTAGS RAN");
     db.Tag.findAll().then(function(tags){
-        return res.jsonp(tags.Tag_name);
-    })
+        return res.jsonp(tags);
+    });
 };
 
 /**

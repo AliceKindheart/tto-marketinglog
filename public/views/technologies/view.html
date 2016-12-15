@@ -12,8 +12,8 @@
         <p> Primary Marketer:</p>
         <p>RU Number: {{technology.Tech_RUNumber}}</p>
         <p>Inventor: {{technology.Tech_inventor}}</p>   
-        <p data-ng-hide="!technology.Tag_name">Tags: {{technology.Tag_name}}</p>
-        <p data-ng-show="!technology.Tag_name">Tags: No Tags</p>
+        <p data-ng-hide="technology.Tags.length==0" ng-repeat="tag in technology.Tags">Tags: {{tag.Tag_name}}</p>
+        <p data-ng-show="technology.Tags.length==0">Tags: No Tags</p>
       </div>
     </div>  
     <a class="btn btn-primary" ui-sref="addEvent({id : technology.id})">Add Event</a>

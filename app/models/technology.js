@@ -5,13 +5,13 @@ module.exports = function(sequelize, DataTypes) {
 	var Technology = sequelize.define('Technology', {
 			Tech_RUNumber: DataTypes.INTEGER,
 			Tech_name: DataTypes.STRING,
-			Tech_inventor: DataTypes.STRING
+			Tech_inventor: DataTypes.STRING,
 		},
 		{
 			associate: function(models) {
 					Technology.belongsToMany(models.Tag, {through: 'TechTags'});
 					Technology.belongsToMany(models.Event, {through: 'TechEvents'});
-					Technology.belongsTo(models.User), {through: 'UserTechnologies'};
+					Technology.belongsTo(models.User, {through: 'UserTechnologies'});
 			}
 		}
 

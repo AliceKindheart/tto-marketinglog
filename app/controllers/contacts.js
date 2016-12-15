@@ -9,7 +9,7 @@ var db = require('../../config/sequelize');
 /**
  * Find contact by id
  * Note: This is called every time that the parameter :id is used in a URL. 
- * Its purpose is to preload the company on the req object then call the next function. 
+ * Its purpose is to preload the contact on the req object then call the next function. 
  */
 exports.contact = function(req, res, next, id) {
     console.log('contactid => ' + id);
@@ -38,27 +38,57 @@ exports.create = function(req, res) {
     req.body.UserId = req.user.id;
     console.log("req.body");
     console.log(req.body);
+    var companyid;
+    var foundcompany;
     // save and return an instance of contact on the res object. 
-    db.Contact.create(req.body).then(function(contact){
-        console.log("TRYING TO SAVE THE CONTACT INFO");
-        //console.log(req.body);
-        if(!contact){
-            console.log("NOTACONTACT!!!!");
-            return res.send('users/signup', {errors: new StandardError('Contact could not be created')});
-        } else {
+    db.Company.findOne({where:{Company_name: req.body.Company_name}})
+        .then(function(company){
+            console.log("COMPANYFOUND", company, "COMPANYID", company.id);
+            foundcompany = company;
+            company.id = companyid;
+            return db.Contact.create(req.body);
+        }).then(function(contact){
+            contact.CompanyId = companyid;
+            contact.updateAttributes;
+            console.log("CONTACTCREATEDWITHID???", contact);
             return res.jsonp(contact);
+    //    }).then(function(){
+      //      return res.jsonp();
+        }).catch(function(err){
+            console.log("THROWING AN ERROR MESSAGE", err);
+            return res.status(status).send('users/signup', {
+                errors: err,
+                status: 500
+            });
+        });
+};
+
+
+
+
+
+
+
+//    db.Contact.create(req.body).then(function(contact){
+  //      console.log("TRYING TO SAVE THE CONTACT INFO");
+        //console.log(req.body);
+    //    if(!contact){
+      //      console.log("NOTACONTACT!!!!");
+        //    return res.send('users/signup', {errors: new StandardError('Contact could not be created')});
+//        } else {
+  //          return res.jsonp(contact);
        //     console.log("I THINK IT GOT SAVED");
        //     console.log(contact);
-        }
-    }).catch(function(err){
-        console.log("THROWING AN ERROR MESSAGE");
+  //      }
+    //}).catch(function(err){
+      //  console.log("THROWING AN ERROR MESSAGE");
         //return res.status(status).send(body, {
-        return res.send('users/signup', { 
-            errors: err,
-            status: 500
-        });
-    });
-};
+        //return res.send('users/signup', { 
+          //  errors: err,
+            //status: 500
+//        });
+  //  });
+//};
 
 /**
  * Update a contact

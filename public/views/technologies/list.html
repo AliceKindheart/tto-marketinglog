@@ -19,20 +19,20 @@
 	</div>
 		<table class="table table-bordered table-striped" data-ng-init="find()" >
 			<tr>
-				<th>ID#</th>
-				<th>RU Number</th>
-				<th>Technology</th>
-				<th>Inventor</th>
-				<th>Tags</th>
-				<th>Primary Marketer</th>
+				<th id="colorrow">ID#</th>
+				<th id="colorrow">Primary Marketer</th>
+				<th id="colorrow"">RU Number</th>
+				<th id="colorrow">Technology</th>
+				<th id="colorrow">Inventor</th>
+				<th id="colorrow">Tags</th>
 			</tr>
 			<tr data-ng-repeat="technology in technologies">
 				<td ui-sref="viewTech({id : technology.id})">{{technology.id}}</td>
+				<td>{{user.username}}</td>
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_RUNumber}}</td>
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_name}}</td>
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_inventor}}</td>
-				<td ui-sref="viewTech({id : technology.id})">{{technology.Tag_name}}</td>
-				<td>{{technology.User}}</td>
+				<td ng-repeat="tag in technology.Tags">{{tag.Tag_name}}</td>
 			</tr>
 			<tr data-ng-show="!technologies">
 				<td>No technologies yet</td>

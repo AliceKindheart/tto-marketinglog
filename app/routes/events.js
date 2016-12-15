@@ -13,7 +13,7 @@ app.route('/events')
     .post(users.requiresLogin, events.create);
 //app.route('/companies/create')
 //	.get(companies.all);
-app.route('/companies/:id')
+app.route('/events/:eventid')
     .get(events.show)
     .put(users.requiresLogin, events.update)
     .delete(users.requiresLogin, events.destroy);

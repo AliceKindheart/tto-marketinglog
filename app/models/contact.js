@@ -14,8 +14,8 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		{
 			associate: function(models) {
-					Contact.belongsTo(models.Company, {through: "CompanyContacts"}, {foreignKey: "id"});
-					Contact.belongsToMany(models.Event, {through: "ContactEvents"}, {foreignKey: "id"});
+					Contact.belongsTo(models.Company, {through: "CompanyContacts"});
+					Contact.belongsToMany(models.Event, {through: "ContactEvents"});
 			}
 		}
 	);

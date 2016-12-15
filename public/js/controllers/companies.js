@@ -7,7 +7,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
         console.log("HELLOGETTAGS");
         Companies.get(function(tags){
             $scope.tags = tags;
-            console.log("TAGS", tags)
+            console.log("TAGS", tags);
         });
     };
 
@@ -24,6 +24,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
 
         this.Company_name = "";
         this.notes = "";
+        this.Tag_name = "";
     };
 
     $scope.remove = function(company) {
@@ -58,7 +59,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
         if(tagname) {
             console.log("THERE WAS A TAGNAME");
             company.Tag_name = tagname;
-        };
+        }
             
        // console.log("$scope.company", company);
        // if (!company.updated) {

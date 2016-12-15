@@ -1,3 +1,7 @@
+#colorrow {
+  background-color: lightblue;
+}
+
 .navbar .nav>li>a.brand {
     padding-left:20px;
     margin-left:0
@@ -317,3 +321,4 @@ ul.companies li:not(:last-child) {
 .panel-danger > .panel-footer + .panel-collapse .panel-body {
   border-bottom-color: #ebccd1;
 }
+

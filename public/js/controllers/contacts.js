@@ -18,6 +18,10 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
         });
 
         this.Contact_name = "";
+        this.Contact_email = "";
+        this.Contact_phone = "";
+        this.Contact_title = "";
+        this.Company_name = "";
         this.notes = "";
     };
 

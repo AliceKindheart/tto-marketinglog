@@ -7,7 +7,9 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         var technology = new Technologies({
             Tech_RUNumber: this.Tech_RUNumber,
             Tech_name: this.Tech_name,
-            Tech_inventor: this.Tech_inventor
+            Tech_inventor: this.Tech_inventor,
+            Tag_name: this.Tag_name,
+            Tech_marketer: this.Tech_marketer
         });
         technology.$save(function(response) {
             //$state.go('viewCompany',{Company_name : responseid});
@@ -17,6 +19,8 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         this.Tech_RUNumber = "";
         this.Tech_name = "";
         this.Tech_inventor = "";
+        this.Tag_name = "";
+        this.Tech_marketer = "";
     };
 
     $scope.remove = function(technology) {
@@ -43,12 +47,21 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
 
     $scope.update = function() {
         var technology = $scope.technology;
-        console.log("$scope.technology");
-        console.log($scope.technology);
-        if (!technology.updated) {
-            console.log("technology didn't updated");
-            technology.updated = [];
+        console.log("$SCOPE>TAG_NAME", $scope.Tag_name);
+        var tagname = $scope.Tag_name;
+
+    //    console.log("$scope.technology");
+      //  console.log($scope.technology);
+    //    if (!technology.updated) {
+      //      console.log("technology didn't updated");
+        
+        if(tagname) {
+            console.log("THERE WAS A TAGNAME");
+            technology.Tag_name = tagname;
         }
+
+            technology.updated = [];
+        
         technology.updated.push(new Date().getTime());
         technology.$update(function() {
         $state.go('viewTech',{id : technology.id});
