@@ -78,11 +78,10 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
         });
     };
     $scope.find = function() {
-
         console.log("LOOKINGFOR CONTACTS!~!!!!");
         Contacts.query(function(contacts) {
             console.log("contactcontactcontact");
-            var contact;
+            //var contact;
             $scope.contacts = contacts;
             
             var companies = [];
@@ -96,7 +95,6 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
                 }
                 $scope.companies = companies;
             });
-
 
             console.log("SCOPE.COMPANies", $scope.companies);
             console.log(contacts);

@@ -25,8 +25,7 @@
 				<td ui-sref="viewCompany({id : company.id})">{{company.id}}</td>
 				<td ui-sref="viewCompany({id : company.id})">{{company.Company_name}}</td>
 				<td ui-sref="viewCompany({id : company.id})">{{company.Notes}}</td>
-				<td ng-repeat="tag in company.Tags">{{tag.Tag_name}}</td>
-				<td >{{tags}}</td>
+				<td >{{tags[$index]}}</td>
 			</tr>
 			<tr data-ng-show="!companies">
 				<td>No companies yet</td>

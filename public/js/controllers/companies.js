@@ -74,6 +74,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
 
 
     $scope.findOne = function() {
+        var tags = [];
         console.log("findOne ran");
         console.log("$stateParams.id=");
         console.log($stateParams.id);
@@ -82,15 +83,62 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
         }, function(company) {
             console.log(company);
             $scope.company = company;
+            var tags = company.Tags;
+            console.log("TAGARRAY", tagarray);
+            tagarray.forEach(function(tag){
+                tags.push(tag.Tag_name);
+            });
+
+            $scope.tags = tags.join(", ");
+            console.log("SCOPE.TAGS", $scope.tags);
         });
     };
 
     
     $scope.find = function() {
+        var arrayofarrayoftagobjects = [];
+        var arrayoftagobjects = [];
+
         Companies.query(function(companies) {
             console.log("findfindfind");
             $scope.companies = companies;
             console.log(companies);
+
+            companies.forEach(function(company){
+                if(company.Tags){
+                    arrayofarrayoftagobjects.push(company.Tags);
+                } else {
+                    arrayofarrayoftagobjects.push([{Tag_name: "None"}]);
+                }
+            });
+
+            console.log("arrayofarrayoftagobjects", arrayofarrayoftagobjects);
+            var tags = [];
+            var arrayoftags = [];
+
+            arrayofarrayoftagobjects.forEach(function(array){
+                array.forEach(function(object){
+                    tags.push(object.Tag_name); 
+                    
+                });
+                arrayoftags.push(tags);   
+                tags = [];
+                //console.log("tags", tags);      
+            });
+            console.log("arrayoftags", arrayoftags);
+
+            var arrayoftagnames = [];
+            var stringoftagnames;
+            arrayoftags = arrayoftags.forEach(function(array){
+                stringoftagnames = array.join(", ");
+                arrayoftagnames.push(stringoftagnames);
+            });
+
+            console.log("arrayoftagnames", arrayoftagnames);
+
+            $scope.tags=arrayoftagnames;
+
+
         });
     };
 
