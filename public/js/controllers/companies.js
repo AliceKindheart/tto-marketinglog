@@ -74,7 +74,8 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
 
 
     $scope.findOne = function() {
-        var tags = [];
+        var tagarray = [];
+        var tags;
         console.log("findOne ran");
         console.log("$stateParams.id=");
         console.log($stateParams.id);
@@ -83,7 +84,9 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
         }, function(company) {
             console.log(company);
             $scope.company = company;
-            var tags = company.Tags;
+            var tagarray = company.Tags;
+
+
             console.log("TAGARRAY", tagarray);
             tagarray.forEach(function(tag){
                 tags.push(tag.Tag_name);
