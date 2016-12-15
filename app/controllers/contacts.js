@@ -14,7 +14,7 @@ var db = require('../../config/sequelize');
 exports.contact = function(req, res, next, id) {
     console.log('contactid => ' + id);
     console.log("CONTACTS.CONTACT");
-    db.Contact.find({where: {id: id}}).then(function(contact){
+    db.Contact.find({where: {id: id}, include: [{model: db.Company}]}).then(function(contact){
         if(!contact) {
             //return next(new Error('Failed to load contact ' + id));
             return next();
@@ -34,7 +34,6 @@ exports.contact = function(req, res, next, id) {
  * Create a contact
  */
 exports.create = function(req, res) {
-    // augment the contact by adding the UserId
     req.body.UserId = req.user.id;
     console.log("req.body");
     console.log(req.body);
@@ -43,17 +42,18 @@ exports.create = function(req, res) {
     // save and return an instance of contact on the res object. 
     db.Company.findOne({where:{Company_name: req.body.Company_name}})
         .then(function(company){
-            console.log("COMPANYFOUND", company, "COMPANYID", company.id);
-            foundcompany = company;
-            company.id = companyid;
+            console.log("COMPANYFOUND", "COMPANYID", company.id);
+            companyid = company.id ;
             return db.Contact.create(req.body);
         }).then(function(contact){
             contact.CompanyId = companyid;
-            contact.updateAttributes;
-            console.log("CONTACTCREATEDWITHID???", contact);
+            console.log("UPDATEDCONTACT", contact);
+            return contact.updateAttributes({
+                CompanyId: companyid
+            });
+        }).then(function(contact){
+            console.log("CONTACTBEINGRETURNED", contact);
             return res.jsonp(contact);
-    //    }).then(function(){
-      //      return res.jsonp();
         }).catch(function(err){
             console.log("THROWING AN ERROR MESSAGE", err);
             return res.status(status).send('users/signup', {
@@ -62,33 +62,6 @@ exports.create = function(req, res) {
             });
         });
 };
-
-
-
-
-
-
-
-//    db.Contact.create(req.body).then(function(contact){
-  //      console.log("TRYING TO SAVE THE CONTACT INFO");
-        //console.log(req.body);
-    //    if(!contact){
-      //      console.log("NOTACONTACT!!!!");
-        //    return res.send('users/signup', {errors: new StandardError('Contact could not be created')});
-//        } else {
-  //          return res.jsonp(contact);
-       //     console.log("I THINK IT GOT SAVED");
-       //     console.log(contact);
-  //      }
-    //}).catch(function(err){
-      //  console.log("THROWING AN ERROR MESSAGE");
-        //return res.status(status).send(body, {
-        //return res.send('users/signup', { 
-          //  errors: err,
-            //status: 500
-//        });
-  //  });
-//};
 
 /**
  * Update a contact
@@ -151,7 +124,7 @@ exports.showy = function(req, res) {
 exports.all = function(req, res) {
     console.log("exports.all for contacts happened");
     
-    db.Contact.findAll().then(function(contacts){
+    db.Contact.findAll({include: [{model: db.Company}]}).then(function(contacts){
         console.log("CCCCCContacts");
         return res.jsonp(contacts);
     }).catch(function(err){

@@ -26,7 +26,7 @@
 			<tr data-ng-repeat="contact in contacts">
 				<td>{{contact.id}}</td>
 				<td ui-sref="viewContact({id : contact.id})">{{contact.Contact_name}}</td>
-				<td ui-sref="viewContact({id : contact.id})">{{contact.Company_name}}</td>
+				<td ui-sref="viewContact({id : contact.id})">{{companies[$index].Company_name}}</td>
 				<td ui-sref="viewContact({id : contact.id})">{{contact.Contact_title}}</td>
 				<td ui-sref="viewContact({id : contact.id})">{{contact.Contact_email}}</td>
 				<td ui-sref="viewContact({id : contact.id})">{{contact.Contact_phone}}</td>

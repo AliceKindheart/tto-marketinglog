@@ -7,6 +7,7 @@ module.exports = function(sequelize, DataTypes) {
 			Contact_title: DataTypes.STRING,
 			Contact_email: DataTypes.STRING,
 			Contact_phone: DataTypes.STRING,
+			//Contact_notes: DataTypes.STRING
 			//Contact_notes: DataTypes.STRING,
 			//Company_name: DataTypes.STRING,
 			//contacts_id: DataTypes.INTEGER,

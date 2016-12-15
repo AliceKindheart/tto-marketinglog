@@ -63,22 +63,44 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
     };
 
     $scope.findOne = function() {
+        var company;
         console.log("findOne contact ran");
         //console.log("$stateParams.id=");
         //console.log($stateParams.id);
         Contacts.get({
             id: $stateParams.id 
         }, function(contact) {
+            company = contact.Company;
             console.log(contact);
             $scope.contact = contact;
+            $scope.company = company;
+            console.log("COMPATT", company);
         });
     };
     $scope.find = function() {
+
         console.log("LOOKINGFOR CONTACTS!~!!!!");
         Contacts.query(function(contacts) {
             console.log("contactcontactcontact");
+            var contact;
             $scope.contacts = contacts;
+            
+            var companies = [];
+
+            contacts.forEach(function(contact){
+                if (contact.Company){
+                    //$scope.company = contact.Company
+                    companies.push(contact.Company);
+                } else {
+                    companies.push({Company_name: "None"});
+                }
+                $scope.companies = companies;
+            });
+
+
+            console.log("SCOPE.COMPANies", $scope.companies);
             console.log(contacts);
+
         });
     };
 
