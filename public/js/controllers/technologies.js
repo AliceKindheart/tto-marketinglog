@@ -70,15 +70,41 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
     };
 
     $scope.findOne = function() {
+        var tagarray = [];
+        var tags = [];
         console.log("findOneTechnology ran");
         console.log("$stateParams.id=");
         console.log($stateParams.id);
         Technologies.get({
             id: $stateParams.id 
-        }, function(technology) {
-            console.log(technology);
-            $scope.technology = technology;
-        });
+            }, function(technology) {
+                console.log(technology);
+                $scope.technology = technology;
+
+                if(technology.Tags.length!=0){
+                    console.log("it think's there's a tag");
+                    tagarray = technology.Tags;
+                    console.log("TAGARRAY", tagarray);
+                } else {
+                    console.log("this happened");
+                    tagarray.push({Tag_name:"None"});
+                }
+                
+                console.log("TECHNOLOGY.TAGS", technology.Tags);
+
+
+                console.log("TAGARRAY", tagarray);
+
+                tagarray.forEach(function(tag){
+                    console.log("made it to the foreach");
+                    tags.push(tag.Tag_name);
+                    console.log("tags", tags);
+                    //scope.tags = tags.join(", ");
+                    //console.log("SCOPE.TAGS", $scope.tags);
+                });
+                $scope.tags = tags.join(", ");
+                console.log("SCOPE.TAGS", $scope.tags);
+            });
     };
 
     

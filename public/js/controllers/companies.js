@@ -75,26 +75,37 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
 
     $scope.findOne = function() {
         var tagarray = [];
-        var tags;
+        var tags = [];
         console.log("findOne ran");
         console.log("$stateParams.id=");
         console.log($stateParams.id);
         Companies.get({
             id: $stateParams.id 
-        }, function(company) {
-            console.log(company);
-            $scope.company = company;
-            var tagarray = company.Tags;
+            }, function(company) {
+                console.log(company);
+                $scope.company = company;
+
+                if(company.Tags.length!=0){
+                    console.log("it thinks there's a company.tag");
+                    tagarray = company.Tags;
+                } else {
+                    console.log("this happened");
+                    tagarray.push({Tag_name:"None"});
+                }
+                
+                console.log("COMPANY.TAGS", company.Tags);
 
 
-            console.log("TAGARRAY", tagarray);
-            tagarray.forEach(function(tag){
-                tags.push(tag.Tag_name);
+                console.log("TAGARRAY", tagarray);
+
+            
+                    tagarray.forEach(function(tag){
+                        tags.push(tag.Tag_name);
+                    })
+            
+                $scope.tags = tags.join(", ");
+                console.log("SCOPE.TAGS", $scope.tags);
             });
-
-            $scope.tags = tags.join(", ");
-            console.log("SCOPE.TAGS", $scope.tags);
-        });
     };
 
     
