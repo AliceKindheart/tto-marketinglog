@@ -81,7 +81,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
                 console.log(technology);
                 $scope.technology = technology;
 
-                if(technology.Tags.length!=0){
+                if(technology.Tags.length!==0){
                     console.log("it think's there's a tag");
                     tagarray = technology.Tags;
                     console.log("TAGARRAY", tagarray);
@@ -119,10 +119,10 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             var arrayoftagobjects = [];    
 
             technologies.forEach(function(technology){
-                if(technology.Tags.length!=0){
+                if(technology.Tags.length!==0){
                     arrayofarrayoftagobjects.push(technology.Tags); 
                 } else {
-                    arrayofarrayoftagobjects.push([{Tag_name: "None"}]);
+                    arrayofarrayoftagobjects.push([{Tag_name: ""}]);
                 }    
             });
 

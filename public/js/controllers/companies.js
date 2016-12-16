@@ -3,13 +3,16 @@
 angular.module('mean.companies').controller('CompaniesController', ['$scope', '$stateParams', 'Global', 'Companies', '$state', function ($scope, $stateParams, Global, Companies, $state) {
     $scope.global = Global;
 
+
     $scope.gettags =  function(){
         console.log("HELLOGETTAGS");
-        Companies.get(function(tags){
+        Companies.query(function(tags){
             $scope.tags = tags;
             console.log("TAGS", tags);
         });
     };
+
+
 
     $scope.create = function() {
         var company = new Companies({
@@ -85,7 +88,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
                 console.log(company);
                 $scope.company = company;
 
-                if(company.Tags.length!=0){
+                if(company.Tags.length!==0){
                     console.log("it thinks there's a company.tag");
                     tagarray = company.Tags;
                 } else {
@@ -101,7 +104,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             
                     tagarray.forEach(function(tag){
                         tags.push(tag.Tag_name);
-                    })
+                    });
             
                 $scope.tags = tags.join(", ");
                 console.log("SCOPE.TAGS", $scope.tags);

@@ -6,6 +6,7 @@
 var StandardError = require('standard-error');
 var db = require('../../config/sequelize');
 
+
 /**
  * Find company by id
  * Note: This is called every time that the parameter :id is used in a URL. 
@@ -193,13 +194,6 @@ exports.update = function(req, res) {
             });
         });
     }
-};
-
-exports.listtags = function(req, res) {
-    console.log("LISTTAGS RAN");
-    db.Tag.findAll().then(function(tags){
-        return res.jsonp(tags);
-    });
 };
 
 /**

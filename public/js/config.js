@@ -19,7 +19,7 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             templateUrl: 'views/companies/list.html'
         })
         .state('addCompany',{
-            url: '/companies/create',
+            url: '/createcompany',
             controller: 'CompaniesController',
             templateUrl: 'views/companies/create.html'
         })
