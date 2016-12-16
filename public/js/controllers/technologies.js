@@ -114,6 +114,41 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             $scope.technologies = technologies;
             console.log("TECHNOLOGIES:");
             console.log(technologies);
+        
+            var arrayofarrayoftagobjects = [];
+            var arrayoftagobjects = [];    
+
+            technologies.forEach(function(technology){
+                if(technology.Tags.length!=0){
+                    arrayofarrayoftagobjects.push(technology.Tags); 
+                } else {
+                    arrayofarrayoftagobjects.push([{Tag_name: "None"}]);
+                }    
+            });
+
+            console.log("arrayofarrayoftagobjects", arrayofarrayoftagobjects);
+
+            var arrayoftagnames = [];
+            var tagnames = [];
+            arrayofarrayoftagobjects.forEach(function(array){
+                array.forEach(function(tagobject){
+                    tagnames.push(tagobject.Tag_name);
+                });
+                //tagnames.join(", ");
+                arrayoftagnames.push(tagnames);
+                tagnames = [];
+            });
+
+            console.log("arrayoftagnames", arrayoftagnames);
+
+            var stringoftagnames;
+            arrayoftagnames.forEach(function(array){
+                stringoftagnames=array.join(", ");
+                tagnames.push(stringoftagnames);   
+            });
+            console.log("tagnames", tagnames);
+
+            $scope.tagnames = tagnames;
         });
     };
 

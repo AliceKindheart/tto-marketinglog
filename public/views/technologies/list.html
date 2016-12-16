@@ -32,7 +32,7 @@
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_RUNumber}}</td>
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_name}}</td>
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_inventor}}</td>
-				<td ng-repeat="tag in technology.Tags">{{tag.Tag_name}}</td>
+				<td>{{tagnames[$index]}}</td>
 			</tr>
 			<tr data-ng-show="!technologies">
 				<td>No technologies yet</td>
