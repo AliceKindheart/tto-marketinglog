@@ -4,31 +4,8 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
     $scope.global = Global;
 
 
-    $scope.gettags =  function(){
-        console.log("HELLOGETTAGS");
-        Companies.query(function(tags){
-            $scope.tags = tags;
-            console.log("TAGS", tags);
-        });
-    };
 
-
-
-    $scope.create = function() {
-        var company = new Companies({
-            Company_name: this.Company_name,
-            Notes: this.Notes,
-            Tag_name: this.Tag_name
-        });
-        company.$save(function(response) {
-            //$state.go('viewCompany',{Company_name : responseid});
-            $state.go('viewCompany',{id : response.id});
-        });
-
-        this.Company_name = "";
-        this.notes = "";
-        this.Tag_name = "";
-    };
+    
 
     $scope.remove = function(company) {
         console.log("remove was called");

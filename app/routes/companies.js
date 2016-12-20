@@ -10,12 +10,9 @@ tags = require('../../app/controllers/tags');
 module.exports = function(app) {
 // Company Routes
 
-app.route('/createcompany')
-	.get(tags.listtags);
 
 app.route('/companies')
-    .get(companies.all)
-    .post(users.requiresLogin, companies.create);
+    .get(companies.all);
 
 app.route('/companies/:companyid')
     .get(companies.show)

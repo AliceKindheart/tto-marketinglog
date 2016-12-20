@@ -1,6 +1,6 @@
 <h2>Enter New Company Information</h2>
 
-<section data-ng-init="gettags()">
+<section data-ng-init="find()">
 	<form class="form-horizontal" data-ng-submit="create()">
 		<div class="control-group">
 			<label class="control-label" for="name">Company Name</label>
@@ -9,21 +9,16 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label" for="tag">Tag</label>
-			<div class="controls">
-				<input type="text" data-ng-model="Tag_name" id="tag" placeholder="Tag">
-			</div>
+			<label class="control-label" for="tag">Tags</label>
+			
+				<label class="controls" data-ng-repeat="tag in tagnames">
+					<input 
+					  type="checkbox" 
+					  name="selectedtags[]"
+					  data-ng-model="Tag.selected" >  {{tag}}
+				  </label>
+			
 		</div>
-
-		<div class="row">
-		  <div class="col-lg-6">
-		    <div class="input-group">
-		      <span class="input-group-addon">
-		        <input type="checkbox" ng-repeat="tagname in tags.Tag_name">{{tagname}}
-		      </span>
-		      <input type="text" class="form-control" aria-label="yay!!">
-		    </div><!-- /input-group -->
-		  </div><!-- /.col-lg-6 -->
 
 		<div class="control-group">
 			<label class="control-label" for="notes">Notes</label>
