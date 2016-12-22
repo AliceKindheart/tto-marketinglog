@@ -8,12 +8,21 @@
 				</input>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label" for="tag">Tag</label>
-			<div class="controls">
-				<input type="text" data-ng-model="Tag_name" id="tame" placeholder="Tags">
-			</div>
-		</div>
+
+		<div >
+        <fieldset class="standard">
+          <legend>Tags</legend>
+          <div layout="row" layout-wrap flex>
+            <div ng-repeat="tag in tagnames" class="standard" flex="50">
+              <label>
+                <input type="checkbox" ng-checked="exists(tag, selected)"
+                       ng-click="toggle(tag, selected)"/>
+                {{ tag }}
+              </label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
 
 		<div class="control-group">
 			<label class="control-label" for="notes">Notes</label>

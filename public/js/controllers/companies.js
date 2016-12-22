@@ -1,11 +1,28 @@
 'use strict';
 
-angular.module('mean.companies').controller('CompaniesController', ['$scope', '$stateParams', 'Global', 'Companies', '$state', function ($scope, $stateParams, Global, Companies, $state) {
+angular.module('mean.companies').controller('CompaniesController', ['$scope', '$stateParams', 'Global', 'Companies', '$state', '$http', function ($scope, $stateParams, Global, Companies, $state, $http) {
     $scope.global = Global;
 
+    $scope.create = function() {
+        var Tagnames = [];
+        console.log("$scope.selected", $scope.selected);
 
 
-    
+        var company = new Companies({
+            Company_name: this.Company_name,
+            Notes: this.Notes,
+            Tag_name: this.selected
+        });
+        company.$save(function(response) {
+            //$state.go('viewCompany',{Company_name : responseid});
+            $state.go('viewCompany',{id : response.id});
+        });
+
+        this.Company_name = "";
+        this.notes = "";
+        this.Tag_name = "";
+    };
+
 
     $scope.remove = function(company) {
         console.log("remove was called");
@@ -65,6 +82,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
                 console.log(company);
                 $scope.company = company;
 
+
                 if(company.Tags.length!==0){
                     console.log("it thinks there's a company.tag");
                     tagarray = company.Tags;
@@ -85,7 +103,12 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             
                 $scope.tags = tags.join(", ");
                 console.log("SCOPE.TAGS", $scope.tags);
+
+                $scope.findtags();
+                $scope.selected = $scope.tags;
             });
+
+
     };
 
     
@@ -132,10 +155,38 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
 
             $scope.tags=arrayoftagnames;
 
-
         });
     };
 
+    $scope.findtags =  function(){
+        console.log("FINDTAGS GOT CALLED");
+        $scope.tagnames = [];
+        $http.get('/tags')
+        .then(function(response){
+            $scope.tagresponse = response.data;
+            console.log("$scope.tags", $scope.tags);
+            $scope.tagresponse.forEach(function(tag){
+                $scope.tagnames.push(tag.Tag_name);
+            });
+            console.log("$scope.tagnames", $scope.tagnames);
+        });
+    };
+
+      $scope.selected = [];
+
+      $scope.toggle = function (tag, list) {
+        var idx = list.indexOf(tag);
+        if (idx > -1) {
+          list.splice(idx, 1);
+        }
+        else {
+          list.push(tag);
+        }
+      };
+
+      $scope.exists = function (tag, list) {
+        return list.indexOf(tag) > -1;
+      };
 
 
 }]);

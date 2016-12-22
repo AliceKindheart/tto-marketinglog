@@ -12,12 +12,16 @@ module.exports = function(app) {
 
 
 app.route('/companies')
-    .get(companies.all);
+    .get(companies.all)
+    .post(companies.create);
 
 app.route('/companies/:companyid')
     .get(companies.show)
     .put(users.requiresLogin, companies.update)
     .delete(users.requiresLogin, companies.destroy);
+
+//app.route('/tags')
+//	.get(tags.listtags);
 
 
 // Finish with setting up the id param

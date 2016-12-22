@@ -1,34 +1,41 @@
 <h2>Enter New Company Information</h2>
 
-<section data-ng-init="find()">
+<section data-ng-init="findtags()">
 	<form class="form-horizontal" data-ng-submit="create()">
 		<div class="control-group">
-			<label class="control-label" for="name">Company Name</label>
+			<legend class="control-label" for="name">Company Name</legend>
 			<div class="controls">
 				<input type="text" data-ng-model="Company_name" id="Company_name" placeholder="Company Name" required>
 			</div>
 		</div>
+		
 		<div class="control-group">
-			<label class="control-label" for="tag">Tags</label>
-			
-				<label class="controls" data-ng-repeat="tag in tagnames">
-					<input 
-					  type="checkbox" 
-					  name="selectedtags[]"
-					  data-ng-model="Tag.selected" >  {{tag}}
-				  </label>
-			
-		</div>
-
-		<div class="control-group">
-			<label class="control-label" for="notes">Notes</label>
+			<legend class="control-label" for="notes">Notes</legend>
 			<div class="controls">
 				<textarea data-ng-model="Notes" id="Notes" cols="30" rows="5" placeholder="Notes"></textarea>
 			</div>
 		</div>
+        
+      <div >
+        <fieldset class="standard">
+          <legend>Select Tags</legend>
+          <div layout="row" layout-wrap flex>
+            <div ng-repeat="tag in tagnames" class="standard" flex="50">
+              <label>
+                <input type="checkbox" ng-checked="exists(tag, selected)"
+                       ng-click="toggle(tag, selected)"/>
+                {{ tag }}
+              </label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+   
+
+	
 		<div class="control-group">
 			<div class="controls">
-				<input type="submit" class="btn">
+				<input class="btn btn-default" type="submit">
 			</div>
 		</div>
 	</form>

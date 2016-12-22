@@ -70,7 +70,7 @@ exports.create = function(req, res) {
     var thecompany;
     
     if (req.body.Tag_name){
-        var Tagnames = req.body.Tag_name.split(", ");
+        var Tagnames = req.body.Tag_name;
 
         db.Tag.findAll({where:{Tag_name:{$in:Tagnames}}})
             .then(function(rowoftags){
