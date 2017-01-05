@@ -151,7 +151,8 @@ exports.update = function(req, res) {
     console.log("req.body", req.body);
     console.log("COMPANY", company);
    // var newtags = req.body.Tag_name;
-    var newtags = req.body.Tag_name.split(", ");
+    var newtags = req.body.Tag_name.join(", ").split(", ");
+    console.log("NEWTAGS", newtags);
 
     var tagrows;
     var companyid = req.body.id;
@@ -164,8 +165,24 @@ exports.update = function(req, res) {
                 console.log("TAGROWS", tagrows);
                
                 return db.Company.findOne({where: {id: companyid}, include: [{model: db.Tag}]}).then(function(company){
-                    return company.addTags(tagrows);
+                    console.log("HELLOTHECOMPANY", company);
+
+
+
+//REOMOVE ALL ASSOCIATED TAGS AND ADD CURRENT ONES????
+
+
+
+
+
+
+
+
+
+
+                    return company.setTags(tagrows);
                 }).then(function(comp){
+                    console.log("COMP", comp);
                     return comp.updateAttributes({
                         Company_name: req.body.Company_name,
                         Notes: req.body.Notes,
@@ -181,10 +198,11 @@ exports.update = function(req, res) {
                     });
                 });
             });
-    } else {
+    } 
+    else {
             company.updateAttributes({
                 Company_name: req.body.Company_name,
-                Notes: req.body.Notes
+               Notes: req.body.Notes
         }).then(function(a){
             return res.jsonp(a);
         }).catch(function(err){

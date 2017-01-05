@@ -23,6 +23,29 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
         this.Tag_name = "";
     };
 
+    
+    $scope.update = function() {
+        var company = $scope.company;
+        
+        console.log("$SCOPE.WHATYOUNEED", $scope.whatyouneed);
+
+        var tagname = $scope.whatyouneed;
+
+       // if(tagname) {
+         //   console.log("THERE WAS A TAGNAME");
+            company.Tag_name = tagname;
+        //}
+            
+       // console.log("$scope.company", company);
+       // if (!company.updated) {
+         //   console.log("company didn't updated");
+            company.updated = [];
+       // }
+            company.updated.push(new Date().getTime());
+            company.$update(function() {
+            $state.go('viewCompany',{id : $stateParams.id});
+        });
+    };
 
     $scope.remove = function(company) {
         console.log("remove was called");
@@ -46,30 +69,9 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
         }
     };
 
-    $scope.update = function() {
-        var company = $scope.company;
-        
-        console.log("$SCOPE.TAG_NAME", $scope.Tag_name);
 
-        var tagname = $scope.Tag_name;
-
-        if(tagname) {
-            console.log("THERE WAS A TAGNAME");
-            company.Tag_name = tagname;
-        }
-            
-       // console.log("$scope.company", company);
-       // if (!company.updated) {
-         //   console.log("company didn't updated");
-            company.updated = [];
-       // }
-            company.updated.push(new Date().getTime());
-            company.$update(function() {
-            $state.go('viewCompany',{id : $stateParams.id});
-        });
-    };
-
-
+    var showtags;
+    var whatyouneed;
     $scope.findOne = function() {
         var tagarray = [];
         var tags = [];
@@ -100,12 +102,18 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
                     tagarray.forEach(function(tag){
                         tags.push(tag.Tag_name);
                     });
+
+                $scope.whatyouneed = tags;
+                whatyouneed = $scope.whatyouneed;
             
                 $scope.tags = tags.join(", ");
                 console.log("SCOPE.TAGS", $scope.tags);
 
                 $scope.findtags();
                 $scope.selected = $scope.tags;
+                console.log("findonecalled and here's $scope.whatyouneed", $scope.whatyouneed, typeof $scope.whatyouneed);
+
+
             });
 
 
@@ -173,20 +181,39 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
     };
 
       $scope.selected = [];
-
-      $scope.toggle = function (tag, list) {
-        var idx = list.indexOf(tag);
+    
+     
+    $scope.toggle = function (tag, tags) {
+        console.log($scope.selected, "scope.selected", typeof $scope.selected);
+       // console.log(list, "list", typeof list);
+        var idx = tags.indexOf(tag);
+        console.log("idx", idx);
         if (idx > -1) {
-          list.splice(idx, 1);
+          tags.splice(idx, 1);
         }
         else {
-          list.push(tag);
+          tags.push(tag);
         }
       };
+
+    $scope.toggle2 = function (tag, whatyouneed) {
+        console.log(whatyouneed, "whatyouneed", typeof whatyouneed);
+        console.log("toggle2");
+        var idx = whatyouneed.indexOf(tag);
+        console.log("idx", idx);
+        if (idx > -1) {
+            whatyouneed.splice(idx, 1);
+        }
+        else {
+          whatyouneed.push(tag);
+        }
+      };  
 
       $scope.exists = function (tag, list) {
         return list.indexOf(tag) > -1;
       };
+
+
 
 
 }]);
