@@ -1,14 +1,14 @@
-<section>
+<section data-ng-init="findtags()">
 	<form class="form-horizontal" data-ng-submit="create()">
 		<div class="control-group">
-			<label class="control-label" for="name">Tech Name</label>
+			<legend class="control-label" for="name">Tech Name</legend>
 			<div class="controls">
 				<input type="text" data-ng-model="Tech_name" id="Tech title" placeholder="Technology Title" required>
 			</div>
 		</div>
 
 		<div class="control-group">
-			<label class="control-label" for="marketer">Primary Marketer</label>
+			<legend class="control-label" for="marketer">Primary Marketer</legend>
 			<div class="controls">
 				<input type="text" data-ng-model="Tech_marketer" id="marketer" placeholder="Primary Marketer">
 			</div>
@@ -16,25 +16,33 @@
 
 
 		<div class="control-group">
-			<label class="control-label" for="tag">RU Number</label>
+			<legend class="control-label" for="tag">RU Number</legend>
 			<div class="controls">
 				<input type="text" data-ng-model="Tech_RUNumber" id="RUNumber" placeholder="RU Number">
 			</div>
 		</div>
 		
 		<div class="control-group">
-			<label class="control-label" for="inventor">Inventor</label>
+			<legend class="control-label" for="inventor">Inventor</legend>
 			<div class="controls">
 				<input type="text" data-ng-model="Tech_inventor" id="inventor" placeholder="Inventor">
 			</div>
 		</div>
 		
-		<div class="control-group">
-			<label class="control-label" for="notes">Tags</label>
-			<div class="controls">
-				<textarea data-ng-model="Tag_name" id="tag" cols="30" rows="5" placeholder="Tag"></textarea>
-			</div>
-		</div>
+		<div >
+        <fieldset class="standard">
+          <legend>Select Tags</legend>
+          <div layout="row" layout-wrap flex>
+            <div ng-repeat="tag in tagnames" class="standard" flex="50">
+              <label>
+                <input type="checkbox" ng-checked="exists(tag, selected)"
+                       ng-click="toggle(tag, selected)"/>
+                {{ tag }}
+              </label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
 
 		
 		<div class="control-group">

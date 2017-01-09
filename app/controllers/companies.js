@@ -166,20 +166,6 @@ exports.update = function(req, res) {
                
                 return db.Company.findOne({where: {id: companyid}, include: [{model: db.Tag}]}).then(function(company){
                     console.log("HELLOTHECOMPANY", company);
-
-
-
-//REOMOVE ALL ASSOCIATED TAGS AND ADD CURRENT ONES????
-
-
-
-
-
-
-
-
-
-
                     return company.setTags(tagrows);
                 }).then(function(comp){
                     console.log("COMP", comp);

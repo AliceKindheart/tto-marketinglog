@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mean.technologies').controller('TechController', ['$scope', '$stateParams', 'Global', 'Technologies', '$state', function ($scope, $stateParams, Global, Technologies, $state) {
+angular.module('mean.technologies').controller('TechController', ['$scope', '$stateParams', 'Global', 'Technologies', '$state', '$http', function ($scope, $stateParams, Global, Technologies, $state, $http) {
     $scope.global = Global;
 
     $scope.create = function() {
@@ -8,7 +8,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             Tech_RUNumber: this.Tech_RUNumber,
             Tech_name: this.Tech_name,
             Tech_inventor: this.Tech_inventor,
-            Tag_name: this.Tag_name,
+            Tag_name: this.selected,
             Tech_marketer: this.Tech_marketer
         });
         technology.$save(function(response) {
@@ -47,18 +47,20 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
 
     $scope.update = function() {
         var technology = $scope.technology;
-        console.log("$SCOPE>TAG_NAME", $scope.Tag_name);
-        var tagname = $scope.Tag_name;
+       // console.log("$SCOPE>TAG_NAME", $scope.Tag_name);
+        var tagname = $scope.whatyouneed;
+
+        technology.Tag_name = tagname;
 
     //    console.log("$scope.technology");
       //  console.log($scope.technology);
     //    if (!technology.updated) {
       //      console.log("technology didn't updated");
         
-        if(tagname) {
-            console.log("THERE WAS A TAGNAME");
-            technology.Tag_name = tagname;
-        }
+    //    if(tagname) {
+      //      console.log("THERE WAS A TAGNAME");
+        //    technology.Tag_name = tagname;
+        //}
 
             technology.updated = [];
         
@@ -68,6 +70,9 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
 
         });
     };
+
+     var showtags;
+    var whatyouneed;
 
     $scope.findOne = function() {
         var tagarray = [];
@@ -102,8 +107,18 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
                     //scope.tags = tags.join(", ");
                     //console.log("SCOPE.TAGS", $scope.tags);
                 });
+
+                $scope.whatyouneed = tags;
+                whatyouneed = $scope.whatyouneed;
+
+
                 $scope.tags = tags.join(", ");
                 console.log("SCOPE.TAGS", $scope.tags);
+
+                 $scope.findtags();
+                $scope.selected = $scope.tags;
+                console.log("findonecalled and here's whatyouneed", whatyouneed, typeof whatyouneed);
+
             });
     };
 
@@ -151,6 +166,52 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             $scope.tagnames = tagnames;
         });
     };
+
+     $scope.findtags =  function(){
+            console.log("FINDTAGS GOT CALLED");
+            $scope.tagnames = [];
+            $http.get('/tags')
+            .then(function(response){
+                $scope.tagresponse = response.data;
+                console.log("$scope.tags", $scope.tags);
+                $scope.tagresponse.forEach(function(tag){
+                    $scope.tagnames.push(tag.Tag_name);
+                });
+                console.log("$scope.tagnames", $scope.tagnames);
+            });
+        };
+     $scope.selected = [];
+    
+     
+    $scope.toggle = function (tag, tags) {
+        console.log($scope.selected, "scope.selected", typeof $scope.selected);
+       // console.log(list, "list", typeof list);
+        var idx = tags.indexOf(tag);
+        console.log("idx", idx);
+        if (idx > -1) {
+          tags.splice(idx, 1);
+        }
+        else {
+          tags.push(tag);
+        }
+      };
+
+    $scope.toggle2 = function (tag, whatyouneed) {
+        console.log(whatyouneed, "whatyouneed", typeof whatyouneed);
+        console.log("toggle2");
+        var idx = whatyouneed.indexOf(tag);
+        console.log("idx", idx);
+        if (idx > -1) {
+            whatyouneed.splice(idx, 1);
+        }
+        else {
+          whatyouneed.push(tag);
+        }
+      };  
+
+      $scope.exists = function (tag, list) {
+        return list.indexOf(tag) > -1;
+      };
 
 
 

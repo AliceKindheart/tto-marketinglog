@@ -71,7 +71,7 @@ exports.create = function(req, res) {
     // save and return an instance of company on the res object. 
 
     if (req.body.Tag_name){
-        var Tagnames = req.body.Tag_name.split(", ");
+        var Tagnames = req.body.Tag_name;
         
         db.Tag.findAll({where:{Tag_name:{$in:Tagnames}}})
             .then(function(rowoftags){
@@ -123,7 +123,7 @@ exports.update = function(req, res) {
 
     // create a new variable to hold the technology that was placed on the req object.
     var technology = req.technology;
-    var newtags = req.body.Tag_name.split(", ");
+    var newtags = req.body.Tag_name.join(", ").split(", ");
     var tagrows;
     var techid = req.body.id;
 
