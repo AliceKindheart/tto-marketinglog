@@ -71,14 +71,18 @@ exports.update = function(req, res) {
     // create a new variable to hold the contact that was placed on the req object.
     var contact = req.contact;
 
-    contact.updateAttributes({
-        Contact_name: req.body.Contact_name,
-        Contact_title: req.body.Contact_title,
-        Contact_email: req.body.Contact_email,
-        Contact_phone: req.body.Contact_phone,
-        Company_name: req.body.Company_name,
-        Notes: req.body.Notes
-    }).then(function(a){
+    db.Company.findOne({where:{Company_name: req.body.Company_name}})
+        .then(function(company){
+            companyid=company.id;
+            return contact.updateAttributes({
+                CompanyId: companyid,
+                Contact_name: req.body.Contact_name,
+                Contact_title: req.body.Contact_title,
+                Contact_email: req.body.Contact_email,
+                Contact_phone: req.body.Contact_phone,
+                Notes: req.body.Notes
+            })
+        }).then(function(a){
         return res.jsonp(a);
     }).catch(function(err){
         return res.render('error', {

@@ -1,6 +1,6 @@
 <h2>Enter New Contact Information</h2>
 
-<section>
+<section data-ng-init="findcompanies()">
 	<form class="form-horizontal" data-ng-submit="create()">
 		<div class="control-group">
 			<label class="control-label" for="name">Contact Name</label>
@@ -8,15 +8,6 @@
 				<input type="text" data-ng-model="Contact_name" id="Contact_name" placeholder="Contact Name" required>
 			</div>
 		</div>
-		
-
-		<div class="control-group">
-			<label class="control-label" for="Company_name">Company</label>
-			<div class="controls">
-				<input type="text" data-ng-model="Company_name" id="Company" placeholder="Company" required>
-			</div>
-		</div>
-
 
 
 		<div class="control-group">
@@ -43,6 +34,24 @@
 				<textarea data-ng-model="Contact_notes" id="Notes" cols="30" rows="10" placeholder="Notes"></textarea>
 			</div>
 		</div>
+
+		<div >
+        <fieldset class="standard">
+          <legend>Select Company</legend>
+          <div layout="row" layout-wrap flex>
+            <div class="standard" flex="50">
+              <p ng-repeat="company in companies">
+              <label>
+                <input type="radio" ng-click="choose(company)"/>
+                {{company}}
+              </label>
+              </p>
+            </div>
+          </div>
+        </fieldset>
+
+
+      </div>
 		<div class="control-group">
 			<div class="controls">
 				<input type="submit" class="btn">

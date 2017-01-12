@@ -1,9 +1,10 @@
 'use strict';
 
-angular.module('mean.contacts').controller('ContactsController', ['$scope', '$stateParams', 'Global', 'Contacts', '$state', function ($scope, $stateParams, Global, Contacts, $state) {
+angular.module('mean.contacts').controller('ContactsController', ['$scope', '$stateParams', 'Global', 'Contacts', '$state', '$http', function ($scope, $stateParams, Global, Contacts, $state, $http) {
     $scope.global = Global;
 
     $scope.create = function() {
+        console.log($scope.selected, "Company_name");
         var contact = new Contacts({
             Contact_name: this.Contact_name,
             Contact_email: this.Contact_email,
@@ -49,6 +50,10 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
 
     $scope.update = function() {
         var contact = $scope.contact;
+        var company = $scope.companies;
+
+        contact.Company_name = company;
+
         console.log("$scope.contact");
         console.log($scope.contact);
         if (!contact.updated) {
@@ -74,11 +79,22 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
             console.log(contact);
             $scope.contact = contact;
             $scope.company = company;
-            console.log("COMPATT", company);
+            console.log("COMPANY", company);
+            $scope.nameofcompany=company.Company_name
+            console.log("nameofcompany", $scope.nameofcompany);
         });
+
+        $scope.findcompanies();
+
     };
+
+
+
+
     $scope.find = function() {
         console.log("LOOKINGFOR CONTACTS!~!!!!");
+        var arrayofcontacts = [];
+
         Contacts.query(function(contacts) {
             console.log("contactcontactcontact");
             //var contact;
@@ -89,11 +105,11 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
             contacts.forEach(function(contact){
                 if (contact.Company){
                     //$scope.company = contact.Company
-                    companies.push(contact.Company);
+                    arrayofcontacts.push(contact.Company);
                 } else {
-                    companies.push({Company_name: "None"});
+                    arrayofcontacts.push({Company_name: "None"});
                 }
-                $scope.companies = companies;
+                $scope.companies = arrayofcontacts;
             });
 
             console.log("SCOPE.COMPANies", $scope.companies);
@@ -101,6 +117,37 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
 
         });
     };
+
+    $scope.findcompanies =  function(){
+        console.log("FINDCOMPANIES GOT CALLED");
+        $scope.companies = [];
+        $http.get('/companies')
+        .then(function(response){
+            $scope.companyresponse = response.data;
+            console.log("$scope.companyresponse", $scope.companyresponse);
+            $scope.companyresponse.forEach(function(company){
+                $scope.companies.push(company.Company_name);
+            });
+            console.log("$scope.companies", $scope.companies);
+        });
+    };
+
+      $scope.selected = [];
+
+
+
+    $scope.choose = function (company) {
+        $scope.Company_name = company;
+      };
+
+      $scope.exists = function (company) {
+        console.log("nameofcompanychecked", $scope.nameofcompany);
+        console.log("company", company);
+        if (company == $scope.nameofcompany){
+            return true;
+        }
+      };
+
 
 
 

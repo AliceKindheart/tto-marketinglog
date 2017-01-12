@@ -1,4 +1,6 @@
 <section data-ng-init="findOne()">
+	<h2> Edit Contact Information</h2>
+
 	<form class="form-horizontal" data-ng-submit="update()">
 		<div class="control-group">
 			<label class="control-label" for="title">Contact Name</label>
@@ -8,17 +10,13 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label" for="company name">Company</label>
-			<div class="controls">
-				<input type="text" data-ng-model="contact.Company_name" id="Company_name" placeholder="Company">
-			</div>
-		</div>
-		<div class="control-group">
 			<label class="control-label" for="company name">Title</label>
 			<div class="controls">
 				<input type="text" data-ng-model="contact.Contact_title" id="title" placeholder="Title">
 			</div>
 		</div>
+
+
 		<div class="control-group">
 			<label class="control-label" for="company name">Email</label>
 			<div class="controls">
@@ -38,6 +36,20 @@
 				</textarea>
 			</div>
 		</div>
+		<div >
+        <fieldset class="standard">
+          <legend>Company</legend>
+          <div layout="row" layout-wrap flex>
+            <div ng-repeat="company in companies" class="standard" flex="50">
+              <label>
+                <input type="radio" ng-checked="exists(company)"
+                       ng-click="choose(company)"/>
+                {{ company }}
+              </label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
 		<div class="control-group">
 			<div class="controls">
 				<input type="submit" class="btn">
