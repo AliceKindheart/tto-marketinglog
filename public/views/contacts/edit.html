@@ -42,8 +42,8 @@
           <div layout="row" layout-wrap flex>
             <div ng-repeat="company in companies" class="standard" flex="50">
               <label>
-                <input type="radio" ng-checked="exists(company)"
-                       ng-click="choose(company)"/>
+                <input type="radio" ng-checked="exists(company)" ng-click="choose2edit(company)"
+                       />
                 {{ company }}
               </label>
             </div>

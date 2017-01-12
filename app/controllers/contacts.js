@@ -70,12 +70,18 @@ exports.update = function(req, res) {
 
     // create a new variable to hold the contact that was placed on the req object.
     var contact = req.contact;
+    //var Company_name = req.body.Company_name
+    console.log(req.body.compname);
+    console.log("REQQQQQQQQQQQQ>BODY", req.body);
+    var idforcompany;
 
-    db.Company.findOne({where:{Company_name: req.body.Company_name}})
+    db.Company.findOne({where:{Company_name: req.body.compname}})
         .then(function(company){
-            companyid=company.id;
+            //console.log(company, "COMPPPPPPPPPPPPPPANY");
+            idforcompany=company.id;
+
             return contact.updateAttributes({
-                CompanyId: companyid,
+                CompanyId: idforcompany,
                 Contact_name: req.body.Contact_name,
                 Contact_title: req.body.Contact_title,
                 Contact_email: req.body.Contact_email,
@@ -83,6 +89,7 @@ exports.update = function(req, res) {
                 Notes: req.body.Notes
             })
         }).then(function(a){
+            console.log("AAAAAAAAAAAAAAAAAAAA", a);
         return res.jsonp(a);
     }).catch(function(err){
         return res.render('error', {

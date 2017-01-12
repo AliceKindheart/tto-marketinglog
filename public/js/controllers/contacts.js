@@ -49,17 +49,20 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
     };
 
     $scope.update = function() {
+        console.log("UPDATE");
         var contact = $scope.contact;
-        var company = $scope.companies;
+        contact.compname = $scope.Company_name;
+        console.log($scope.Company_name);
 
-        contact.Company_name = company;
+
+        //contact.Company_name = company;
 
         console.log("$scope.contact");
         console.log($scope.contact);
-        if (!contact.updated) {
-            console.log("contact didn't updated");
+        //if (!contact.updated) {
+          //  console.log("contact didn't updated");
             contact.updated = [];
-        }
+        //}
         contact.updated.push(new Date().getTime());
         contact.$update(function() {
         $state.go('viewContact',{id : contact.id});
@@ -141,11 +144,16 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
       };
 
       $scope.exists = function (company) {
-        console.log("nameofcompanychecked", $scope.nameofcompany);
-        console.log("company", company);
+        //console.log("nameofcompanychecked", $scope.nameofcompany);
+        //console.log("company", company);
         if (company == $scope.nameofcompany){
             return true;
         }
+      };
+
+      $scope.choose2edit = function(company){
+        $scope.nameofcompany = company;
+        $scope.Company_name = company;
       };
 
 
