@@ -39,18 +39,27 @@ exports.create = function(req, res) {
     console.log(req.body);
     var companyid;
     var foundcompany;
+    var contact; 
+
     // save and return an instance of contact on the res object. 
     db.Company.findOne({where:{Company_name: req.body.Company_name}})
         .then(function(company){
             console.log("COMPANYFOUND", "COMPANYID", company.id);
+            console.log("COMPANNNNNNNNNNNNNNNNNNNY", company)
+            foundcompany = company;
             companyid = company.id ;
+            //company.setAssociations
             return db.Contact.create(req.body);
         }).then(function(contact){
-            contact.CompanyId = companyid;
+            //contact.addCompanies(foundcompany);
             console.log("UPDATEDCONTACT", contact);
-            return contact.updateAttributes({
-                CompanyId: companyid
-            });
+            contact.setCompany(foundcompany);
+            //return contact.updateAttributes({
+              //  CompanyId: companyid
+            //});
+            //contact.belongsTo(foundcompany);
+            //foundcompany.addContact(contact);
+            return contact;
         }).then(function(contact){
             console.log("CONTACTBEINGRETURNED", contact);
             return res.jsonp(contact);

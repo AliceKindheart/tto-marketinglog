@@ -72,46 +72,71 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
 
     var showtags;
     var whatyouneed;
+    var cmpnyid;
+
+
     $scope.findOne = function() {
         var tagarray = [];
         var tags = [];
+        var contactarray;
+        var contacts = [];
         console.log("findOne ran");
         console.log("$stateParams.id=");
         console.log($stateParams.id);
+        cmpnyid = $stateParams.id;
         Companies.get({
             id: $stateParams.id 
             }, function(company) {
                 console.log(company);
-                $scope.company = company;
+                //$scope.company = company;
+                contactarray = company.Contacts;
+                console.log("CONTTTTTTTTTTACTS;", contactarray);
+
+                if(contactarray!==0){
+                    console.log(contactarray.length, "length");
+                    for (var i=0; i<contactarray.length; i++){
+                        contacts.push(contactarray[i].Contact_name);
+                    } 
+
+                            
+                    
+                    
+
+                } else {
+                    contacts.push("None");
+                }
+                $scope.contacts = contacts;
+                console.log("$scope.contacts", $scope.contacts);
+
+
+
+
 
 
                 if(company.Tags.length!==0){
-                    console.log("it thinks there's a company.tag");
+                    //console.log("it thinks there's a company.tag");
                     tagarray = company.Tags;
                 } else {
-                    console.log("this happened");
+                    //console.log("this happened");
                     tagarray.push({Tag_name:"None"});
                 }
                 
-                console.log("COMPANY.TAGS", company.Tags);
-
-
-                console.log("TAGARRAY", tagarray);
-
             
-                    tagarray.forEach(function(tag){
-                        tags.push(tag.Tag_name);
-                    });
+                tagarray.forEach(function(tag){
+                    tags.push(tag.Tag_name);
+                });
 
                 $scope.whatyouneed = tags;
                 whatyouneed = $scope.whatyouneed;
             
                 $scope.tags = tags.join(", ");
-                console.log("SCOPE.TAGS", $scope.tags);
+                //console.log("SCOPE.TAGS", $scope.tags);
 
                 $scope.findtags();
                 $scope.selected = $scope.tags;
-                console.log("findonecalled and here's $scope.whatyouneed", $scope.whatyouneed, typeof $scope.whatyouneed);
+
+                //$scope.findcompanycontacts();
+                //console.log("findonecalled and here's $scope.whatyouneed", $scope.whatyouneed, typeof $scope.whatyouneed);
 
 
             });
@@ -137,7 +162,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
                 }
             });
 
-            console.log("arrayofarrayoftagobjects", arrayofarrayoftagobjects);
+          //  console.log("arrayofarrayoftagobjects", arrayofarrayoftagobjects);
             var tags = [];
             var arrayoftags = [];
 
@@ -150,7 +175,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
                 tags = [];
                 //console.log("tags", tags);      
             });
-            console.log("arrayoftags", arrayoftags);
+          //  console.log("arrayoftags", arrayoftags);
 
             var arrayoftagnames = [];
             var stringoftagnames;
@@ -159,7 +184,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
                 arrayoftagnames.push(stringoftagnames);
             });
 
-            console.log("arrayoftagnames", arrayoftagnames);
+           // console.log("arrayoftagnames", arrayoftagnames);
 
             $scope.tags=arrayoftagnames;
 
@@ -181,6 +206,20 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
     };
 
       $scope.selected = [];
+
+    $scope.findcompanycontacts = function(){
+        console.log("FINDCONTACTS GOT CALLED");
+        $scope.contacts= [];
+        $http.get('/companycontacts/cmpnyid')
+        .then(function(response){
+            $scope.contactresponse = response.data;
+            console.log("$scope.contactresponse", $scope.contactresponse);
+            $scope.contactresponse.forEach(function(contact){
+                $scope.contacts.push(contact.Contact_name);
+            });
+            console.log("$scope.contacts", $scope.contacts);
+        });
+    };
     
      
     $scope.toggle = function (tag, tags) {

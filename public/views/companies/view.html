@@ -28,8 +28,7 @@
             <th>Company Contacts:</th>
           </tr>
           <tr>
-            <td data-ng-hide="!company.Contact_name">{{company.Contact_name}}</td>
-            <td data-ng-show="!company.Contact_name">None</td>
+            <td data-ng-repeat="contact in contacts">{{contact}}</td>
           </tr>
         </table>
       </div>

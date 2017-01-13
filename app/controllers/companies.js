@@ -15,16 +15,19 @@ var db = require('../../config/sequelize');
 exports.company = function(req, res, next, id) {
     console.log('id => ' + id);
     console.log("COMPANIES.COMPANy");
-    db.Company.find({where: {id: id}, include: [{model: db.Tag}]}).then(function(company){
+    db.Company.find({where: {id: id}, include: [{model: db.Tag}, {model: db.Contact}]}).then(function(company){
+        //, where: {CompanyId: id}
         //console.log(id);
         if(!company) {
             //return next(new Error('Failed to load company ' + id));
             return next();
         } else {
+            
             req.company = company; // {Company_name: "Whatever", Notes: "Stuff", tags: [{Tag_name: "Foo"}]}
-           // console.log("COMPANY");
-            //console.log(company);
+            console.log("COMPANY");
+            console.log(company);
             //return res.jsonp(company);
+
            return next();            
         }
     }).catch(function(err){
@@ -54,6 +57,7 @@ exports.all = function(req, res) {
 exports.show = function(req, res) {
     console.log("COMPANIES.SHOW");
     console.log("LOOKLOOKLOOK!!! SHOWSHOWSHOW!!!");
+    console.log(req.company);
         // Sending down the company that was just preloaded by the companies.company function
     // and saves company on the req object.
     return res.jsonp(req.company);
@@ -79,7 +83,7 @@ exports.create = function(req, res) {
             })
         // save and return an instance of company on the res object. 
         .then(function(company){
-            //company.addTags([req.body.Tag_name]);
+            //add tags to the company
             console.log("TRYING TO SAVE THE COMPANY INFO");
             thecompany= company;
             return company.addTags(tagrows);
@@ -199,6 +203,7 @@ exports.update = function(req, res) {
         });
     }
 };
+
 
 /**
  * Delete a company

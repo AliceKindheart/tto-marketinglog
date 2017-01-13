@@ -5,7 +5,8 @@
 */
 var users = require('../../app/controllers/users'),
 companies = require('../../app/controllers/companies'),
-tags = require('../../app/controllers/tags');
+tags = require('../../app/controllers/tags'),
+contacts = require('../../app/controllers/contacts');
 
 module.exports = function(app) {
 // Company Routes
@@ -20,9 +21,8 @@ app.route('/companies/:companyid')
     .put(users.requiresLogin, companies.update)
     .delete(users.requiresLogin, companies.destroy);
 
-//app.route('/tags')
-//	.get(tags.listtags);
-
+//app.route('companycontacts/:companyid')
+//	.get(contacts.companycontacts);
 
 // Finish with setting up the id param
 // Note: the companies.company function will be called everytime then it will call the next function.

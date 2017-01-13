@@ -9,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
 		{
 			associate: function(models) {
 					Company.belongsToMany(models.Tag, {through: 'CompanyTags'});
-					Company.belongsToMany(models.Contact, {through: 'CompanyEvents'});
+					Company.belongsToMany(models.Contact, {through: 'CompanyContacts'});
 					Company.belongsToMany(models.Event, {through: 'CompanyEvents'});
 			}
 		}
