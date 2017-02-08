@@ -88,6 +88,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             id: $stateParams.id 
             }, function(company) {
                 console.log(company);
+                $scope.company=company;
                 //$scope.company = company;
                 contactarray = company.Contacts;
                 console.log("CONTTTTTTTTTTACTS;", contactarray);
@@ -96,21 +97,13 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
                     console.log(contactarray.length, "length");
                     for (var i=0; i<contactarray.length; i++){
                         contacts.push(contactarray[i].Contact_name);
-                    } 
-
-                            
-                    
-                    
+                    }
 
                 } else {
                     contacts.push("None");
                 }
                 $scope.contacts = contacts;
                 console.log("$scope.contacts", $scope.contacts);
-
-
-
-
 
 
                 if(company.Tags.length!==0){
@@ -137,11 +130,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
 
                 //$scope.findcompanycontacts();
                 //console.log("findonecalled and here's $scope.whatyouneed", $scope.whatyouneed, typeof $scope.whatyouneed);
-
-
             });
-
-
     };
 
     

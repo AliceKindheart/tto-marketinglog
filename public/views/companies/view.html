@@ -13,8 +13,7 @@
           <table>
             <tr>
               <td><strong>Notes:</strong></td>
-              <td data-ng-hide="!company.Notes">{{company.Notes}}</td>
-              <td data-ng-show="!company.Notes">None</td>
+              <td>{{company.Notes}}</td>
             </tr>
           </table>
           <table>
@@ -23,16 +22,22 @@
               <td>{{tags}}</td>
             </tr>
           </table>
-         <table>
-          <tr>
-            <th>Company Contacts:</th>
-          </tr>
-          <tr>
-            <td data-ng-repeat="contact in contacts">{{contact}}</td>
-          </tr>
-        </table>
       </div>
-    </div>  
+    </div> 
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h4 class="panel-title">Company Contacts</h4>
+      </div>
+      <div class="panel-body">
+        <table>
+          <tr data-ng-repeat="contact in contacts"><td>{{contact}}</td></tr>
+       </table>
+      </div>
+
+    </div>
+
+
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h4 class="panel-title ">Marketing Campaigns</h4>

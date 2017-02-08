@@ -1,19 +1,13 @@
-<section data-ng-init="findtags()">
+<h2>Enter New Campgaign Information</h2>
+
+<section data-ng-init="findtagsandusers()">
 	<form class="form-horizontal" data-ng-submit="create()">
 		<div class="control-group">
-			<legend class="control-label" for="name">Tech Name</legend>
+			<h4 class="control-label" for="name">Tech Name</h4>
 			<div class="controls">
 				<input type="text" data-ng-model="Tech_name" id="Tech title" placeholder="Technology Title" required>
 			</div>
 		</div>
-
-		<div class="control-group">
-			<legend class="control-label" for="marketer">Primary Marketer</legend>
-			<div class="controls">
-				<input type="text" data-ng-model="Tech_marketer" id="marketer" placeholder="Primary Marketer">
-			</div>
-		</div>
-
 
 		<div class="control-group">
 			<legend class="control-label" for="tag">RU Number</legend>
@@ -21,13 +15,28 @@
 				<input type="text" data-ng-model="Tech_RUNumber" id="RUNumber" placeholder="RU Number">
 			</div>
 		</div>
-		
+
 		<div class="control-group">
 			<legend class="control-label" for="inventor">Inventor</legend>
 			<div class="controls">
 				<input type="text" data-ng-model="Tech_inventor" id="inventor" placeholder="Inventor">
 			</div>
 		</div>
+
+		<div >
+        <fieldset class="standard">
+          <legend>Select Primary Marketer</legend>
+          <div layout="row" layout-wrap flex>
+            <div class="standard" flex="50">
+              <p ng-repeat="name in usernames">
+              <label>
+                <input type="radio" name="name" required ng-value="name" ng-click="choose(name)"/>
+                {{name}}
+              </label>
+              </p>
+            </div>
+          </div>
+        </fieldset>
 		
 		<div >
         <fieldset class="standard">

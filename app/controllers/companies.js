@@ -13,8 +13,8 @@ var db = require('../../config/sequelize');
  * Its purpose is to preload the company on the req object then call the next function. 
  */
 exports.company = function(req, res, next, id) {
-    console.log('id => ' + id);
-    console.log("COMPANIES.COMPANy");
+   // console.log('id => ' + id);
+    //console.log("COMPANIES.COMPANy");
     db.Company.find({where: {id: id}, include: [{model: db.Tag}, {model: db.Contact}]}).then(function(company){
         //, where: {CompanyId: id}
         //console.log(id);
@@ -24,8 +24,8 @@ exports.company = function(req, res, next, id) {
         } else {
             
             req.company = company; // {Company_name: "Whatever", Notes: "Stuff", tags: [{Tag_name: "Foo"}]}
-            console.log("COMPANY");
-            console.log(company);
+          //  console.log("COMPANY");
+          //  console.log(company);
             //return res.jsonp(company);
 
            return next();            
@@ -55,9 +55,9 @@ exports.all = function(req, res) {
 /* Show a company
  */
 exports.show = function(req, res) {
-    console.log("COMPANIES.SHOW");
-    console.log("LOOKLOOKLOOK!!! SHOWSHOWSHOW!!!");
-    console.log(req.company);
+  //  console.log("COMPANIES.SHOW");
+    //console.log("LOOKLOOKLOOK!!! SHOWSHOWSHOW!!!");
+   // console.log(req.company);
         // Sending down the company that was just preloaded by the companies.company function
     // and saves company on the req object.
     return res.jsonp(req.company);
@@ -153,27 +153,26 @@ exports.update = function(req, res) {
     // create a new variable to hold the company that was placed on the req object.
     var company = req.company;
     console.log("req.body", req.body);
-    console.log("COMPANY", company);
+    //console.log("COMPANY", company);
+
    // var newtags = req.body.Tag_name;
     var newtags = req.body.Tag_name.join(", ").split(", ");
-    console.log("NEWTAGS", newtags);
+    //console.log("NEWTAGS", newtags);
 
     var tagrows;
     var companyid = req.body.id;
      
     
-    if (newtags){
+   // if (newtags){
         db.Tag.findAll({where:{Tag_name: {$in:newtags}}})
             .then(function(rowoftags){
                 tagrows=rowoftags;
-                console.log("TAGROWS", tagrows);
+                //console.log("TAGROWS", tagrows);
                
                 return db.Company.findOne({where: {id: companyid}, include: [{model: db.Tag}]}).then(function(company){
-                    console.log("HELLOTHECOMPANY", company);
-                    return company.setTags(tagrows);
-                }).then(function(comp){
-                    console.log("COMP", comp);
-                    return comp.updateAttributes({
+                    //console.log("HELLOTHECOMPANY", company);
+                    company.setTags(tagrows);
+                    return company.updateAttributes({
                         Company_name: req.body.Company_name,
                         Notes: req.body.Notes,
                         //Tags: tagrows
@@ -188,20 +187,20 @@ exports.update = function(req, res) {
                     });
                 });
             });
-    } 
-    else {
-            company.updateAttributes({
-                Company_name: req.body.Company_name,
-               Notes: req.body.Notes
-        }).then(function(a){
-            return res.jsonp(a);
-        }).catch(function(err){
-            return res.render('error', {
-                error: err, 
-                status: 500
-            });
-        });
-    }
+  //  } 
+   // else {
+     //       company.updateAttributes({
+       //         Company_name: req.body.Company_name,
+         //      Notes: req.body.Notes
+//        }).then(function(a){
+  //          return res.jsonp(a);
+    //    }).catch(function(err){
+      //      return res.render('error', {
+        //        error: err, 
+          //      status: 500
+      //      });
+        //});
+    //}
 };
 
 

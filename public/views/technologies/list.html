@@ -28,7 +28,7 @@
 			</tr>
 			<tr data-ng-repeat="technology in technologies">
 				<td ui-sref="viewTech({id : technology.id})">{{technology.id}}</td>
-				<td>{{user.username}}</td>
+				<td>{{arrayofusers[$index]}}</td>
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_RUNumber}}</td>
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_name}}</td>
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_inventor}}</td>

@@ -11,7 +11,7 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
             Contact_phone: this.Contact_phone,
             Contact_title: this.Contact_title,
             Company_name: this.Company_name,
-            Notes: this.Notes
+            Contact_notes: this.Contact_notes
         });
         contact.$save(function(response) {
             //$state.go('viewCompany',{Company_name : responseid});
@@ -23,7 +23,7 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
         this.Contact_phone = "";
         this.Contact_title = "";
         this.Company_name = "";
-        this.notes = "";
+        this.Contact_notes = "";
     };
 
     $scope.remove = function(contact) {
@@ -49,16 +49,17 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
     };
 
     $scope.update = function() {
-        console.log("UPDATE");
+        console.log("UPDATE, $scope.contact", $scope.contact);
+        //console.log("$scope.contact.Contact_notes", $scope.contact.Contact_notes);
         var contact = $scope.contact;
-        contact.compname = $scope.Company_name;
-        console.log($scope.Company_name);
+        contact.compname = $scope.nameofcompany;
+        console.log($scope.nameofcompany);
 
 
         //contact.Company_name = company;
 
-        console.log("$scope.contact");
-        console.log($scope.contact);
+        //console.log("$scope.contact");
+        //console.log($scope.contact);
         //if (!contact.updated) {
           //  console.log("contact didn't updated");
             contact.updated = [];
@@ -66,6 +67,7 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
         contact.updated.push(new Date().getTime());
         contact.$update(function() {
         $state.go('viewContact',{id : contact.id});
+        //$state.go('viewContact', {id: $stateParams.id});
 
         });
     };
@@ -82,9 +84,9 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
             console.log(contact);
             $scope.contact = contact;
             $scope.company = company;
-            console.log("COMPANY", company);
+            //console.log("COMPANY", company);
             $scope.nameofcompany=company.Company_name
-            console.log("nameofcompany", $scope.nameofcompany);
+            //console.log("nameofcompany", $scope.nameofcompany);
         });
 
         $scope.findcompanies();
@@ -122,16 +124,16 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
     };
 
     $scope.findcompanies =  function(){
-        console.log("FINDCOMPANIES GOT CALLED");
+        //console.log("FINDCOMPANIES GOT CALLED");
         $scope.companies = [];
         $http.get('/companies')
         .then(function(response){
             $scope.companyresponse = response.data;
-            console.log("$scope.companyresponse", $scope.companyresponse);
+          //  console.log("$scope.companyresponse", $scope.companyresponse);
             $scope.companyresponse.forEach(function(company){
                 $scope.companies.push(company.Company_name);
             });
-            console.log("$scope.companies", $scope.companies);
+            //console.log("$scope.companies", $scope.companies);
         });
     };
 
@@ -152,8 +154,9 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
       };
 
       $scope.choose2edit = function(company){
+        //$scope.nameofcompany = company;
         $scope.nameofcompany = company;
-        $scope.Company_name = company;
+        console.log("COMPANY, $scope.nameofcompany", $scope.nameofcompany);
       };
 
 

@@ -71,7 +71,7 @@ Contact.create({
 })
 
 Contact.create({
-	Contact_name: "Jack Flap",
+	Contact_name: "Flappy Jackson",
 	Contact_title: "Head Flapjack",
 	Contact_email: "jack@flap.net",
 	Contact_phone: "555-244-5676"
@@ -85,7 +85,7 @@ Contact.create({
 })
 
 Contact.create({
-	Contact_name: "Whiskers",
+	Contact_name: "Mr. Whiskers",
 	Contact_title: "Chief Napper",
 	Contact_email: "whiskers@catcat.net",
 	Contact_phone: "555-233-5676"
@@ -107,4 +107,5 @@ Technology.create({
 	Tech_RUNumber: 468,
 	Tech_name: "Sliced Bread",
 	Tech_inventor: "William Wonder"
+	
 })

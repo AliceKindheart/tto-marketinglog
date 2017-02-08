@@ -48,19 +48,20 @@ exports.create = function(req, res) {
             console.log("COMPANNNNNNNNNNNNNNNNNNNY", company)
             foundcompany = company;
             companyid = company.id ;
-            //company.setAssociations
             return db.Contact.create(req.body);
         }).then(function(contact){
             //contact.addCompanies(foundcompany);
             console.log("UPDATEDCONTACT", contact);
             contact.setCompany(foundcompany);
-            //return contact.updateAttributes({
-              //  CompanyId: companyid
-            //});
+            foundcompany.addContact(contact);
+            return contact.updateAttributes({
+                CompanyId: companyid
+            });
             //contact.belongsTo(foundcompany);
-            //foundcompany.addContact(contact);
-            return contact;
+            
+            //return contact;
         }).then(function(contact){
+
             console.log("CONTACTBEINGRETURNED", contact);
             return res.jsonp(contact);
         }).catch(function(err){
@@ -95,7 +96,7 @@ exports.update = function(req, res) {
                 Contact_title: req.body.Contact_title,
                 Contact_email: req.body.Contact_email,
                 Contact_phone: req.body.Contact_phone,
-                Notes: req.body.Notes
+                Contact_notes: req.body.Contact_notes
             })
         }).then(function(a){
             console.log("AAAAAAAAAAAAAAAAAAAA", a);

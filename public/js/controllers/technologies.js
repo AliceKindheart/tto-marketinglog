@@ -11,6 +11,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             Tag_name: this.selected,
             Tech_marketer: this.Tech_marketer
         });
+        console.log("technology.Tech_marketer", technology.Tech_marketer);
         technology.$save(function(response) {
             //$state.go('viewCompany',{Company_name : responseid});
             $state.go('viewTech',{id : response.id});
@@ -47,22 +48,15 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
 
     $scope.update = function() {
         var technology = $scope.technology;
-       // console.log("$SCOPE>TAG_NAME", $scope.Tag_name);
         var tagname = $scope.whatyouneed;
 
         technology.Tag_name = tagname;
+        technology.Tech_marketer = $scope.Tech_marketer;
+        console.log("$scope.Tech_marketer", $scope.Tech_marketer);
+        console.log($scope.Tech_marketer, "techmarketer");
 
-    //    console.log("$scope.technology");
-      //  console.log($scope.technology);
-    //    if (!technology.updated) {
-      //      console.log("technology didn't updated");
-        
-    //    if(tagname) {
-      //      console.log("THERE WAS A TAGNAME");
-        //    technology.Tag_name = tagname;
-        //}
 
-            technology.updated = [];
+        technology.updated = [];
         
         technology.updated.push(new Date().getTime());
         technology.$update(function() {
@@ -77,19 +71,29 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
     $scope.findOne = function() {
         var tagarray = [];
         var tags = [];
+        var user;
         console.log("findOneTechnology ran");
-        console.log("$stateParams.id=");
-        console.log($stateParams.id);
+        //console.log("$stateParams.id=");
+        //console.log($stateParams.id);
         Technologies.get({
             id: $stateParams.id 
             }, function(technology) {
                 console.log(technology);
                 $scope.technology = technology;
+                if (technology.User) {
+                    $scope.user = technology.User;
+                    $scope.username = technology.User.name;
+                } else {
+                    $scope.username = "none";
+                }
+
+             //   console.log("USERRRR", user);
+             //   console.log("$scope.username", $scope.username);
 
                 if(technology.Tags.length!==0){
-                    console.log("it think's there's a tag");
+                 //   console.log("it think's there's a tag");
                     tagarray = technology.Tags;
-                    console.log("TAGARRAY", tagarray);
+                 //   console.log("TAGARRAY", tagarray);
                 } else {
                     console.log("this happened");
                     tagarray.push({Tag_name:"None"});
@@ -101,9 +105,9 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
                 console.log("TAGARRAY", tagarray);
 
                 tagarray.forEach(function(tag){
-                    console.log("made it to the foreach");
+                  //  console.log("made it to the foreach");
                     tags.push(tag.Tag_name);
-                    console.log("tags", tags);
+                  //  console.log("tags", tags);
                     //scope.tags = tags.join(", ");
                     //console.log("SCOPE.TAGS", $scope.tags);
                 });
@@ -113,11 +117,11 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
 
 
                 $scope.tags = tags.join(", ");
-                console.log("SCOPE.TAGS", $scope.tags);
+              //  console.log("SCOPE.TAGS", $scope.tags);
 
-                 $scope.findtags();
+                 $scope.findtagsandusers();
                 $scope.selected = $scope.tags;
-                console.log("findonecalled and here's whatyouneed", whatyouneed, typeof whatyouneed);
+             //   console.log("findonecalled and here's whatyouneed", whatyouneed, typeof whatyouneed);
 
             });
     };
@@ -131,9 +135,19 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             console.log(technologies);
         
             var arrayofarrayoftagobjects = [];
-            var arrayoftagobjects = [];    
+            var arrayoftagobjects = []; 
+            $scope.arrayofusers = [];  
+            var tempuser; 
 
             technologies.forEach(function(technology){
+                if (!technology.User){
+                    $scope.arrayofusers.push("");
+                } else {
+                    tempuser = technology.User;
+                    $scope.arrayofusers.push(tempuser.name);
+                }
+
+                
                 if(technology.Tags.length!==0){
                     arrayofarrayoftagobjects.push(technology.Tags); 
                 } else {
@@ -154,31 +168,41 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
                 tagnames = [];
             });
 
-            console.log("arrayoftagnames", arrayoftagnames);
+        //    console.log("arrayoftagnames", arrayoftagnames);
 
             var stringoftagnames;
             arrayoftagnames.forEach(function(array){
                 stringoftagnames=array.join(", ");
                 tagnames.push(stringoftagnames);   
             });
-            console.log("tagnames", tagnames);
+        //    console.log("tagnames", tagnames);
 
             $scope.tagnames = tagnames;
         });
     };
 
-     $scope.findtags =  function(){
+    $scope.usernames = [];
+
+     $scope.findtagsandusers =  function(){
             console.log("FINDTAGS GOT CALLED");
             $scope.tagnames = [];
             $http.get('/tags')
             .then(function(response){
                 $scope.tagresponse = response.data;
-                console.log("$scope.tags", $scope.tags);
+             //   console.log("$scope.tags", $scope.tags);
                 $scope.tagresponse.forEach(function(tag){
                     $scope.tagnames.push(tag.Tag_name);
                 });
-                console.log("$scope.tagnames", $scope.tagnames);
+            //    console.log("$scope.tagnames", $scope.tagnames);
             });
+            $http.get('/showusers')
+                .then(function(response){
+                    $scope.usersresponse = response.data;
+                  //  console.log("$scope.usersresponse", $scope.usersresponse);
+                    $scope.usersresponse.forEach(function(userObject){
+                        $scope.usernames.push(userObject.name);
+                    });
+                })
         };
      $scope.selected = [];
     
@@ -213,6 +237,26 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         return list.indexOf(tag) > -1;
       };
 
+ 
+    $scope.choose = function (name) {
+        console.log("name", name);
+        $scope.Tech_marketer = name;
+        console.log("TECHMARKETER", $scope.Tech_marketer);
+      };  
 
+      $scope.exists2 = function (name) {
+        //console.log("nameofcompanychecked", $scope.nameofcompany);
+        //console.log("company", company);
+        var thingtocheck = user.name;
+      //  console.log("$scope.username", $scope.username, "thingtocheck", thingtocheck);
+        if (thingtocheck == $scope.username){
+            return true;
+        }
+      };
+
+    //  $scope.choose2edit = function(marketer){
+       // $scope.nameofmarketer = marketer;
+      //  $scope.Tech_marketer = marketer;
+     // };
 
 }]);

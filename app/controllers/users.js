@@ -84,6 +84,13 @@ exports.me = function(req, res) {
     res.jsonp(req.user || null);
 };
 
+exports.getall = function(req, res) {
+  db.User.findAll()
+    .then(function(users){
+      res.jsonp(users);
+    })
+};
+
 /**
  * Find user by id
  */

@@ -31,7 +31,7 @@ exports.all = function(req, res) {
 exports.technology = function(req, res, next, id) {
     console.log('techid => ' + id);
     console.log("TECHNOLOGIES.TECH");
-    db.Technology.find({where: {id: id}, include: [{model: db.Tag}]}).then(function(technology){
+    db.Technology.find({where: {id: id}, include: [{model: db.Tag}, {model: db.User}]}).then(function(technology){
         //console.log(id);
         if(!technology) {
             //return next(new Error('Failed to load company ' + id));
@@ -63,57 +63,63 @@ exports.show = function(req, res) {
  */
 exports.create = function(req, res) {
     // augment the company by adding the UserId
-    req.body.UserId = req.user.id;
+    //req.body.UserId = req.user.id;
     console.log("req.body");
     console.log(req.body);
     var tagrows;
     var thetechnology;
+    var marketer = req.body.Tech_marketer;
+    var personn;
     // save and return an instance of company on the res object. 
 
-    if (req.body.Tag_name){
-        var Tagnames = req.body.Tag_name;
-        
-        db.Tag.findAll({where:{Tag_name:{$in:Tagnames}}})
-            .then(function(rowoftags){
-                tagrows=rowoftags;
-                return db.Technology.create(req.body);
-            }).then(function(technology){
-                thetechnology = technology;
-                return technology.addTags(tagrows);                
-            }).then(function(){
-
-
-
-
-                if(!thetechnology){
-                    console.log("NOTATECHNOLOGY!!!");
-                    return res.send('users/signup', {errors: new StandardError("Technology could not be created")});
-                 } else {
-                    return res.jsonp(thetechnology);
-                 }
-            }).catch(function(err){
-                console.log("THROWING AN ERROR MESSAGE", err);
-                return res.send('users/signup', {
-                    errors: err,
-                    status: 500
-                });
-            });
-    } else {
-        db.Technology.create(req.body).then(function(technology){
-            if(!thetechnology){
-                    console.log("NOTATECHNOLOGY!!!");
-                    return res.send('users/signup', {errors: new StandardError("Technology could not be created")});
-                 } else {
-                    return res.jsonp(thetechnology);
-                 }
-            }).catch(function(err){
-                console.log("THROWING AN ERROR MESSAGE", err);
-                return res.send('users/signup', {
-                    errors: err,
-                    status: 500
-                });
-            });
-    }
+    db.User.find({where:{name: marketer}})
+        .then(function(person){
+            personn = person;
+            //console.log("PERSSSSSSSSSSSSSSSON", person);
+        }).then(function(){
+            if (req.body.Tag_name){
+                var Tagnames = req.body.Tag_name;
+                db.Tag.findAll({where:{Tag_name:{$in:Tagnames}}})
+                    .then(function(rowoftags){
+                        tagrows=rowoftags;
+                        return db.Technology.create(req.body);
+                    }).then(function(technology){
+                        thetechnology = technology;
+                        technology.setUser(personn);
+                        console.log("PERSSSSSSSSSSSSSSSON", personn);
+                        return technology.addTags(tagrows);                
+                    }).then(function(){
+                        if(!thetechnology){
+                            console.log("NOTATECHNOLOGY!!!");
+                            return res.send('users/signup', {errors: new StandardError("Technology could not be created")});
+                         } else {
+                            return res.jsonp(thetechnology);
+                         }
+                    }).catch(function(err){
+                        console.log("THROWING AN ERROR MESSAGE", err);
+                        return res.send('users/signup', {
+                            errors: err,
+                            status: 500
+                        });
+                    });
+            } else {
+                db.Technology.create(req.body).then(function(technology){
+                    if(!technology){
+                            console.log("NOTATECHNOLOGY!!!");
+                            return res.send('users/signup', {errors: new StandardError("Technology could not be created")});
+                         } else {
+                            technology.setUser(personn);
+                            return res.jsonp(technology);
+                         }
+                    }).catch(function(err){
+                        console.log("THROWING AN ERROR MESSAGE", err);
+                        return res.send('users/signup', {
+                            errors: err,
+                            status: 500
+                        });
+                    });
+            }
+        });
 };
 
 /**
@@ -126,44 +132,66 @@ exports.update = function(req, res) {
     var newtags = req.body.Tag_name.join(", ").split(", ");
     var tagrows;
     var techid = req.body.id;
+    console.log("REQQQQQQQQQQQQQQ.BODDDDDY", req.body);
+    var newuser;
 
     if(newtags){
-        db.Tag.findAll({where: {Tag_name: {$in:newtags}}})
-            .then(function(rowoftags){
-                tagrows=rowoftags;
-                return db.Technology.findOne({where: {id: techid}, include: [{model: db.Tag}]}).then(function(technogoly){
-                    return technology.addTags(tagrows);
-                }).then(function(tech){
-                    return technology.updateAttributes({
-                        Tech_RUNumber: req.body.Tech_RUNumber,
-                        Tech_name: req.body.Tech_name,
-                        Tech_inventor: req.body.Tech_inventor
-                }).then(function(tek){
-                    return res.jsonp(tek);        
+        return db.User.findOne({where: {name: req.body.Tech_marketer}})
+            .then(function(user){
+                newuser = user;
+                console.log("NEWWWWWWWWWUSSSSSSSERRRR", newuser);
+                //find tags to add in the dB
+                db.Tag.findAll({where: {Tag_name: {$in:newtags}}
+                    }).then(function(rowoftags){
+                        //create a reference to the set of tags to be added that's outside this function
+                        tagrows=rowoftags;
+
+                        //find technology to be updated
+                        return db.Technology.findOne({where: {id: techid}, include: [{model: db.Tag}]
+                    }).then(function(technogoly){
+                        //add the new tags
+                        return technology.addTags(tagrows);
+                    }).then(function(tech){
+                        //update the technology
+                        return technology.updateAttributes({
+                            Tech_RUNumber: req.body.Tech_RUNumber,
+                            Tech_name: req.body.Tech_name,
+                            Tech_inventor: req.body.Tech_inventor
+                    }).then(function(tek){
+                        //set user
+                        tek.setUser(newuser);
+                        return res.jsonp(tek);        
+                    }).catch(function(err){
+                        console.log("ERRRRRRORRRR", err);
+                        return res.render('error',{
+                            error: err,
+                            status: 500
+                        });
+                    });
+                });
+            });
+            });
+    } else {
+        return db.User.findOne({where: {name: req.body.Tech_marketer}})
+            .then(function(user){
+                newuser = user;
+                console.log("NEWWWWWWWWWUSSSSSSSERRRR", newuser);
+                technology.updateAttributes({
+                    Tech_RUNumber: req.body.Tech_RUNumber,
+                    Tech_name: req.body.Tech_name,
+                    Tech_inventor: req.body.Tech_inventor   
+                }).then(function(a){
+                    a.setUser(req.body.Tech_marketer);
+                    return res.jsonp(a);
                 }).catch(function(err){
-                    console.log("ERRRRRRORRRR", err);
-                    return res.render('error',{
+                    return res.render('error', {
                         error: err,
                         status: 500
                     });
-                  });
                 });
-        });
-    } else {
-        technology.updateAttributes({
-            Tech_RUNumber: req.body.Tech_RUNumber,
-            Tech_name: req.body.Tech_name,
-            Tech_inventor: req.body.Tech_inventor
-        }).then(function(a){
-            return res.jsonp(a);
-        }).catch(function(err){
-            return res.render('error', {
-                error: err,
-                status: 500
             });
-        });
     }
-};
+}
 
 
 //    technology.updateAttributes({

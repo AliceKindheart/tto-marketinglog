@@ -19,10 +19,24 @@
 			<label class="control-label" for="notes">Inventor</label>
 
 			<div class="controls">
-				<textarea data-ng-model="technology.Tech_inventor" id="inventor" cols="30" rows="5" placeholder="Inventor">
+				<input type="text" data-ng-model="technology.Tech_inventor" id="inventor"placeholder="Inventor">
 				</textarea>
 			</div>
 		</div>
+
+		<div >
+        <fieldset class="standard">
+          <legend>Select Primary Marketer</legend>
+          <div layout="row" layout-wrap flex>
+            <div class="standard" flex="50">
+              <p ng-repeat="name in usernames">
+              <label>
+                <input type="radio" name="name" ng-checked="exists2(name)" ng-click="choose(name)" />
+                {{name}}
+              </label>
+              </p>
+            </div>
+          </div>
 
 		<div >
         <fieldset class="standard">
