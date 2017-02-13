@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mean.system').controller('HeaderController', ['$scope', 'Global', 'SignOut', '$state', function ($scope, Global, SignOut, $state) {
+angular.module('mean.system').controller('HeaderController', ['$scope', 'Global', 'SignOut', '$state', '$http', function ($scope, Global, SignOut, $state, $http) {
     $scope.global = Global;
 
     $scope.menu = [{
@@ -16,6 +16,14 @@ angular.module('mean.system').controller('HeaderController', ['$scope', 'Global'
     
     $scope.isCollapsed = false;
 
+    $scope.isAdmin = function(){
+        $http.get('/isadmin').then(function(response){
+            if(response.isadmin){
+                return true;
+            }
+        })
+    };
+
     $scope.SignOut = function(){
         SignOut.get(function(response){
             if(response.status === 'success'){
@@ -23,6 +31,14 @@ angular.module('mean.system').controller('HeaderController', ['$scope', 'Global'
                 $state.go('home');
             }
         });
+    };
+
+    $scope.Addtags = function(){
+        $state.go('addtags');
+    };
+
+    $scope.Adduser = function(){
+        $state.go('adduser');
     };
 
 

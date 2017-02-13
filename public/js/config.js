@@ -13,6 +13,21 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             controller : 'EventController',
             templateUrl: 'views/index.html'
         })
+        .state('addtags',{
+            url: '/addtags',
+            controller: 'AdminController',
+            templateUrl: 'views/admin/tags.html'
+        })
+        .state('adduser',{
+            url: '/adduser',
+            controller: 'AdminController',
+            templateUrl: 'views/admin/users.html'
+        })
+        .state('viewUser',{
+            url: '/viewuser',
+            controller: 'AdminController',
+            templateUrl: 'views/admin/viewuser.html'
+        })
         .state('companies',{
             url: '/companies',
             controller: 'CompaniesController',

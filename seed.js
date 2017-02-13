@@ -6,6 +6,7 @@ var Tag = db.model("Tag");
 var Company = db.model("Company");
 var Contact = db.model("Contact");
 var Technology = db.model("Technology");
+var User = db.model("User");
 
 Tag.create({
 	Tag_name: "Tag"
@@ -109,3 +110,12 @@ Technology.create({
 	Tech_inventor: "William Wonder"
 	
 })
+//User.create({
+//	name: 'Alice Kindheart',
+//	email: 'akindheart@rockefeller.edu',
+//	admin: true,
+//	provider: 'local',
+//	hashedPassword: 'TnoZ3v4KtmcY/QAmXtq/Ng==',
+//	salt: 'TnoZ3v4KtmcY/QAmXtq/Ng=='
+
+//})

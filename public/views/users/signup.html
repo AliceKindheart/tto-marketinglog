@@ -1,4 +1,4 @@
-<div ng-include="'../views/users/auth.html'"></div>
+
 <div ng-controller="signUp">
     <form ng-submit="signUp(user)"  class="signup form-horizontal">
         <div class="control-group">
@@ -11,12 +11,6 @@
             <label for="email" class="control-label">Email</label>
             <div class="controls">
                 <input id="email" type="text" name="email" placeholder="Email" ng-model="user.email" required>
-            </div>
-        </div>
-        <div class="control-group">
-            <label for="username" class="control-label">Username</label>
-            <div class="controls">
-                <input id="username" type="text" name="username" placeholder="Username" ng-model="user.userName" required>
             </div>
         </div>
         <div class="control-group">

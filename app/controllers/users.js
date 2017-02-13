@@ -125,3 +125,15 @@ exports.hasAuthorization = function(req, res, next) {
     }
     next();
 };
+
+exports.isadmin = function(req, res) {
+    db.User.find({where : { id: id }}).then(function(user){
+      if (!user) {
+          return next(new Error('Failed to load User ' + id));
+      }
+      req.profile = user;
+      return user.jsonp;
+    }).catch(function(err){
+      next(err);
+    });
+};
