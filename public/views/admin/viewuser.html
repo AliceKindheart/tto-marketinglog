@@ -1,0 +1,18 @@
+<section data-ng-init="findUser()">
+    <h2>{{user.username}}</h2>
+
+    <div style="margin-top:10px">
+        <a class="btn" ui-sref="editUser({id : user.id})">Edit</a>
+        <a class="btn btn-danger" data-ng-click="remove();">Delete</a>
+    </div>
+    
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4 class="panel-title ">Marketing Campaigns</h4>
+          </div>
+          <div class="panel-body"> 
+            <p>No campaigns at this time.</p>
+          </div>
+    </div>  
+
+</section>
