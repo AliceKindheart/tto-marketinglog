@@ -202,9 +202,19 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
                     $scope.usersresponse.forEach(function(userObject){
                         $scope.usernames.push(userObject.name);
                     });
-                })
+                });
         };
      $scope.selected = [];
+
+     $scope.getUser = function(){
+        console.log("hello");
+        $http.get('/currentuser')
+            .then(function(response){
+                console.log("response", response);
+                $scope.user = response;
+                });
+    };
+     
     
      
     $scope.toggle = function (tag, tags) {
@@ -249,7 +259,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         //console.log("company", company);
         var thingtocheck = user.name;
       //  console.log("$scope.username", $scope.username, "thingtocheck", thingtocheck);
-        if (thingtocheck == $scope.username){
+        if (thingtocheck === $scope.username){
             return true;
         }
       };

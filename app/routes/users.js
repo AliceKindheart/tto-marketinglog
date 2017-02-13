@@ -14,6 +14,10 @@ app.get('/signout', users.signout);
 app.get('/users/me', users.me);
 app.get('/showusers', users.getall);
 app.get('/isadmin', users.isadmin);
+app.route('/user/:id')
+    .get(users.findOne);
+
+app.get('/currentuser', users.user);
 
 // Setting up the users api
 app.post('/users', users.create);

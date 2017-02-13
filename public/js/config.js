@@ -23,8 +23,13 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             controller: 'AdminController',
             templateUrl: 'views/admin/users.html'
         })
+        .state('editUser',{
+            url: '/edituser/{id}',
+            controller: 'AdminController',
+            templateUrl: 'views/admin/edituser'
+        })
         .state('viewUser',{
-            url: '/viewuser',
+            url: '/viewuser/{id}',
             controller: 'AdminController',
             templateUrl: 'views/admin/viewuser.html'
         })

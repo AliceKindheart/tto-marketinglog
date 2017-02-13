@@ -77,6 +77,14 @@ exports.create = function(req, res, next) {
     });
 };
 
+exports.findOne = function(req, res) {
+  console.log("reqQQQQQQQQQQQQQQQQQQQQQQQQQ.body", req.params.id);
+  db.User.findOne({where: {id: id}})
+    .then(function(response){
+      console.log("RESPPPPPPPPPPPONSE", response);
+      res.jsonp(response);
+    });
+};
 /**
  * Send User
  */
@@ -88,7 +96,7 @@ exports.getall = function(req, res) {
   db.User.findAll()
     .then(function(users){
       res.jsonp(users);
-    })
+    });
 };
 
 /**

@@ -1,12 +1,24 @@
 'use strict';
 
-angular.module('mean.auth').controller('AdminController', ['$scope', '$window', 'Global','$state', 'SignUp', '$http', function ($scope, $window, Global, $state, SignUp, $http) {
+angular.module('mean.auth').controller('AdminController', ['$scope', '$window', 'Global','$state', 'SignUp', '$http', '$stateParams', function ($scope, $window, Global, $state, SignUp, $http, $stateParams) {
     $scope.global = Global;
 
     $scope.findusers = function(){
         $http.get('/showusers')
             .then(function(response){
                 $scope.users = response.data;
+            })
+    };
+
+    $scope.findUser = function(){
+        console.log($stateParams.id);
+        $http({
+            url: "/user/:id", 
+            method: "GET",
+            params: {id: $stateParams.id}
+        }).then(function(response){
+                $scope.user = response.data;
+                console.log('$scope.user', $scope.user);
             })
     };
 
