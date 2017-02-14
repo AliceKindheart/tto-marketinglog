@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mean.contacts').controller('ContactsController', ['$scope', '$stateParams', 'Global', 'Contacts', '$state', '$http', function ($scope, $stateParams, Global, Contacts, $state, $http) {
+angular.module('mean.contacts').controller('ContactsController', ['$scope', '$stateParams', 'Global', 'Contacts', '$state', '$http', '$window', function ($scope, $stateParams, Global, Contacts, $state, $http, $window) {
     $scope.global = Global;
 
     $scope.create = function() {
@@ -27,24 +27,25 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
     };
 
     $scope.remove = function(contact) {
-        console.log("remove was called");
-        console.log($scope.contact);
+        if ($window.confirm("Are you sure you want to delete this contact?")){
+            console.log("remove was called");
+            console.log($scope.contact);
 
-        if (contact) {
-            console.log("THERE WAS A CONTACT");
-            contact.$remove();  
+            if (contact) {
+                console.log("THERE WAS A CONTACT");
+                contact.$remove();  
 
-            for (var i in $scope.contacts) {
-                if ($scope.contacts[i] === contact) {
-                    console.log("that thing happened");
-                    $scope.contacts.splice(i, 1);
+                for (var i in $scope.contacts) {
+                    if ($scope.contacts[i] === contact) {
+                        console.log("that thing happened");
+                        $scope.contacts.splice(i, 1);
+                    }
                 }
+            } else {
+                console.log("hello else");
+                $scope.contact.$remove();
+                $state.go('contacts');
             }
-        }
-        else {
-            console.log("hello else");
-            $scope.contact.$remove();
-            $state.go('contacts');
         }
     };
 

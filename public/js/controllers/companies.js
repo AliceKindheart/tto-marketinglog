@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mean.companies').controller('CompaniesController', ['$scope', '$stateParams', 'Global', 'Companies', '$state', '$http', function ($scope, $stateParams, Global, Companies, $state, $http) {
+angular.module('mean.companies').controller('CompaniesController', ['$scope', '$stateParams', 'Global', 'Companies', '$state', '$http', '$window', function ($scope, $stateParams, Global, Companies, $state, $http, $window) {
     $scope.global = Global;
 
     $scope.create = function() {
@@ -50,22 +50,23 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
     $scope.remove = function(company) {
         console.log("remove was called");
         console.log($scope.company);
+        if ($window.confirm("Are you sure you want to delete this company?")){
+            if (company) {
+                console.log("THERE WAS A COMPANY");
+                company.$remove();  
 
-        if (company) {
-            console.log("THERE WAS A COMPANY");
-            company.$remove();  
-
-            for (var i in $scope.companies) {
-                if ($scope.companies[i] === company) {
-                    console.log("that thing happened");
-                    $scope.companies.splice(i, 1);
+                for (var i in $scope.companies) {
+                    if ($scope.companies[i] === company) {
+                        console.log("that thing happened");
+                        $scope.companies.splice(i, 1);
+                    }
                 }
             }
-        }
-        else {
-            console.log("hello else");
-            $scope.company.$remove();
-            $state.go('companies');
+            else {
+                console.log("hello else");
+                $scope.company.$remove();
+                $state.go('companies');
+            }
         }
     };
 

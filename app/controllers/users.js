@@ -77,14 +77,6 @@ exports.create = function(req, res, next) {
     });
 };
 
-exports.findOne = function(req, res) {
-  console.log("reqQQQQQQQQQQQQQQQQQQQQQQQQQ.body", req.params.id);
-  db.User.findOne({where: {id: id}})
-    .then(function(response){
-      console.log("RESPPPPPPPPPPPONSE", response);
-      res.jsonp(response);
-    });
-};
 /**
  * Send User
  */
@@ -96,6 +88,51 @@ exports.getall = function(req, res) {
   db.User.findAll()
     .then(function(users){
       res.jsonp(users);
+    });
+};
+
+exports.findOne = function(req, res, id) {
+  console.log("reqQQQQQQQQQQQQQQQQQQQQQQQQQ.query", req.query);
+  db.User.findOne({where: {id: req.query.id}})
+    .then(function(response){
+      console.log("RESPPPPPPPPPPPONSE", response);
+      res.jsonp(response);
+    });
+};
+
+exports.update = function(req, res) {
+  //var user = req.user;
+  console.log("REQQQQQQ.query", req.query);
+
+  db.User.findOne({where: {id: req.query.id}})
+    .then(function(user){
+      return user.updateAttributes({
+        name: req.query.name,
+        email: req.query.email,
+        admin: req.query.admin
+      })
+    }).then(function(user){
+      return res.jsonp(user);
+    }).catch(function(err){
+      return res.render('error',  {
+        error: err,
+        status: 500
+        });
+    });
+};
+
+exports.delete = function(req, res) {
+  //var user = req.user;
+  console.log("REQQQQQQ.query", req.query);
+
+  db.User.destroy({where: {id: req.query.id}})
+    .then(function(){
+      return res.jsonp({status: 200});
+    }).catch(function(err){
+      return res.render('error',  {
+        error: err,
+        status: 500
+        });
     });
 };
 

@@ -5,27 +5,21 @@
 		<div class="control-group">
 			<label class="control-label" for="title">User Name</label>
 			<div class="controls">
-				<input type="text" data-ng-model="user.username" id="name" placeholder="Username" required>
+				<input type="text" data-ng-model="user.name" id="name" placeholder="Username" required>
 				</input>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label" for="company name">Email</label>
+			<label class="control-label" for="email">Email</label>
 			<div class="controls">
 				<input type="text" data-ng-model="user.email" id="email" placeholder="Email">
 			</div>
 		</div>
-		
-		<div class="control-group">
-            <label for="password" class="control-label">Password</label>
-            <div class="controls">
-                <input id="password" type="password" name="password" placeholder="Password" ng-model="user.password" required>
-            </div>
-        </div>
+
         <div>
             <label class="control-label">Administrator?</label>
-            <input type="radio" value="true" name="admin" ng-model="user.admin" type="radio">Yes<br>
-            <input type="radio" value" false" name="admin" ng-model="user.admin" type="radio">No<br>
+            <input type="radio" value="true" name="admin" ng-checked="user.admin" ng-click="yes()">Yes<br>
+            <input type="radio" value="false" name="admin" ng-checked="!user.admin" ng-click="no()">No<br>
         </div>
 		
 		<div class="control-group">
