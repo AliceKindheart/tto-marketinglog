@@ -14,6 +14,8 @@ module.exports = function(app) {
 
 	app.route('/tags')
 		.get(tags.listtags)
+		.delete(tags.deletetag)
+		.post(tags.addtag);
 		//.post(users.requiresLogin, companies.create);
 
 };

@@ -21,7 +21,7 @@ angular.module('mean.system').controller('HeaderController', ['$scope', 'Global'
             if(response.isadmin){
                 return true;
             }
-        })
+        });
     };
 
     $scope.SignOut = function(){

@@ -13,21 +13,12 @@ var db = require('../../config/sequelize');
  * Its purpose is to preload the company on the req object then call the next function. 
  */
 exports.company = function(req, res, next, id) {
-   // console.log('id => ' + id);
-    //console.log("COMPANIES.COMPANy");
     db.Company.find({where: {id: id}, include: [{model: db.Tag}, {model: db.Contact}]}).then(function(company){
-        //, where: {CompanyId: id}
-        //console.log(id);
         if(!company) {
-            //return next(new Error('Failed to load company ' + id));
             return next();
         } else {
             
             req.company = company; // {Company_name: "Whatever", Notes: "Stuff", tags: [{Tag_name: "Foo"}]}
-          //  console.log("COMPANY");
-          //  console.log(company);
-            //return res.jsonp(company);
-
            return next();            
         }
     }).catch(function(err){
@@ -55,9 +46,6 @@ exports.all = function(req, res) {
 /* Show a company
  */
 exports.show = function(req, res) {
-  //  console.log("COMPANIES.SHOW");
-    //console.log("LOOKLOOKLOOK!!! SHOWSHOWSHOW!!!");
-   // console.log(req.company);
         // Sending down the company that was just preloaded by the companies.company function
     // and saves company on the req object.
     return res.jsonp(req.company);
@@ -88,14 +76,11 @@ exports.create = function(req, res) {
             thecompany= company;
             return company.addTags(tagrows);
         }).then(function(){
-            //console.log(req.body);
             if(!thecompany){
                 console.log("NOTACOMPANY!!!!");
                 return res.send('users/signup', {errors: new StandardError('Company could not be created')});
             } else {
                 return res.jsonp(thecompany);
-               // console.log("I THINK IT GOT SAVED");
-                //console.log(company);
             }
         }).catch(function(err){
             console.log("THROWING AN ERROR MESSAGE", err);
@@ -107,9 +92,7 @@ exports.create = function(req, res) {
         });
     } else {
         db.Company.create(req.body).then(function(company){
-        //company.addTag(company.Tag_name);
         console.log("TRYING TO SAVE THE COMPANY INFO");
-        //console.log(req.body);
         if(!company){
             console.log("NOTACOMPANY!!!!");
             return res.send('users/signup', {errors: new StandardError('Company could not be created')});
@@ -118,7 +101,6 @@ exports.create = function(req, res) {
          }   
         }).catch(function(err){
             console.log("THROWING AN ERROR MESSAGE");
-            //return res.status(status).send(body, {
             return res.send('users/signup', { 
                 errors: err,
                 status: 500
@@ -149,58 +131,32 @@ exports.addtag = function(req, res) {
  * Update a company
  */
 exports.update = function(req, res) {
-
     // create a new variable to hold the company that was placed on the req object.
     var company = req.company;
-    console.log("req.body", req.body);
-    //console.log("COMPANY", company);
-
-   // var newtags = req.body.Tag_name;
     var newtags = req.body.Tag_name.join(", ").split(", ");
-    //console.log("NEWTAGS", newtags);
-
     var tagrows;
     var companyid = req.body.id;
      
     
-   // if (newtags){
-        db.Tag.findAll({where:{Tag_name: {$in:newtags}}})
-            .then(function(rowoftags){
-                tagrows=rowoftags;
-                //console.log("TAGROWS", tagrows);
-               
-                return db.Company.findOne({where: {id: companyid}, include: [{model: db.Tag}]}).then(function(company){
-                    //console.log("HELLOTHECOMPANY", company);
-                    company.setTags(tagrows);
-                    return company.updateAttributes({
-                        Company_name: req.body.Company_name,
-                        Notes: req.body.Notes,
-                        //Tags: tagrows
-                    });
-                }).then(function(company){
-                    return res.jsonp(company);
-                }).catch(function(err){
-                    console.log("ERRRRRRORRRR", err);
-                    return res.render('error',{
-                        error: err,
-                        status: 500
-                    });
+    db.Tag.findAll({where:{Tag_name: {$in:newtags}}})
+        .then(function(rowoftags){
+            tagrows=rowoftags;
+            return db.Company.findOne({where: {id: companyid}, include: [{model: db.Tag}]}).then(function(company){
+                company.setTags(tagrows);
+                return company.updateAttributes({
+                    Company_name: req.body.Company_name,
+                    Notes: req.body.Notes,
+                });
+            }).then(function(company){
+                return res.jsonp(company);
+            }).catch(function(err){
+                console.log("ERRRRRRORRRR", err);
+                return res.render('error',{
+                    error: err,
+                    status: 500
                 });
             });
-  //  } 
-   // else {
-     //       company.updateAttributes({
-       //         Company_name: req.body.Company_name,
-         //      Notes: req.body.Notes
-//        }).then(function(a){
-  //          return res.jsonp(a);
-    //    }).catch(function(err){
-      //      return res.render('error', {
-        //        error: err, 
-          //      status: 500
-      //      });
-        //});
-    //}
+        });
 };
 
 
@@ -208,8 +164,6 @@ exports.update = function(req, res) {
  * Delete a company
  */
 exports.destroy = function(req, res) {
-    console.log("DESTROYDESTROYDESTROY");
-    //console.log(req.company);
     // create a new variable to hold the company that was placed on the req object.
     var company = req.company;
 

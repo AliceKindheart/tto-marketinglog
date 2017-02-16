@@ -191,7 +191,7 @@ exports.update = function(req, res) {
                 });
             });
     }
-}
+};
 
 
 //    technology.updateAttributes({

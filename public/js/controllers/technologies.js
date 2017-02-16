@@ -257,7 +257,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
       $scope.exists2 = function (name) {
         //console.log("nameofcompanychecked", $scope.nameofcompany);
         //console.log("company", company);
-        var thingtocheck = user.name;
+        var thingtocheck = $scope.user.name;
       //  console.log("$scope.username", $scope.username, "thingtocheck", thingtocheck);
         if (thingtocheck === $scope.username){
             return true;

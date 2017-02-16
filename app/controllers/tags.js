@@ -17,3 +17,30 @@ exports.listtags = function(req, res) {
     	});
 };
 
+exports.addtag = function(req, res) {
+    db.Tag.create(req.query)
+        .then(function(){
+            return res.jsonp(tag);
+        }).catch(function(err){
+            return res.render('error', {
+                error: err,
+                status: 500
+            });
+        });
+};
+
+exports.deletetag = function(req, res) {
+    db.Tag.findOne({where: {Tag_name: req.query.Tag_name}})
+        .then(function(tag){
+            console.log("TAGGGGGGGGGGGGG", tag)
+            tag.destroy();
+        }).then(function(){
+            return res.jsonp(tag);
+        }).catch(function(err){
+            return res.render('error',{
+                error: err,
+                status: 500
+            });
+        });
+};
+

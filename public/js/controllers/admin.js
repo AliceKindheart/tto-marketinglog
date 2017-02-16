@@ -10,8 +10,6 @@ angular.module('mean.auth').controller('AdminController', ['$scope', '$window', 
             });
     };
 
-    $scope.user;
-
     $scope.findUser = function(){
         console.log($stateParams, "$stateParams");
         $http({
@@ -37,7 +35,6 @@ angular.module('mean.auth').controller('AdminController', ['$scope', '$window', 
 
         signUp.$save(function(response) {
             if(response.status === 'success'){
-               // $window.location.href = '/';
                $scope.findusers();
             }
         });
@@ -72,7 +69,7 @@ angular.module('mean.auth').controller('AdminController', ['$scope', '$window', 
         });       
     };
 
-    $scope.delete = function(){
+    $scope.deleteUser = function(){
         var user = $scope.user;
         console.log("user", user);
 
@@ -88,10 +85,50 @@ angular.module('mean.auth').controller('AdminController', ['$scope', '$window', 
             });           
         } else {
             $state.go('adduser');
-        }
-
-           
+        }     
     };
+
+    $scope.deleteTag = function(){
+        if ($window.confirm("Are you sure you want to delete this tag?")){
+            $http({
+                url: '/tags',
+                method: "DELETE",
+                params: {
+                    Tag_name: $scope.tag
+                }
+            }).then(function(){
+                $window.location.reload();
+            })
+        }
+    };
+
+    $scope.findtags =  function(){
+        $scope.tagnames = [];
+        $http.get('/tags')
+        .then(function(response){
+            $scope.tagresponse = response.data;
+            $scope.tagresponse.forEach(function(tag){
+                $scope.tagnames.push(tag.Tag_name);
+            });
+        });
+    };
+
+
+    $scope.addNewTag = function(){
+        $http({
+            url: '/tags',
+            method: "POST",
+            params: {
+                Tag_name: $scope.tagname
+            }
+        }).then(function(){
+            $window.location.reload();
+        });
+    };
+
+    $scope.choose = function (tag) {
+        $scope.tag = tag;
+      };
 
 
 }]);

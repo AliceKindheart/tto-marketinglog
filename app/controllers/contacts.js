@@ -45,7 +45,7 @@ exports.create = function(req, res) {
     db.Company.findOne({where:{Company_name: req.body.Company_name}})
         .then(function(company){
             console.log("COMPANYFOUND", "COMPANYID", company.id);
-            console.log("COMPANNNNNNNNNNNNNNNNNNNY", company)
+            console.log("COMPANNNNNNNNNNNNNNNNNNNY", company);
             foundcompany = company;
             companyid = company.id ;
             return db.Contact.create(req.body);
@@ -97,7 +97,7 @@ exports.update = function(req, res) {
                 Contact_email: req.body.Contact_email,
                 Contact_phone: req.body.Contact_phone,
                 Contact_notes: req.body.Contact_notes
-            })
+            });
         }).then(function(a){
             console.log("AAAAAAAAAAAAAAAAAAAA", a);
         return res.jsonp(a);

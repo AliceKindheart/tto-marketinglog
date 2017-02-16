@@ -1,0 +1,32 @@
+<div>
+<h4>Add New Tag</h4>
+    <form ng-submit="addNewTag()"  class="form-horizontal">
+        <div class="control-group">
+            <table>
+                <tr>
+                    <th class="form-actions"><button type=submit" class="btn btn-primary">Add Tag</button></th>
+                    <th class="controls"><input id="tag" type="text" name="tag" placeholder="Tag Name" ng-model="tagname" required></th>
+                </tr>
+            </table>
+        </div>
+    </form>
+
+    <span data-ng-init="findtags()">
+
+        
+        <fieldset class="standard">
+          <legend>Select Tag to Delete</legend>
+          <div layout="row" layout-wrap flex>
+            <div class="standard" flex="50">
+                <p ng-repeat="tag in tagnames">
+              <label>
+                <input type="radio" name="tag" ng-click="choose(tag)"/>
+                {{ tag }}
+              </label>
+              </p>
+            </div>
+            <button class='btn btn-danger' data-ng-click="deleteTag();">Delete Tag</button>
+          </div>
+        </fieldset>
+    </span>
+</div>

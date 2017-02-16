@@ -110,7 +110,7 @@ exports.update = function(req, res) {
         name: req.query.name,
         email: req.query.email,
         admin: req.query.admin
-      })
+      });
     }).then(function(user){
       return res.jsonp(user);
     }).catch(function(err){
