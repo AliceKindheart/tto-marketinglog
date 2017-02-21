@@ -21,8 +21,8 @@ app.route('/companies/:companyid')
     .put(users.requiresLogin, companies.update)
     .delete(users.requiresLogin, companies.destroy);
 
-//app.route('companycontacts/:companyid')
-//	.get(contacts.companycontacts);
+app.route('/searchforcompany')
+	.get(companies.search);
 
 // Finish with setting up the id param
 // Note: the companies.company function will be called everytime then it will call the next function.

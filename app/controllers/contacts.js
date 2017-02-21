@@ -73,6 +73,13 @@ exports.create = function(req, res) {
         });
 };
 
+exports.search = function(req,res) {
+    db.Contact.findAll({where: {Contact_name: {$like: '%' + req.query.contactname + '%'}}, include: [{model: db.Company}]})
+        .then(function(contacts){
+            return res.jsonp(contacts);
+        });
+};
+
 /**
  * Update a contact
  */

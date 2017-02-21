@@ -19,6 +19,9 @@ app.route('/technologies/:technologyid')
     .put(users.requiresLogin, technologies.update)
     .delete(users.requiresLogin, technologies.destroy);
 
+app.route('/searchfortech')
+	.get(technologies.search);
+
 
 // Finish with setting up the id param
 // Note: the techs.tech function will be called everytime then it will call the next function.

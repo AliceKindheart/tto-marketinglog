@@ -10,15 +10,13 @@ var db = require('../../config/sequelize');
  * List of Technologies
  */
 exports.all = function(req, res) {
-    console.log("exports.alltechs happened");
-    
-    db.Technology.findAll({include: [{model: db.Tag}, {model: db.User}]}).then(function(technologies){
-        console.log("TECHS!!!!!!!!!!!!");
-        return res.jsonp(technologies);
-    }).catch(function(err){
-        return res.render('error', {
-            error: err,
-            status: 500
+    db.Technology.findAll({include: [{model: db.Tag}, {model: db.User}]})
+        .then(function(technologies){
+            return res.jsonp(technologies);
+        }).catch(function(err){
+            return res.render('error', {
+                error: err,
+                status: 500
         });
     });
 };
@@ -29,43 +27,29 @@ exports.all = function(req, res) {
  * Its purpose is to preload the company on the req object then call the next function. 
  */
 exports.technology = function(req, res, next, id) {
-    console.log('techid => ' + id);
-    console.log("TECHNOLOGIES.TECH");
-    db.Technology.find({where: {id: id}, include: [{model: db.Tag}, {model: db.User}]}).then(function(technology){
-        //console.log(id);
-        if(!technology) {
-            //return next(new Error('Failed to load company ' + id));
-            return next();
-        } else {
-            req.technology = technology;
-            console.log("TECHNOLOGY");
-            console.log(technology);
-            //return res.jsonp(company);
-           return next();            
-        }
-    }).catch(function(err){
-        return next(err);
-    });
+    db.Technology.find({where: {id: id}, include: [{model: db.Tag}, {model: db.User}]})
+        .then(function(technology){
+            if(!technology) {
+                return next();
+            } else {
+                req.technology = technology;
+               return next();            
+            }
+        }).catch(function(err){
+            return next(err);
+        });
 };
 
 
 /* Show a technology
  */
 exports.show = function(req, res) {
-    console.log("TECHNOLOGIES.SHOW");
-    console.log("LOOKTECHNOLOGY!!");
-    // Sending down the technology that was just preloaded by the technologies.technology function
-    // and saves tech on the req object.
     return res.jsonp(req.technology);
 };
 /**
  * Create a technology
  */
 exports.create = function(req, res) {
-    // augment the company by adding the UserId
-    //req.body.UserId = req.user.id;
-    console.log("req.body");
-    console.log(req.body);
     var tagrows;
     var thetechnology;
     var marketer = req.body.Tech_marketer;
@@ -75,7 +59,6 @@ exports.create = function(req, res) {
     db.User.find({where:{name: marketer}})
         .then(function(person){
             personn = person;
-            //console.log("PERSSSSSSSSSSSSSSSON", person);
         }).then(function(){
             if (req.body.Tag_name){
                 var Tagnames = req.body.Tag_name;
@@ -86,17 +69,14 @@ exports.create = function(req, res) {
                     }).then(function(technology){
                         thetechnology = technology;
                         technology.setUser(personn);
-                        console.log("PERSSSSSSSSSSSSSSSON", personn);
                         return technology.addTags(tagrows);                
                     }).then(function(){
                         if(!thetechnology){
-                            console.log("NOTATECHNOLOGY!!!");
                             return res.send('users/signup', {errors: new StandardError("Technology could not be created")});
                          } else {
                             return res.jsonp(thetechnology);
                          }
                     }).catch(function(err){
-                        console.log("THROWING AN ERROR MESSAGE", err);
                         return res.send('users/signup', {
                             errors: err,
                             status: 500
@@ -105,14 +85,12 @@ exports.create = function(req, res) {
             } else {
                 db.Technology.create(req.body).then(function(technology){
                     if(!technology){
-                            console.log("NOTATECHNOLOGY!!!");
                             return res.send('users/signup', {errors: new StandardError("Technology could not be created")});
                          } else {
                             technology.setUser(personn);
                             return res.jsonp(technology);
                          }
                     }).catch(function(err){
-                        console.log("THROWING AN ERROR MESSAGE", err);
                         return res.send('users/signup', {
                             errors: err,
                             status: 500
@@ -122,30 +100,40 @@ exports.create = function(req, res) {
         });
 };
 
+exports.search = function(req, res){
+    console.log("SEARCHING");
+    console.log(req.query.number);
+    db.Technology.findOne({where: {Tech_RUNumber: req.query.number}, include: [{model: db.Tag}, {model: db.User}]})
+        .then(function(tech){
+            console.log("tech:", tech);
+            return res.jsonp(tech);
+        }).catch(function(err){
+            return res.send({
+                errors: err,
+                status: 500
+            });
+        });
+};
 /**
  * Update a technology
  */
 exports.update = function(req, res) {
-
     // create a new variable to hold the technology that was placed on the req object.
     var technology = req.technology;
     var newtags = req.body.Tag_name.join(", ").split(", ");
     var tagrows;
     var techid = req.body.id;
-    console.log("REQQQQQQQQQQQQQQ.BODDDDDY", req.body);
     var newuser;
 
     if(newtags){
         return db.User.findOne({where: {name: req.body.Tech_marketer}})
             .then(function(user){
                 newuser = user;
-                console.log("NEWWWWWWWWWUSSSSSSSERRRR", newuser);
                 //find tags to add in the dB
                 db.Tag.findAll({where: {Tag_name: {$in:newtags}}
                     }).then(function(rowoftags){
                         //create a reference to the set of tags to be added that's outside this function
                         tagrows=rowoftags;
-
                         //find technology to be updated
                         return db.Technology.findOne({where: {id: techid}, include: [{model: db.Tag}]
                     }).then(function(technogoly){
@@ -162,7 +150,6 @@ exports.update = function(req, res) {
                         tek.setUser(newuser);
                         return res.jsonp(tek);        
                     }).catch(function(err){
-                        console.log("ERRRRRRORRRR", err);
                         return res.render('error',{
                             error: err,
                             status: 500
@@ -175,7 +162,6 @@ exports.update = function(req, res) {
         return db.User.findOne({where: {name: req.body.Tech_marketer}})
             .then(function(user){
                 newuser = user;
-                console.log("NEWWWWWWWWWUSSSSSSSERRRR", newuser);
                 technology.updateAttributes({
                     Tech_RUNumber: req.body.Tech_RUNumber,
                     Tech_name: req.body.Tech_name,
@@ -193,32 +179,14 @@ exports.update = function(req, res) {
     }
 };
 
-
-//    technology.updateAttributes({
-  //      Tech_RUNumber: req.body.Tech_RUNumber,
-    //    Tech_name: req.body.Tech_name,
-      //  Tech_inventor: req.body.Tech_inventor
-//    }).then(function(a){
-  //      technology.addTag([req.body.Tag_name]);
-    //    return res.jsonp(a);
-//    }).catch(function(err){
-  //      return res.render('error', {
-    //        error: err, 
-      //      status: 500
-//        });
-  //  });
-//};
-
 /**
  * Delete a technology
  */
 exports.destroy = function(req, res) {
-    console.log("DESTROYTECHNOLOGY");
     // create a new variable to hold the technology that was placed on the req object.
     var technology = req.technology;
 
     technology.destroy().then(function(){
-        console.log("SOFARSOGOOD");
         return res.jsonp(technology);
     }).catch(function(err){
         return res.render('error', {
@@ -227,10 +195,6 @@ exports.destroy = function(req, res) {
         });
     });
 };
-
-/**
-
-
 
 /**
  * Article authorizations routing middleware

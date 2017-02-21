@@ -16,8 +16,7 @@ exports.company = function(req, res, next, id) {
     db.Company.find({where: {id: id}, include: [{model: db.Tag}, {model: db.Contact}]}).then(function(company){
         if(!company) {
             return next();
-        } else {
-            
+        } else {            
             req.company = company; // {Company_name: "Whatever", Notes: "Stuff", tags: [{Tag_name: "Foo"}]}
            return next();            
         }
@@ -29,11 +28,8 @@ exports.company = function(req, res, next, id) {
 /**
  * List of Companies
  */
-exports.all = function(req, res) {
-    console.log("exports.all happened");
-    
+exports.all = function(req, res) {    
     db.Company.findAll({include: [{model: db.Tag}]}).then(function(companies){
-        console.log("MMMMMMMMMMMMMMMMMMMMMM");
         return res.jsonp(companies);
     }).catch(function(err){
         return res.render('error', {
@@ -56,8 +52,6 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
     // augment the company by adding the UserId
     req.body.UserId = req.user.id;
-    console.log("req.body");
-    console.log(req.body);
     var tagrows;
     var thecompany;
     
@@ -72,19 +66,15 @@ exports.create = function(req, res) {
         // save and return an instance of company on the res object. 
         .then(function(company){
             //add tags to the company
-            console.log("TRYING TO SAVE THE COMPANY INFO");
             thecompany= company;
             return company.addTags(tagrows);
         }).then(function(){
             if(!thecompany){
-                console.log("NOTACOMPANY!!!!");
                 return res.send('users/signup', {errors: new StandardError('Company could not be created')});
             } else {
                 return res.jsonp(thecompany);
             }
         }).catch(function(err){
-            console.log("THROWING AN ERROR MESSAGE", err);
-            //return res.status(status).send(body, {
             return res.send('users/signup', { 
                 errors: err,
                 status: 500
@@ -92,15 +82,13 @@ exports.create = function(req, res) {
         });
     } else {
         db.Company.create(req.body).then(function(company){
-        console.log("TRYING TO SAVE THE COMPANY INFO");
         if(!company){
-            console.log("NOTACOMPANY!!!!");
             return res.send('users/signup', {errors: new StandardError('Company could not be created')});
         } else {
             return res.jsonp(company);
          }   
         }).catch(function(err){
-            console.log("THROWING AN ERROR MESSAGE");
+
             return res.send('users/signup', { 
                 errors: err,
                 status: 500
@@ -110,8 +98,6 @@ exports.create = function(req, res) {
 };
 
 exports.addtag = function(req, res) {
-    console.log("req.body");
-    console.log(req.body);
     var id = req.body.id;
     var tagrows;
     var Tagnames = req.body.tag.Tag_name.split(", ");
@@ -126,6 +112,12 @@ exports.addtag = function(req, res) {
         });
 };
 
+exports.search = function(req, res) {
+    db.Company.findAll({where: {Company_name:  {$like: '%' + req.query.compname + '%'}}, include: [{model: db.Tag}]})
+        .then(function(comps){
+            return res.jsonp(comps);
+        });
+};
 
 /**
  * Update a company
@@ -137,7 +129,6 @@ exports.update = function(req, res) {
     var tagrows;
     var companyid = req.body.id;
      
-    
     db.Tag.findAll({where:{Tag_name: {$in:newtags}}})
         .then(function(rowoftags){
             tagrows=rowoftags;
@@ -159,7 +150,6 @@ exports.update = function(req, res) {
         });
 };
 
-
 /**
  * Delete a company
  */
@@ -168,7 +158,6 @@ exports.destroy = function(req, res) {
     var company = req.company;
 
     company.destroy().then(function(){
-        console.log("MADEITTHISFAR");
         return res.jsonp(company);
     }).catch(function(err){
         return res.render('error', {

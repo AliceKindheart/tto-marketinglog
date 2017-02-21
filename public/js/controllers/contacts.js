@@ -112,4 +112,15 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
         console.log("COMPANY, $scope.nameofcompany", $scope.nameofcompany);
       };
 
+      $scope.searchForContact = function(){
+        $http({
+            method: 'GET',
+            url: '/searchforcontacts',
+            params: {contactname: $scope.contactname}
+        }).then(function(resp){
+            console.log("response", resp.data);
+            $scope.contacts = resp.data;
+        });
+      };
+
 }]);
