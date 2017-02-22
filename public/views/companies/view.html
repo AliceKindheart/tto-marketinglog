@@ -31,7 +31,7 @@
       </div>
       <div class="panel-body">
         <table>
-          <tr data-ng-repeat="contact in contacts"><td>{{contact}}</td></tr>
+            <tr data-ng-repeat="contact in completecontacts"><td ui-sref="viewContact({id: contact.id})">{{contact.Contact_name}}</td></tr>
        </table>
       </div>
 

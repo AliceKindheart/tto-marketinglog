@@ -65,7 +65,10 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
         cmpnyid = $stateParams.id;
         Companies.get({id: $stateParams.id}, function(company) {
             $scope.company=company;
+            console.log("$scope.company", $scope.company);
             contactarray = company.Contacts;
+            $scope.completecontacts = company.Contacts;
+
 
             if(contactarray!==0){
                 for (var i=0; i<contactarray.length; i++){

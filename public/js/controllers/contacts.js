@@ -53,6 +53,7 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
 
     $scope.findOne = function() {
         var company;
+        console.log("$stateParams.id", $stateParams.id);
         Contacts.get({
             id: $stateParams.id 
         }, function(contact) {

@@ -2,30 +2,22 @@
 
 <section data-ng-init="findtagsandusers()">
 	<form class="form-horizontal" data-ng-submit="create()">
-		<div class="control-group">
-			<h4 class="control-label" for="name">Tech Name</h4>
-			<div class="controls">
-				<input type="text" data-ng-model="Tech_name" id="Tech title" placeholder="Technology Title" required>
-			</div>
-		</div>
-
-		<div class="control-group">
-			<legend class="control-label" for="tag">RU Number</legend>
-			<div class="controls">
-				<input type="text" data-ng-model="Tech_RUNumber" id="RUNumber" placeholder="RU Number">
-			</div>
-		</div>
-
-		<div class="control-group">
-			<legend class="control-label" for="inventor">Inventor</legend>
-			<div class="controls">
-				<input type="text" data-ng-model="Tech_inventor" id="inventor" placeholder="Inventor">
-			</div>
-		</div>
+		<table class="table table-bordered">
+			<tr>
+				<th id="colorrow">Technology Name</th>
+				<th id="colorrow">RU Number</th>
+				<th id="colorrow">Inventor</th>
+			</tr>
+			<tr>
+				<td><input type="text" data-ng-model="Tech_name" id="Tech title" placeholder="Tecnhology Title" required/>
+				</td><td><input type="text" data-ng-model="Tech_RUNumber" id="RUNumber" placeholder="RU Number"/></td>
+				<td><input type="text" data-ng-model="Tech_inventor" id="inventor" placeholder="Inventor" required /></td>
+			</tr>
+		</table>
 
 		<div >
         <fieldset class="standard">
-          <legend>Select Primary Marketer</legend>
+          <h4>Select Primary Marketer</h4>
           <div layout="row" layout-wrap flex>
             <div class="standard" flex="50">
               <p ng-repeat="name in usernames">
@@ -40,7 +32,7 @@
 		
 		<div >
         <fieldset class="standard">
-          <legend>Select Tags</legend>
+          <h4>Select Tags</h4>
           <div layout="row" layout-wrap flex>
             <div ng-repeat="tag in tagnames" class="standard" flex="50">
               <label>
@@ -56,7 +48,7 @@
 		
 		<div class="control-group">
 			<div class="controls">
-				<input type="submit" class="btn">
+				<input type="submit" class="btn btn-primary">
 			</div>
 		</div>
 	</form>

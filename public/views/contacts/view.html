@@ -3,7 +3,7 @@
     <h2>{{contact.Contact_name}}</h2>
 
     <div style="margin-top:10px">
-        <a class="btn" ui-sref="editContact({id : contact.id})">Edit</a>
+        <a class="btn btn-primary" ui-sref="editContact({id : contact.id})">Edit</a>
         <a class="btn btn-danger" data-ng-click="remove();">Delete</a>
     </div><div class="panel panel-primary">
       
@@ -11,15 +11,15 @@
         <h4 class="panel-title ">Contact Information</h4>
       </div>
       <div class="panel-body"> 
-        <p>Company: {{company.Company_name}}</p>
-        <p data-ng-hide="!contact.Contact_title">Title/Position: {{contact.Contact_title}}</p>
-        <p data-ng-show="!contact.Contact_title">No title</p>
-        <p data-ng-hide="!contact.Contact_email">Email: {{contact.Contact_email}}</p>
-        <p data-ng-show="!contact.Contact_email">No current email address</p>
-        <p data-ng-hide="!contact.Contact_phone">Phone: {{contact.Contact_phone}}</p>
-        <p data-ng-show="!contact.Contact_phone">No current phone number</p>
-        <p data-ng-hide="!contact.Contact_notes">Notes: {{contact.Contact_notes}}</p>
-        <p data-ng-show="!contact.Contact_notes">No Notes</p>
+        <p ui-sref="viewCompany({id: company.id})"><strong>Company: </strong>{{company.Company_name}}</p>
+        <p data-ng-hide="!contact.Contact_title"><strong>Title/Position:</strong> {{contact.Contact_title}}</p>
+        <p data-ng-show="!contact.Contact_title"><strong>Title: </strong>none</p>
+        <p data-ng-hide="!contact.Contact_email"><strong>Email: </strong>{{contact.Contact_email}}</p>
+        <p data-ng-show="!contact.Contact_email"><strong>Email: </strong>No current email address</p>
+        <p data-ng-hide="!contact.Contact_phone"><strong>Phone: </strong>{{contact.Contact_phone}}</p>
+        <p data-ng-show="!contact.Contact_phone"><strong>Phone</strong>No current phone number</p>
+        <p data-ng-hide="!contact.Contact_notes"><strong>Notes: </strong>{{contact.Contact_notes}}</p>
+        <p data-ng-show="!contact.Contact_notes"><strong>Notes:</strong> none</p>
       </div>
     </div> 
     <div class="panel panel-primary">

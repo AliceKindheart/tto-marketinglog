@@ -2,23 +2,21 @@
 
 <section data-ng-init="findtags()">
 	<form class="form-horizontal" data-ng-submit="create()">
-		<div class="control-group">
-			<legend class="control-label" for="name">Company Name</legend>
-			<div class="controls">
-				<input type="text" data-ng-model="Company_name" id="Company_name" placeholder="Company Name" required>
-			</div>
-		</div>
-		
-		<div class="control-group">
-			<legend class="control-label" for="notes">Notes</legend>
-			<div class="controls">
-				<textarea data-ng-model="Notes" id="Notes" cols="30" rows="3" placeholder="Notes"></textarea>
-			</div>
-		</div>
+		<table class="table table-bordered">
+			<tr>
+				<th id="colorrow">Company Name</th>
+				<th id="colorrow">Notes</th>
+			</tr>
+			<tr>
+				<td><input type="text" data-ng-model="Company_name" id="Company_name" placeholder="Company Name" required/>
+				</td>
+				<td><textarea data-ng-model="Notes" id="Notes" placeholder="Notes"/></textarea></td>
+			</tr>
+		</table>
         
       <div >
         <fieldset class="standard">
-          <legend>Select Tags</legend>
+          <h4>Select Tags</h4>
           <div layout="row" layout-wrap flex>
             <div ng-repeat="tag in tagnames" class="standard" flex="50">
               <label>
@@ -30,12 +28,10 @@
           </div>
         </fieldset>
       </div>
-   
-
 	
 		<div class="control-group">
 			<div class="controls">
-				<input class="btn btn-default" type="submit">
+				<input class="btn btn-primary" type="submit">
 			</div>
 		</div>
 	</form>
