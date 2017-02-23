@@ -19,8 +19,11 @@ app.route('/technologies/:technologyid')
     .put(users.requiresLogin, technologies.update)
     .delete(users.requiresLogin, technologies.destroy);
 
-app.route('/searchfortech')
-	.get(technologies.search);
+app.route('/mymarketing')
+	.get(technologies.searchformine);
+
+//app.route('/mymarketing')
+//	.get(technologies.mine);
 
 
 // Finish with setting up the id param

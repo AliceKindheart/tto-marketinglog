@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		{
 			associate: function(models) {
-					Event.belongsTo(models.User, {through: 'UserEvents'});
+					Event.belongsToMany(models.User, {through: 'UserEvents'});
 					Event.belongsTo(models.Company, {through: 'CompanyEvents'});
 					Event.belongsTo(models.Technology, {through: 'TechEvents'});
 					Event.belongsTo(models.Contact, {through: 'ContactEvents'});

@@ -58,12 +58,14 @@ exports.create = function(req, res) {
 
     db.User.find({where:{name: marketer}})
         .then(function(person){
+            //saving the marketer to an outside variable for future reference
             personn = person;
         }).then(function(){
             if (req.body.Tag_name){
                 var Tagnames = req.body.Tag_name;
                 db.Tag.findAll({where:{Tag_name:{$in:Tagnames}}})
                     .then(function(rowoftags){
+                        //saving the found tags to an outside variable for future reference
                         tagrows=rowoftags;
                         return db.Technology.create(req.body);
                     }).then(function(technology){
@@ -114,6 +116,21 @@ exports.search = function(req, res){
             });
         });
 };
+
+exports.searchformine = function(req,res){
+    console.log("req.user:", req.user);
+    db.Technology.findAll({where: {UserId: req.user.id}, include: [{model: db.User}, {model: db.Tag}]})
+        .then(function(tex){
+            console.log("TEXXXXXXXXX", tex);
+            return res.jsonp(tex);
+        }).catch(function(err){
+            return res.send({
+                errors: err,
+                status: 500
+            });
+        });
+};
+
 /**
  * Update a technology
  */
