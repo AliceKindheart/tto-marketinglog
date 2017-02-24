@@ -22,6 +22,12 @@ app.route('/technologies/:technologyid')
 app.route('/mymarketing')
 	.get(technologies.searchformine);
 
+app.route('/allcampaigns')
+	.get(technologies.all);
+
+app.route('/active')
+	.get(technologies.active);
+
 //app.route('/mymarketing')
 //	.get(technologies.mine);
 

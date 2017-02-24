@@ -44,6 +44,7 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
     $scope.update = function() {
         var contact = $scope.contact;
         contact.compname = $scope.nameofcompany;
+        console.log("contact", contact);
         contact.updated = [];
         contact.updated.push(new Date().getTime());
         contact.$update(function() {

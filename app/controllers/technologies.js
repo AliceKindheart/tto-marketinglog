@@ -119,9 +119,23 @@ exports.search = function(req, res){
 
 exports.searchformine = function(req,res){
     console.log("req.user:", req.user);
-    db.Technology.findAll({where: {UserId: req.user.id}, include: [{model: db.User}, {model: db.Tag}]})
+    db.Technology.findAll({where: {UserId: req.user.id, isActive: true}, include: [{model: db.User}, {model: db.Tag}]})
         .then(function(tex){
             console.log("TEXXXXXXXXX", tex);
+            return res.jsonp(tex);
+        }).catch(function(err){
+            return res.send({
+                errors: err,
+                status: 500
+            });
+        });
+};
+
+exports.active = function(req,res){
+    console.log("HHHHHHHHHHHHHHIIIII");
+    db.Technology.findAll({where: {isActive: true}, include: [{model: db.User}, {model: db.Tag}]})
+        .then(function(tex){
+            console.log("TEXXXXX", tex);
             return res.jsonp(tex);
         }).catch(function(err){
             return res.send({
@@ -136,14 +150,17 @@ exports.searchformine = function(req,res){
  */
 exports.update = function(req, res) {
     // create a new variable to hold the technology that was placed on the req object.
+    //console.log("req.body.marketer", req.body.marketer);
     var technology = req.technology;
     var newtags = req.body.Tag_name.join(", ").split(", ");
+    console.log("new tags", newtags);
     var tagrows;
     var techid = req.body.id;
     var newuser;
 
     if(newtags){
-        return db.User.findOne({where: {name: req.body.Tech_marketer}})
+        console.log("There are new tags");
+        return db.User.findOne({where: {name: req.body.marketer}})
             .then(function(user){
                 newuser = user;
                 //find tags to add in the dB
@@ -151,11 +168,12 @@ exports.update = function(req, res) {
                     }).then(function(rowoftags){
                         //create a reference to the set of tags to be added that's outside this function
                         tagrows=rowoftags;
+                        console.log("TAGROWS", tagrows);
                         //find technology to be updated
                         return db.Technology.findOne({where: {id: techid}, include: [{model: db.Tag}]
                     }).then(function(technogoly){
                         //add the new tags
-                        return technology.addTags(tagrows);
+                        return technology.setTags(tagrows);
                     }).then(function(tech){
                         //update the technology
                         return technology.updateAttributes({

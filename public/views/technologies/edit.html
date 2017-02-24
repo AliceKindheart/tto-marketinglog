@@ -1,37 +1,26 @@
 <section data-ng-init="findOne()">
 	<form class="form-horizontal" data-ng-submit="update()">
-		<div class="control-group">
-			<label class="control-label" for="title">Technology Title</label>
-			<div class="controls">
-				<input type="text" data-ng-model="technology.Tech_name" id="name" placeholder="Technology Title" required>
-				</input>
-			</div>
-		</div>
+		<table class="table table-bordered">
+			<tr>
+				<th id="colorrow">Technology Name</th>
+				<th id="colorrow">RU Number</th>
+				<th id="colorrow">Inventor</th>
+			</tr>
+			<tr>
+				<td><input type="text" data-ng-model="technology.Tech_name" id="Tech title" placeholder="Tecnhology Title" required/>
+				</td><td><input type="text" data-ng-model="technology.Tech_RUNumber" id="RUNumber" placeholder="RU Number"/></td>
+				<td><input type="text" data-ng-model="technology.Tech_inventor" id="inventor" placeholder="Inventor" required /></td>
+			</tr>
+		</table>
 
-		<div class="control-group">
-			<label class="control-label" for="RUNumber">RU Number</label>
-			<div class="controls">
-				<input type="text" data-ng-model="technology.Tech_RUNumber" id="RUNumber" placeholder="RU Number">
-			</div>
-		</div>
-
-		<div class="control-group">
-			<label class="control-label" for="notes">Inventor</label>
-
-			<div class="controls">
-				<input type="text" data-ng-model="technology.Tech_inventor" id="inventor"placeholder="Inventor">
-				</textarea>
-			</div>
-		</div>
-
-		<div >
+		<div>
         <fieldset class="standard">
           <legend>Select Primary Marketer</legend>
           <div layout="row" layout-wrap flex>
             <div class="standard" flex="50">
               <p ng-repeat="name in usernames">
               <label>
-                <input type="radio" name="name" ng-checked="exists2(name)" ng-click="choose(name)" />
+                <input type="radio" name="name" ng-checked="marktheusername(name)" ng-click="choosemarketer(name)" />
                 {{name}}
               </label>
               </p>

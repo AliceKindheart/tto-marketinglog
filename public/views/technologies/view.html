@@ -6,19 +6,31 @@
     </div>
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <h4 class="panel-title ">Camapaign Information</h4>
+        <h4 class="panel-title ">{{technology.Tech_name}} Information</h4>
       </div>
       <div class="panel-body"> 
-        <p> Primary Marketer: {{user.name}}</p>
-        <p>RU Number: {{technology.Tech_RUNumber}}</p>
-        <p>Inventor: {{technology.Tech_inventor}}</p>   
-        <p >Tags: {{tags}}</p>
-      </div>
+          <table class="table table-bordered">
+            <tr>
+              <th id="colorrow">Primary Marketer</th>
+              <th id="colorrow">RU Number</th>
+              <th id="colorrow">Inventor</th>
+              <th id="colorrow">Tags</th>
+              <th id="colorrow">Active Campaign?</th>
+            </tr>
+            <tr>
+              <td>{{user.name}}</td>
+              <td>{{technology.Tech_RUNumber}}</td>
+              <td>{{technology.Tech_inventor}}</td>
+              <td>{{tags}}</td>
+              <td>{{technology.isActive}}</td>
+            </tr>
+          </table>
+        </div>
     </div>  
     <a class="btn btn-primary" ui-sref="addEvent({id : technology.id})">Add Event</a>
    <div class="panel panel-primary">
       <div class="panel-heading">
-        <h4 class="panel-title ">Events</h4>
+        <h4 class="panel-title ">{{technology.Tech_name}} Campaign Events</h4>
       </div>
       <div class="panel-body"> 
         <p>nothing yet</p>
