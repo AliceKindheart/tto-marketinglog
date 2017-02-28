@@ -17,7 +17,6 @@
 	<section>
 		<table class="table table-bordered table-striped" data-ng-init="find()" >
 			<tr>
-				<th id="colorrow">ID#</th>
 				<th id="colorrow">Contact Name</th>
 				<th id="colorrow">Company</th>
 				<th id="colorrow">Title</th>
@@ -26,7 +25,6 @@
 				<th id="colorrow">Notes</th>
 			</tr>
 			<tr data-ng-repeat="contact in contacts">
-				<td>{{contact.id}}</td>
 				<td ui-sref="viewContact({id : contact.id})">{{contact.Contact_name}}</td>
 				<td ui-sref="viewContact({id : contact.id})">{{companies[$index].Company_name}}</td>
 				<td ui-sref="viewContact({id : contact.id})">{{contact.Contact_title}}</td>

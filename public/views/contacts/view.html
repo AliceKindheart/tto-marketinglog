@@ -7,21 +7,24 @@
         <a class="btn btn-danger" data-ng-click="remove();">Delete</a>
     </div><div class="panel panel-primary">
       
-      <div class="panel-heading">
-        <h4 class="panel-title ">Contact Information</h4>
-      </div>
-      <div class="panel-body"> 
-        <p ui-sref="viewCompany({id: company.id})"><strong>Company: </strong>{{company.Company_name}}</p>
-        <p data-ng-hide="!contact.Contact_title"><strong>Title/Position:</strong> {{contact.Contact_title}}</p>
-        <p data-ng-show="!contact.Contact_title"><strong>Title: </strong>none</p>
-        <p data-ng-hide="!contact.Contact_email"><strong>Email: </strong>{{contact.Contact_email}}</p>
-        <p data-ng-show="!contact.Contact_email"><strong>Email: </strong>No current email address</p>
-        <p data-ng-hide="!contact.Contact_phone"><strong>Phone: </strong>{{contact.Contact_phone}}</p>
-        <p data-ng-show="!contact.Contact_phone"><strong>Phone</strong>No current phone number</p>
-        <p data-ng-hide="!contact.Contact_notes"><strong>Notes: </strong>{{contact.Contact_notes}}</p>
-        <p data-ng-show="!contact.Contact_notes"><strong>Notes:</strong> none</p>
-      </div>
-    </div> 
+      <table class="table table-bordered">
+      <tr>
+        <th id="colorrow">Company Name</th>
+        <th id="colorrow">Title/Position</th>
+        <th id="colorrow">Email</th>
+        <th id="colorrow">Phone</th>
+        <th id="colorrow">Notes</th>
+      </tr>
+      <tr>
+        <td data-ng-model="company.Company_name" id="Contact_name" placeholder="Contact Name" required>{{company.Company_name}}
+        </td><td data-ng-model="contact.Contact_title" id="title" placeholder="Title">{{contact.Contact_title}}</td>
+        <td tdata-ng-model="contact.Contact_email" id="Email" placeholder="Email" required >{{contact.Contact_email}}</td>
+        <td data-ng-model="contact.Contact_phone" id="Phone" placeholder="Phone number">{{contact.Contact_phone}}</td>
+        <td data-ng-model="contact.Contact_notes" id="Notes" placeholder="Notes">{{contact.Contact_notes}}</td>
+      </tr>
+    </table>
+  </div>
+
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h4 class="panel-title ">Marketing Campaigns</h4>

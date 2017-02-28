@@ -18,13 +18,11 @@
 	<section>
 		<table class="table table-bordered table-striped" data-ng-init="find()" >
 			<tr>
-				<th id="colorrow">ID#</th>
 				<th id="colorrow">Company Name</th>
 				<th id="colorrow">Notes</th>
 				<th id="colorrow">Tags</th>
 			</tr>
 			<tr data-ng-repeat="company in companies">
-				<td ui-sref="viewCompany({id : company.id})">{{company.id}}</td>
 				<td ui-sref="viewCompany({id : company.id})">{{company.Company_name}}</td>
 				<td ui-sref="viewCompany({id : company.id})">{{company.Notes}}</td>
 				<td >{{tags[$index]}}</td>

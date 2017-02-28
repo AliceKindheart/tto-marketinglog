@@ -5,25 +5,20 @@
     <div>
         <a class="btn btn-primary" ui-sref="editCompany({id : company.id})">Edit Company</a>
         <a class="btn btn-danger" data-ng-click="remove();">Delete</a>
-    </div>   <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h4 class="panel-title ">Company Information</h4>
-      </div>
-      <div class="panel-body"> 
-          <table>
-            <tr>
-              <td><strong>Notes:</strong></td>
-              <td>{{company.Notes}}</td>
-            </tr>
-          </table>
-          <table>
-            <tr>
-              <td><strong>Tags:</strong></td>
-              <td>{{tags}}</td>
-            </tr>
-          </table>
-      </div>
-    </div> 
+    </div>  
+    <table class="table table-bordered">
+      <tr>
+        <th id="colorrow">Company Name</th>
+        <th id="colorrow">Notes</th>
+        <th id="colorrow"> Tags</th>
+      </tr>
+      <tr>
+        <td data-ng-model="Company_name" id="Company_name" placeholder="Company Name">{{company.Company_name}}
+        </td>
+        <td data-ng-model="Notes" id="Notes" placeholder="Notes">{{company.Notes}}</td>
+        <td id="tags" placeholder="tags">{{tags}}</td>
+      </tr>
+    </table> 
 
     <div class="panel panel-primary">
       <div class="panel-heading">

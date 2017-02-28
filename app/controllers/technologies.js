@@ -50,6 +50,7 @@ exports.show = function(req, res) {
  * Create a technology
  */
 exports.create = function(req, res) {
+    console.log("REQ.BODY", req.body);
     var tagrows;
     var thetechnology;
     var marketer = req.body.Tech_marketer;
@@ -60,34 +61,41 @@ exports.create = function(req, res) {
         .then(function(person){
             //saving the marketer to an outside variable for future reference
             personn = person;
+            console.log("personn", personn);
         }).then(function(){
             if (req.body.Tag_name){
+                console.log("MADEITITTOFIRSTIF");
                 var Tagnames = req.body.Tag_name;
                 db.Tag.findAll({where:{Tag_name:{$in:Tagnames}}})
                     .then(function(rowoftags){
+                        //console.log("ROWOFTAGS", rowoftags);
                         //saving the found tags to an outside variable for future reference
                         tagrows=rowoftags;
                         return db.Technology.create(req.body);
+                            //{where: {
+                            //Tech_RUNumber: req.body.Tech_RUNumber,
+                            //Tech_name: req.body.Tech_name,
+                            //Tech_inventor: req.body.Tech_inventor,
+                            //isActive: req.body.isActive
+                        //}});
                     }).then(function(technology){
+                        console.log("SOSTUPID", technology);
                         thetechnology = technology;
                         technology.setUser(personn);
-                        return technology.addTags(tagrows);                
-                    }).then(function(){
-                        if(!thetechnology){
-                            return res.send('users/signup', {errors: new StandardError("Technology could not be created")});
-                         } else {
-                            return res.jsonp(thetechnology);
-                         }
+                        technology.addTags(tagrows);
+                        return technology;
+                        //return technology.addTags(tagrows);                
+                    }).then(function(tek){
+                        console.log("TEKKKKK", tek);
+                        return res.jsonp(tek);
                     }).catch(function(err){
-                        return res.send('users/signup', {
-                            errors: err,
-                            status: 500
-                        });
+                        return res.status(500).send("Technology could not be created")
                     });
+                    
             } else {
                 db.Technology.create(req.body).then(function(technology){
                     if(!technology){
-                            return res.send('users/signup', {errors: new StandardError("Technology could not be created")});
+                            return res.status(500).send('users/signup', {errors: new StandardError("Technology could not be created")});
                          } else {
                             technology.setUser(personn);
                             return res.jsonp(technology);
@@ -152,6 +160,7 @@ exports.update = function(req, res) {
     // create a new variable to hold the technology that was placed on the req object.
     //console.log("req.body.marketer", req.body.marketer);
     var technology = req.technology;
+    console.log("REQ.BODY:", req.body);
     var newtags = req.body.Tag_name.join(", ").split(", ");
     console.log("new tags", newtags);
     var tagrows;
@@ -159,7 +168,7 @@ exports.update = function(req, res) {
     var newuser;
 
     if(newtags){
-        console.log("There are new tags");
+        //console.log("There are new tags");
         return db.User.findOne({where: {name: req.body.marketer}})
             .then(function(user){
                 newuser = user;
@@ -168,7 +177,7 @@ exports.update = function(req, res) {
                     }).then(function(rowoftags){
                         //create a reference to the set of tags to be added that's outside this function
                         tagrows=rowoftags;
-                        console.log("TAGROWS", tagrows);
+                        //console.log("TAGROWS", tagrows);
                         //find technology to be updated
                         return db.Technology.findOne({where: {id: techid}, include: [{model: db.Tag}]
                     }).then(function(technogoly){
@@ -179,7 +188,8 @@ exports.update = function(req, res) {
                         return technology.updateAttributes({
                             Tech_RUNumber: req.body.Tech_RUNumber,
                             Tech_name: req.body.Tech_name,
-                            Tech_inventor: req.body.Tech_inventor
+                            Tech_inventor: req.body.Tech_inventor,
+                            isActive: req.body.isActive
                     }).then(function(tek){
                         //set user
                         tek.setUser(newuser);
@@ -200,7 +210,8 @@ exports.update = function(req, res) {
                 technology.updateAttributes({
                     Tech_RUNumber: req.body.Tech_RUNumber,
                     Tech_name: req.body.Tech_name,
-                    Tech_inventor: req.body.Tech_inventor   
+                    Tech_inventor: req.body.Tech_inventor,
+                    isActive: req.body.isActive   
                 }).then(function(a){
                     a.setUser(req.body.Tech_marketer);
                     return res.jsonp(a);

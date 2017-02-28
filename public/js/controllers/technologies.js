@@ -9,10 +9,11 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             Tech_name: this.Tech_name,
             Tech_inventor: this.Tech_inventor,
             Tag_name: this.selected,
-            Tech_marketer: this.Tech_marketer,
+            Tech_marketer: $scope.marketer,
             isActive: true
         });
-        //console.log("technology.Tech_marketer", technology.Tech_marketer);
+        console.log("$scope.marketer", $scope.marketer);
+        console.log("technology:", technology);
         technology.$save(function(response) {
             $state.go('viewTech',{id : response.id});
         });
@@ -48,10 +49,10 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         //console.log("$scope.marketer", $scope.marketer);
 
         technology.Tag_name = $scope.whatyouneed;
-        console.log(technology.Tag_name, "technology.Tag_name");
+        //console.log(technology.Tag_name, "technology.Tag_name");
         technology.marketer = $scope.marketer;
         //technology.User = $scope.Tech_marketer;
-        //console.log(technology, "technology");
+        console.log(technology, "technology");
     
         technology.updated = [];
         
@@ -74,7 +75,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             id: $stateParams.id 
             }, function(technology) {
                 $scope.technology = technology;
-                //console.log($scope.technology, "$scope.technology");
+                console.log($scope.technology, "$scope.technology");
                 if (technology.User) {
                     //console.log("whyis thisbeing called?");
                     $scope.user = technology.User;
@@ -169,11 +170,19 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         return list.indexOf(tag) > -1;
       };
 
+      $scope.yes = function(){
+        $scope.technology.isActive = true;
+      };
+
+      $scope.no = function(){
+        $scope.technology.isActive = false;
+      };
+
  
     $scope.choosemarketer = function (name) {
         $scope.marketer = name;
         //$scope.user.name = name;
-        //console.log(" chosen $scope.marketer", $scope.marketer);
+        console.log(" chosen $scope.marketer", $scope.marketer);
         $scope.marketerchosenorchanged = true;
         //$scope.$apply();
     };  
@@ -206,6 +215,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
     };
 
     $scope.mymarketing = function(){
+        $scope.showall = false;
         //console.log("yes");
         $http({
             method: "GET",
@@ -227,10 +237,12 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         }).then(function(tex){
             $scope.technologies = tex.data;
             $scope.gettagsandmarketers();
+            $scope.showall = true;
         });
     };
 
     $scope.active = function(){
+        $scope.showall = false;
         $scope.title = "All Active ";
         $http({
             method: 'GET',

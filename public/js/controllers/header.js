@@ -37,7 +37,7 @@ angular.module('mean.system').controller('HeaderController', ['$scope', 'Global'
         $state.go('addtags');
     };
 
-    $scope.Adduser = function(){
+    $scope.addUser = function(){
         $state.go('adduser');
     };
 

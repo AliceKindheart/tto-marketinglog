@@ -2,29 +2,24 @@
 	<h2> Edit User Information</h2>
 
 	<form class="form-horizontal" data-ng-submit="updateUser()">
-		<div class="control-group">
-			<label class="control-label" for="title">User Name</label>
-			<div class="controls">
-				<input type="text" data-ng-model="user.name" id="name" placeholder="Username" required>
-				</input>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="email">Email</label>
-			<div class="controls">
-				<input type="text" data-ng-model="user.email" id="email" placeholder="Email">
-			</div>
-		</div>
 
-        <div>
-            <label class="control-label">Administrator?</label>
-            <input type="radio" value="true" name="admin" ng-checked="user.admin" ng-click="yes()">Yes<br>
-            <input type="radio" value="false" name="admin" ng-checked="!user.admin" ng-click="no()">No<br>
-        </div>
+	<table class="table table-striped table-bordered">
+        <tr>
+            <th id="colorrow">User Name</th>
+            <th id="colorrow">Email</th>
+            <th id="colorrow">Administrator?</th>
+        </tr>
+        <tr>
+            <td><input type="text" data-ng-model="user.name" id="name" placeholder="Username" required/></td>
+            <td><input type="text" data-ng-model="user.email" id="email" placeholder="Email"/></td>
+            <td><input type="radio" value="true" name="admin" ng-checked="user.admin" ng-click="yes()">Yes<br>
+            <input type="radio" value="false" name="admin" ng-checked="!user.admin" ng-click="no()">No<br></td>
+        </tr>
+    </table>
 		
 		<div class="control-group">
 			<div class="controls">
-				<input type="submit" class="btn">
+				<input type="submit" class="btn btn-primary">
 			</div>
 		</div>
 	</form>

@@ -5,11 +5,13 @@
 				<th id="colorrow">Technology Name</th>
 				<th id="colorrow">RU Number</th>
 				<th id="colorrow">Inventor</th>
+				<th id="colorrow">Active Campaign?</th>
 			</tr>
 			<tr>
 				<td><input type="text" data-ng-model="technology.Tech_name" id="Tech title" placeholder="Tecnhology Title" required/>
 				</td><td><input type="text" data-ng-model="technology.Tech_RUNumber" id="RUNumber" placeholder="RU Number"/></td>
 				<td><input type="text" data-ng-model="technology.Tech_inventor" id="inventor" placeholder="Inventor" required /></td>
+				<td><input type="radio" name="active" value="true" ng-checked="technology.isActive" ng-click="yes()"/>Yes<input type="radio" name="active" ng-checked="!technology.isActive" ng-click="no()"/>No</td>
 			</tr>
 		</table>
 

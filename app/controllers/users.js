@@ -85,7 +85,7 @@ exports.me = function(req, res) {
 };
 
 exports.getall = function(req, res) {
-  db.User.findAll()
+  db.User.findAll({include: [{model: db.Technology}]})
     .then(function(users){
       res.jsonp(users);
     });

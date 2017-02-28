@@ -7,6 +7,7 @@ angular.module('mean.auth').controller('AdminController', ['$scope', '$window', 
         $http.get('/showusers')
             .then(function(response){
                 $scope.users = response.data;
+                console.log("$scope.users", $scope.users);
             });
     };
 

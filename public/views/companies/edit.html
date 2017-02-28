@@ -1,13 +1,16 @@
 <section data-ng-init="findOne()">
+	<h2>Edit Company Information</h2>
 	<form class="form-horizontal" data-ng-submit="update()">
-		<div class="control-group">
-			<label class="control-label" for="title">Title</label>
-
-			<div class="controls">
-				<input type="text" data-ng-model="company.Company_name" id="name" placeholder="Company Name" required>
-				</input>
-			</div>
-		</div>
+		<table class="table table-bordered">
+      <tr>
+        <th id="colorrow">Company Name</th>
+        <th id="colorrow">Notes</th>
+      </tr>
+      <tr>
+        <td><input type="text" data-ng-model="company.Company_name" id="Company_name" placeholder="Company Name" required/></td>
+        <td><input type="text" data-ng-model="company.Notes" id="Notes" placeholder="Notes"/></td>
+      </tr>
+    </table> 
 
 		<div >
         <fieldset class="standard">
@@ -25,16 +28,8 @@
       </div>
 
 		<div class="control-group">
-			<label class="control-label" for="notes">Notes</label>
-
 			<div class="controls">
-				<textarea data-ng-model="company.Notes" id="notes" cols="30" rows="3" placeholder="Notes">
-				</textarea>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="controls">
-				<input type="submit" class="btn">
+				<input type="submit" class="btn btn-primary">
 			</div>
 		</div>
 	</form>

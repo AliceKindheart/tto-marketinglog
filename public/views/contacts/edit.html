@@ -2,40 +2,23 @@
 	<h2> Edit Contact Information</h2>
 
 	<form class="form-horizontal" data-ng-submit="update()">
-		<div class="control-group">
-			<label class="control-label" for="title">Contact Name</label>
-			<div class="controls">
-				<input type="text" data-ng-model="contact.Contact_name" id="name" placeholder="Contact Name" required>
-				</input>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="company name">Title</label>
-			<div class="controls">
-				<input type="text" data-ng-model="contact.Contact_title" id="title" placeholder="Title">
-			</div>
-		</div>
+		<table class="table table-bordered">
+			<tr>
+				<th id="colorrow">Contact Name</th>
+				<th id="colorrow">Title/Position</th>
+				<th id="colorrow">Email</th>
+				<th id="colorrow">Phone</th>
+				<th id="colorrow">Notes</th>
+			</tr>
+			<tr>
+				<td><input type="text" data-ng-model="contact.Contact_name" id="Contact_name" placeholder="Contact Name" required/>
+				</td><td><input type="text" data-ng-model="contact.Contact_title" id="title" placeholder="Title"/></td>
+				<td><input type="text" data-ng-model="contact.Contact_email" id="Email" placeholder="Email" required /></td>
+				<td><input type="text" data-ng-model="contact.Contact_phone" id="Phone" placeholder="Phone number"/></td>
+				<td><textarea data-ng-model="contact.Contact_notes" id="Notes" placeholder="Notes"/></textarea></td>
+			</tr>
+		</table>
 
-
-		<div class="control-group">
-			<label class="control-label" for="company name">Email</label>
-			<div class="controls">
-				<input type="text" data-ng-model="contact.Contact_email" id="Contact_email" placeholder="Email">
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="company name">Phone</label>
-			<div class="controls">
-				<input type="text" data-ng-model="contact.Contact_phone" id="phone" placeholder="Phone">
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="notes">Notes</label>
-			<div class="controls">
-				<textarea data-ng-model="contact.Contact_notes" id="notes" cols="30" rows="3" placeholder="Notes">
-				</textarea>
-			</div>
-		</div>
 		<div >
         <fieldset class="standard">
           <legend>Company</legend>
@@ -52,7 +35,7 @@
       </div>
 		<div class="control-group">
 			<div class="controls">
-				<input type="submit" class="btn">
+				<input type="submit" class="btn btn-primary">
 			</div>
 		</div>
 	</form>

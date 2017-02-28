@@ -27,6 +27,7 @@
 				<th id="colorrow">Technology</th>
 				<th id="colorrow">Inventor</th>
 				<th id="colorrow">Tags</th>
+				<th id="colorrow" ng-show="showall">Active Campaign?</th>
 			</tr>
 			<tr data-ng-repeat="technology in technologies">
 				<td>{{arrayofusers[$index]}}</td>
@@ -34,6 +35,7 @@
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_name}}</td>
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_inventor}}</td>
 				<td>{{tagnames[$index]}}</td>
+				<td ng-show="showall">{{technology.isActive}}</td>
 			</tr>
 			<tr data-ng-show="!technologies">
 				<td>No technologies yet</td>
