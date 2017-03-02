@@ -15,6 +15,15 @@
 		<div >
         <fieldset class="standard">
           <legend>Tags</legend>
+          <table class="table" colspan="5" >
+            <tr ng-repeat="tags in chunkedtagnames">
+              <td ng-repeat="tag in tags"><input type="checkbox" ng-checked="exists(tag, selected)"
+                             ng-click="toggle2(tag, selected)"/>{{tag}}</td>
+            </tr>
+          </table>
+    </div>
+
+
           <div layout="row" layout-wrap flex>
             <div ng-repeat="tag in tagnames" class="standard" flex="50">
               <label>

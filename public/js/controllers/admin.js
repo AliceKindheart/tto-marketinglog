@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mean.auth').controller('AdminController', ['$scope', '$window', 'Global','$state', 'SignUp', '$http', '$stateParams', function ($scope, $window, Global, $state, SignUp, $http, $stateParams) {
+angular.module('mean.auth').controller('AdminController', ['$scope','$window', 'Global','$state', 'SignUp', '$http', '$stateParams', function ($scope, $window, Global, $state, SignUp, $http, $stateParams) {
     $scope.global = Global;
 
     $scope.findusers = function(){
@@ -20,6 +20,15 @@ angular.module('mean.auth').controller('AdminController', ['$scope', '$window', 
         }).then(function(response){
                 $scope.user = response.data;
                 console.log('$scope.user', $scope.user);
+        }).then(function(){
+            $http({
+                url: "/usercampaigns",
+                method: "GET",
+                params: {id: $scope.user.id}
+            }).then(function(response){
+                $scope.tex = response.data;
+                console.log($scope.tex, "$scope.tex");
+            });
         });
     };
 
@@ -29,16 +38,35 @@ angular.module('mean.auth').controller('AdminController', ['$scope', '$window', 
         var signUp = new SignUp({
             name: newuser.name,
             email: newuser.email,
-            //username : user.userName,
+            username : newuser.name,
             password : newuser.password,
             admin: newuser.admin
         });
 
         signUp.$save(function(response) {
             if(response.status === 'success'){
-               $scope.findusers();
+               $state.go("users");
             }
         });
+    };
+
+    $scope.changepassword = function(){
+        if ($scope.newpassword !== $scope.checkedpassword){
+            $window.confirm("New passwords must match");
+        } else {
+            $http({
+                url: '/changepassword',
+                method: "POST",
+                data: {
+                    oldpassword: $scope.oldpassword,
+                    newpassword: $scope.newpassword,
+                    id: user.id
+                }
+            }).then(function(){
+                $window.confirm("Password updated successfully");
+                $state.go('home');
+            });
+        }
     };
 
 
@@ -66,7 +94,7 @@ angular.module('mean.auth').controller('AdminController', ['$scope', '$window', 
                 admin: $scope.user.admin
                 }
         }).then(function(){
-            $state.go('adduser');
+            $state.go('users');
         });       
     };
 
@@ -82,10 +110,10 @@ angular.module('mean.auth').controller('AdminController', ['$scope', '$window', 
                 id: $scope.user.id,
                 }
             }).then(function(){
-                $state.go('adduser');
+                $state.go('users');
             });           
         } else {
-            $state.go('adduser');
+            $state.go('users');
         }     
     };
 
@@ -99,7 +127,7 @@ angular.module('mean.auth').controller('AdminController', ['$scope', '$window', 
                 }
             }).then(function(){
                 $window.location.reload();
-            })
+            });
         }
     };
 
@@ -130,6 +158,7 @@ angular.module('mean.auth').controller('AdminController', ['$scope', '$window', 
     $scope.choose = function (tag) {
         $scope.tag = tag;
       };
+
 
 
 }]);

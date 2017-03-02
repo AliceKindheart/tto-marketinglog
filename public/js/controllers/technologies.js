@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mean.technologies').controller('TechController', ['$scope', '$stateParams', 'Global', 'Technologies', '$state', '$http', function ($scope, $stateParams, Global, Technologies, $state, $http) {
+angular.module('mean.technologies').controller('TechController', ['$scope', '$stateParams', 'Global', 'Technologies', '$state', '$http', '$window', function ($scope, $stateParams, Global, Technologies, $state, $http, $window) {
     $scope.global = Global;
 
     $scope.create = function() {
@@ -26,17 +26,19 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
     };
 
     $scope.remove = function(technology) {
-        if (technology) {
-            technology.$remove();  
+        if ($window.confirm("Are you sure you want to delete this technology?")){
+            if (technology) {
+                technology.$remove();  
 
-            for (var i in $scope.technologies) {
-                if ($scope.technologies[i] === technology) {
-                    $scope.technolgies.splice(i, 1);
+                for (var i in $scope.technologies) {
+                    if ($scope.technologies[i] === technology) {
+                        $scope.technolgies.splice(i, 1);
+                    }
                 }
+            } else {
+                $scope.technology.$remove();
+                $state.go('techs');
             }
-        } else {
-            $scope.technology.$remove();
-            $state.go('techs');
         }
     };
 
@@ -139,11 +141,16 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         };
      $scope.selected = [];
 
-  $scope.getUser = function(){
-    $http.get('/currentuser')
-        .then(function(response){
-            $scope.user = response;
-            });
+  //$scope.getUser = function(){
+    //$http.get('/currentuser')
+      //  .then(function(response){
+        //    $scope.user = response;
+          //  console.log("$scope.user", $scope.user);
+            //});
+    //};
+
+    $scope.getAdmin = function(){
+        console.log("hello?");
     };
      
     $scope.toggle = function (tag, tags) {
@@ -216,6 +223,10 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
 
     $scope.mymarketing = function(){
         $scope.showall = false;
+
+        $scope.mycampaignsbutton = false;
+        $scope.allactivebutton =  true;
+        $scope.activeinactivebutton = true;
         //console.log("yes");
         $http({
             method: "GET",
@@ -226,11 +237,15 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             //console.log("$scope.technologies", $scope.technologies);
             $scope.gettagsandmarketers();
         });
-        $scope.title = "My Active "
+        $scope.title = "My Active ";
     };
 
     $scope.allcamps = function(){
         $scope.title = "All Active and Inactive ";
+        $scope.mycampaignsbutton = true;
+        $scope.allactivebutton =  true;
+        $scope.activeinactivebutton = false;
+
         $http({
             method: 'GET',
             url: '/allcampaigns'
@@ -243,6 +258,11 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
 
     $scope.active = function(){
         $scope.showall = false;
+
+        $scope.mycampaignsbutton = true;
+        $scope.allactivebutton =  false;
+        $scope.activeinactivebutton = true;
+
         $scope.title = "All Active ";
         $http({
             method: 'GET',

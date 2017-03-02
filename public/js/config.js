@@ -146,6 +146,11 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             controller: 'EventController',
             templateUrl: 'views/events/edit.html'
         })
+        .state('changepassword', {
+            url: '/changepassword',
+            controller: "AdminController",
+            templateUrl: 'views/admin/changepassword.html'
+        })
         .state('404',{
             templateUrl: 'views/404.html'
         });

@@ -50,7 +50,7 @@ exports.show = function(req, res) {
  * Create a technology
  */
 exports.create = function(req, res) {
-    console.log("REQ.BODY", req.body);
+    //console.log("REQ.BODY", req.body);
     var tagrows;
     var thetechnology;
     var marketer = req.body.Tech_marketer;
@@ -61,10 +61,10 @@ exports.create = function(req, res) {
         .then(function(person){
             //saving the marketer to an outside variable for future reference
             personn = person;
-            console.log("personn", personn);
+            //console.log("personn", personn);
         }).then(function(){
             if (req.body.Tag_name){
-                console.log("MADEITITTOFIRSTIF");
+                //console.log("MADEITITTOFIRSTIF");
                 var Tagnames = req.body.Tag_name;
                 db.Tag.findAll({where:{Tag_name:{$in:Tagnames}}})
                     .then(function(rowoftags){
@@ -79,17 +79,17 @@ exports.create = function(req, res) {
                             //isActive: req.body.isActive
                         //}});
                     }).then(function(technology){
-                        console.log("SOSTUPID", technology);
+                        //console.log("SOSTUPID", technology);
                         thetechnology = technology;
                         technology.setUser(personn);
                         technology.addTags(tagrows);
                         return technology;
                         //return technology.addTags(tagrows);                
                     }).then(function(tek){
-                        console.log("TEKKKKK", tek);
+                        // console.log("TEKKKKK", tek);
                         return res.jsonp(tek);
                     }).catch(function(err){
-                        return res.status(500).send("Technology could not be created")
+                        return res.status(500).send("Technology could not be created");
                     });
                     
             } else {
@@ -111,11 +111,11 @@ exports.create = function(req, res) {
 };
 
 exports.search = function(req, res){
-    console.log("SEARCHING");
-    console.log(req.query.number);
+    //console.log("SEARCHING");
+    //console.log(req.query.number);
     db.Technology.findOne({where: {Tech_RUNumber: req.query.number}, include: [{model: db.Tag}, {model: db.User}]})
         .then(function(tech){
-            console.log("tech:", tech);
+            //console.log("tech:", tech);
             return res.jsonp(tech);
         }).catch(function(err){
             return res.send({
@@ -129,7 +129,7 @@ exports.searchformine = function(req,res){
     console.log("req.user:", req.user);
     db.Technology.findAll({where: {UserId: req.user.id, isActive: true}, include: [{model: db.User}, {model: db.Tag}]})
         .then(function(tex){
-            console.log("TEXXXXXXXXX", tex);
+            //console.log("TEXXXXXXXXX", tex);
             return res.jsonp(tex);
         }).catch(function(err){
             return res.send({
@@ -140,10 +140,24 @@ exports.searchformine = function(req,res){
 };
 
 exports.active = function(req,res){
-    console.log("HHHHHHHHHHHHHHIIIII");
+    //console.log("HHHHHHHHHHHHHHIIIII");
     db.Technology.findAll({where: {isActive: true}, include: [{model: db.User}, {model: db.Tag}]})
         .then(function(tex){
-            console.log("TEXXXXX", tex);
+            //console.log("TEXXXXX", tex);
+            return res.jsonp(tex);
+        }).catch(function(err){
+            return res.send({
+                errors: err,
+                status: 500
+            });
+        });
+};
+
+exports.usercampaigns = function(req,res){
+    console.log("REQQQQQ.QUERY", req.query);
+    db.Technology.findAll({where: {UserId: req.query.id}, include: [{model: db.User}, {model: db.Tag}]})
+        .then(function(tex){
+            console.log(tex, "TEXXXXXXXX");
             return res.jsonp(tex);
         }).catch(function(err){
             return res.send({

@@ -17,14 +17,13 @@
       <div >
         <fieldset class="standard">
           <h4>Select Tags</h4>
-          <div layout="row" layout-wrap flex>
-            <div ng-repeat="tag in tagnames" class="standard" flex="50">
-              <label>
-                <input type="checkbox" ng-checked="exists(tag, selected)"
-                       ng-click="toggle(tag, selected)"/>
-                {{ tag }}
-              </label>
-            </div>
+
+          <table class="table" colspan="5" >
+			<tr ng-repeat="tags in chunkedtagnames">
+				<td ng-repeat="tag in tags"><input type="checkbox" ng-checked="exists(tag, selected)"
+                       ng-click="toggle(tag, selected)"/>{{tag}}</td>
+			</tr>
+		</table>
           </div>
         </fieldset>
       </div>

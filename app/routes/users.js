@@ -18,6 +18,7 @@ app.get('/user/id', users.findOne);
 app.get('/currentuser', users.user);
 app.put('/updateuser', users.update);
 app.delete('/deleteuser', users.delete);
+app.post('/changepassword', users.changepassword);
 
 // Setting up the users api
 app.post('/users', users.create);

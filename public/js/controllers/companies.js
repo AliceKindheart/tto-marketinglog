@@ -136,6 +136,14 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
         });
     };
 
+    $scope.chunk = function(arr, size){
+        var newArr =[];
+            for (var i=0; i<arr.length; i+=size) {
+                newArr.push(arr.slice(i, i+size));
+            }
+            return newArr
+    };
+
     $scope.findtags =  function(){
         $scope.tagnames = [];
         $http.get('/tags')
@@ -144,8 +152,15 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             $scope.tagresponse.forEach(function(tag){
                 $scope.tagnames.push(tag.Tag_name);
             });
+            $scope.chunkedtagnames = $scope.chunk($scope.tagnames, 5);
+            console.log("$scope.chunkedtagnames", $scope.chunkedtagnames);
         });
+        
     };
+
+    
+
+
 
     $scope.selected = [];
 
@@ -172,12 +187,14 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
       };
 
     $scope.toggle2 = function (tag, whatyouneed) {
-        var idx = whatyouneed.indexOf(tag);
+        console.log("whatyouneed", whatyouneed, typeof whatyouneed);
+        console.log("$scope.whatyouneed", $scope.whatyouneed, typeof $scope.whatyouneed);
+        var idx = $scope.whatyouneed.indexOf(tag);
         if (idx > -1) {
-            whatyouneed.splice(idx, 1);
+            $scope.whatyouneed.splice(idx, 1);
         }
         else {
-          whatyouneed.push(tag);
+          $scope.whatyouneed.push(tag);
         }
     };  
 

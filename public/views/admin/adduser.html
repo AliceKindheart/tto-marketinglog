@@ -11,11 +11,17 @@
         <tr>
             <td><input type="text" ng-model="newuser.name" id="name" placeholder="Username" required/></td>
             <td><input type="text" ng-model="newuser.email" id="email" placeholder="Email"/></td>
-            <td><input type="text" ng-model="newuser.temppassword" id="temppassword"/></td>
+            <td><input type="password" ng-model="newuser.password" id="password"/></td>
             <td><input type="radio" value="true" name="admin" ng-model="newuser.admin">Yes<br>
             <input type="radio" value="false" name="admin" ng-model="newuser.admin">No<br></td>
         </tr>
       </table>
+
+      <div class="control-group">
+        <div class="controls">
+            <input type="submit" class="btn btn-primary">
+        </div>
+    </div>
 
     </form>
 </div>

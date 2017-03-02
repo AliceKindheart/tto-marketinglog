@@ -24,7 +24,20 @@
             <h4 class="panel-title ">Marketing Campaigns</h4>
           </div>
           <div class="panel-body"> 
-            <p>No campaigns at this time.</p>
+            <table class="table table-striped table-bordered">
+                 <tr>
+                    <th id="colorrow">RU Number</th>
+                    <th id="colorrow">Technology Name</th>
+                    <th id="colorrow">Inventor</th>
+                    <th id="colorrow">Active Campaign?</th>
+                </tr>
+                <tr ng-repeat="tec in tex">
+                    <td>{{tec.Tech_RUNumber}}</td>
+                    <td ui-sref="viewTech({id:tec.id})">{{tec.Tech_name}}</td>
+                    <td>{{tec.Tech_inventor}}</td>
+                    <td ng-show="tec.isActive">Yes</td>
+                    <td ng-show="!tec.isActive">No</td>
+                </tr>
           </div>
     </div>  
 

@@ -14,6 +14,8 @@ angular.module('mean.auth').controller('signIn', ['$scope', '$window', 'Global',
         logIn.$save(function(response) {
             if(response.status === 'success'){
                 $window.location.href = '/';
+            } else {
+                $window.confirm("Login Information Not Correct");
             }
         });
     };

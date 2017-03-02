@@ -16,12 +16,29 @@ angular.module('mean.system').controller('HeaderController', ['$scope', 'Global'
     
     $scope.isCollapsed = false;
 
+    //$scope.isAdmin = function(){
+      //  console.log("user.admin", user.admin);
+        //var x = user.id;
+//        console.log("x", x);
+  //      $http({
+    //        url: '/isadmin',
+      //      method: "GET",
+        //    params: {id: x}
+//        }).then(function(user){
+  //          console.log("user", user);
+    //        if (user.admin){
+      //          $scope.admin = true;
+        //    } else {
+          //      $scope.admin = false;
+            //}
+//            console.log("$scope.admin", $scope.admin);
+  //      });
+    //};
+
     $scope.isAdmin = function(){
-        $http.get('/isadmin').then(function(response){
-            if(response.isadmin){
-                return true;
-            }
-        });
+        if (user.admin){
+            $scope.admin = true;
+        } 
     };
 
     $scope.SignOut = function(){

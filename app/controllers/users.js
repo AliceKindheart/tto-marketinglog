@@ -93,7 +93,7 @@ exports.getall = function(req, res) {
 
 exports.findOne = function(req, res, id) {
   console.log("reqQQQQQQQQQQQQQQQQQQQQQQQQQ.query", req.query);
-  db.User.findOne({where: {id: req.query.id}})
+  db.User.findOne({where: {id: req.query.id}, include: [{model: db.Technology}]})
     .then(function(response){
       console.log("RESPPPPPPPPPPPONSE", response);
       res.jsonp(response);
@@ -119,6 +119,30 @@ exports.update = function(req, res) {
         status: 500
         });
     });
+};
+
+exports.changepassword = function(req,res){
+  var message = null;
+  console.log("req.body", req.body);
+  db.User.findOne({where: {id: req.body.id}})
+    .then(function(user){
+      if(req.user.authenticate(req.body.oldpassword)){
+        console.log("AUTHENTICATEDDDDDDD");
+        var newsalt = user.makeSalt();
+        var newhashedpassword = user.encryptPassword(req.body.newpassword, newsalt);
+        user.updateAttributes({
+          salt: newsalt,
+          hashedPassword: newhashedpassword
+        });
+        console.log(user, "USERRRR");
+        return res.send({status : 'success', message : 'User password changed successfully.'});
+      } else {
+        return res.status(500).body({'error': err});
+      }
+    }).catch(function(err){
+        return res.status(500).body({"error": err});
+    });
+    
 };
 
 exports.delete = function(req, res) {
@@ -172,7 +196,7 @@ exports.hasAuthorization = function(req, res, next) {
 };
 
 exports.isadmin = function(req, res) {
-    db.User.find({where : { id: id }}).then(function(user){
+    db.User.find({where : { id: req.query.id }}).then(function(user){
       if (!user) {
           return next(new Error('Failed to load User ' + id));
       }

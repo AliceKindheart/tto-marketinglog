@@ -1,5 +1,5 @@
-<body>
-	<h1 data-ng-init="getUser()">{{title}}Marketing Campaigns</h1>
+<body data-ng-init="getAdmin()">
+	<h1 >{{title}}Marketing Campaigns</h1>
 	<div class="row">
 	  <div class="col-lg-6">
 	    <div class="input-group">
@@ -15,9 +15,9 @@
 	
 	<div>
 		<button type="button" class="btn btn-primary" ui-sref="addTech">Start a New Campaign</button>
-		<button type="button" ng-click="mymarketing()" class="btn btn-info">My Active Marketing Campaigns</button>
-		<button type="button" ng-click="active()" class="btn btn-info">All Active Campaigns</button>
-		<button type="button" ng-click="allcamps()" class="btn btn-info">Active AND Inactive Campaigns</button>
+		<button type="button" ng-show="mycampaignsbutton" ng-click="mymarketing()" class="btn btn-info">My Active Marketing Campaigns</button>
+		<button type="button" ng-show="allactivebutton" ng-click="active()" class="btn btn-info">All Active Campaigns</button>
+		<button type="button" ng-show="activeinactivebutton" ng-click="allcamps()" class="btn btn-info">Active AND Inactive Campaigns</button>
 	
 	</div>
 		<table class="table table-bordered table-striped" data-ng-init="mymarketing()" >
@@ -35,7 +35,8 @@
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_name}}</td>
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_inventor}}</td>
 				<td>{{tagnames[$index]}}</td>
-				<td ng-show="showall">{{technology.isActive}}</td>
+				<td ng-show="showall" ng-if="technology.isActive">Yes</td>
+				<td ng-show="showall" ng-if="!technology.isActive">No</td>
 			</tr>
 			<tr data-ng-show="!technologies">
 				<td>No technologies yet</td>
