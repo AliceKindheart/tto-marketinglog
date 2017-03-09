@@ -13,10 +13,16 @@ app.route('/events')
     .post(users.requiresLogin, events.create);
 //app.route('/companies/create')
 //	.get(companies.all);
-app.route('/events/:eventid')
+app.route('/events/:techid')
     .get(events.show)
     .put(users.requiresLogin, events.update)
     .delete(users.requiresLogin, events.destroy);
+app.route('/companiesforevent')
+	.get(events.findcompanies);
+app.route('/findcompanycontacts')
+	.get(events.getcontacts);
+app.route('/findtech')
+	.get(events.findtech);
 
 
 // Finish with setting up the id param

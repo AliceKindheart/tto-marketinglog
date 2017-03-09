@@ -94,7 +94,16 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
             $scope.companyresponse.forEach(function(company){
                 $scope.companies.push(company.Company_name);
             });
+            $scope.chunkedcompanies = $scope.chunk($scope.companies, 3);
         });
+    };
+
+    $scope.chunk = function(arr, size){
+        var newArr =[];
+            for (var i=0; i<arr.length; i+=size) {
+                newArr.push(arr.slice(i, i+size));
+            }
+            return newArr;
     };
 
       $scope.selected = [];

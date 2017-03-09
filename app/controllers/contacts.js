@@ -42,7 +42,7 @@ exports.create = function(req, res) {
     var contact; 
 
     // save and return an instance of contact on the res object. 
-    db.Company.findOne({where:{Company_name: req.body.Company_name}})
+    db.Company.findOne({where:{Company_name: req.body.Company_name}, include: {model: db.Contact}})
         .then(function(company){
             console.log("COMPANYFOUND", "COMPANYID", company.id);
             console.log("COMPANNNNNNNNNNNNNNNNNNNY", company);
@@ -84,36 +84,40 @@ exports.search = function(req,res) {
  * Update a contact
  */
 exports.update = function(req, res) {
-
     // create a new variable to hold the contact that was placed on the req object.
     var contact = req.contact;
     //var Company_name = req.body.Company_name
-    console.log(req.body.compname);
-    console.log("REQQQQQQQQQQQQ>BODY", req.body);
-    var idforcompany;
+    //console.log(req.body.compname);
+    //console.log("REQQQQQQQQQQQQ>BODY", req.body);
+    var newcompany;
+    var compid;
+    var oldcompany = req.body.Company;
+    console.log("oldcompany", oldcompany);
 
-    db.Company.findOne({where:{Company_name: req.body.compname}})
-        .then(function(company){
-            //console.log(company, "COMPPPPPPPPPPPPPPANY");
-            idforcompany=company.id;
-
+    db.Company.findOne({where:{id: oldcompany.id}, include: {model: db.Contact}})
+        .then(function(oc){
+            oc.removeContact(contact);
+            return db.Company.findOne({where:{Company_name: req.body.compname}, include: {model: db.Contact}});
+        }).then(function(company){
+            newcompany=company;
+            compid = company.id;
             return contact.updateAttributes({
-                CompanyId: idforcompany,
                 Contact_name: req.body.Contact_name,
                 Contact_title: req.body.Contact_title,
                 Contact_email: req.body.Contact_email,
                 Contact_phone: req.body.Contact_phone,
                 Contact_notes: req.body.Contact_notes
             });
-        }).then(function(a){
-            console.log("AAAAAAAAAAAAAAAAAAAA", a);
-        return res.jsonp(a);
-    }).catch(function(err){
-        return res.render('error', {
-            error: err, 
-            status: 500
+        }).then(function(contact){
+            contact.setCompany(newcompany);
+            newcompany.addContact(contact);
+            return res.jsonp(contact);
+        }).catch(function(err){
+            return res.render('error', {
+                error: err, 
+                status: 500
+            });
         });
-    });
 };
 
 /**

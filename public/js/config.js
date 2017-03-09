@@ -132,7 +132,7 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             templateUrl: 'views/events/list.html'
         })
         .state('addEvent',{
-            url: '/events/create',
+            url: '/events/create/{id}',
             controller: 'EventController',
             templateUrl: 'views/events/create.html'
         })

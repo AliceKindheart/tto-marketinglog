@@ -126,6 +126,9 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
                     Tag_name: $scope.tag
                 }
             }).then(function(){
+                console.log("this happened");
+                //$scope.$apply();
+                //$state.go('addtags');
                 $window.location.reload();
             });
         }
@@ -139,9 +142,17 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
             $scope.tagresponse.forEach(function(tag){
                 $scope.tagnames.push(tag.Tag_name);
             });
+            $scope.chunkedtagnames = $scope.chunk($scope.tagnames, 5);
         });
     };
 
+    $scope.chunk = function(arr, size){
+        var newArr =[];
+            for (var i=0; i<arr.length; i+=size) {
+                newArr.push(arr.slice(i, i+size));
+            }
+            return newArr
+    };
 
     $scope.addNewTag = function(){
         $http({
@@ -151,6 +162,8 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
                 Tag_name: $scope.tagname
             }
         }).then(function(){
+            $scope.user = user;
+            console.log("$scope.user", $scope.user);
             $window.location.reload();
         });
     };

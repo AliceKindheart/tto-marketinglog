@@ -21,8 +21,8 @@
 				{{global.user.name}} <b class="caret"></b>
 			</a>
             <ul class="dropdown-menu" data-ng-init="isAdmin()">
-                <li data-ng-show="admin"><a ng-click="Addtags()">Add/Edit Tags</a></li>
-                <li data-ng-show="admin"><a ui-sref="users">Add/Edit Users</a></li>
+                <li data-ng-show="global.user.admin"><a ng-click="Addtags()">Add/Edit Tags</a></li>
+                <li data-ng-show="global.user.admin"><a ui-sref="users">Add/Edit Users</a></li>
                 <li><a ui-sref="changepassword">Change Password</a></li>
                 <li><a ng-click="SignOut()">Signout</a></li>
             </ul>

@@ -126,7 +126,7 @@ exports.search = function(req, res){
 };
 
 exports.searchformine = function(req,res){
-    console.log("req.user:", req.user);
+    //console.log("req.user:", req.user);
     db.Technology.findAll({where: {UserId: req.user.id, isActive: true}, include: [{model: db.User}, {model: db.Tag}]})
         .then(function(tex){
             //console.log("TEXXXXXXXXX", tex);
@@ -154,10 +154,10 @@ exports.active = function(req,res){
 };
 
 exports.usercampaigns = function(req,res){
-    console.log("REQQQQQ.QUERY", req.query);
+    //console.log("REQQQQQ.QUERY", req.query);
     db.Technology.findAll({where: {UserId: req.query.id}, include: [{model: db.User}, {model: db.Tag}]})
         .then(function(tex){
-            console.log(tex, "TEXXXXXXXX");
+            //console.log(tex, "TEXXXXXXXX");
             return res.jsonp(tex);
         }).catch(function(err){
             return res.send({
@@ -174,9 +174,9 @@ exports.update = function(req, res) {
     // create a new variable to hold the technology that was placed on the req object.
     //console.log("req.body.marketer", req.body.marketer);
     var technology = req.technology;
-    console.log("REQ.BODY:", req.body);
+    //console.log("REQ.BODY:", req.body);
     var newtags = req.body.Tag_name.join(", ").split(", ");
-    console.log("new tags", newtags);
+    //console.log("new tags", newtags);
     var tagrows;
     var techid = req.body.id;
     var newuser;

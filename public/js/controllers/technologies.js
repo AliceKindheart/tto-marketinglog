@@ -129,6 +129,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
                 $scope.tagresponse.forEach(function(tag){
                     $scope.tagnames.push(tag.Tag_name);
                 });
+                $scope.chunkedtagnames = $scope.chunk($scope.tagnames, 5);
             });
             $http.get('/showusers')
                 .then(function(response){
@@ -136,10 +137,19 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
                     $scope.usersresponse.forEach(function(userObject){
                         $scope.usernames.push(userObject.name);
                     });
+                    $scope.chunkedmarketers = $scope.chunk($scope.usernames, 3);
                 });
                 //console.log("$scope.usernames: ", $scope.usernames);
         };
      $scope.selected = [];
+
+     $scope.chunk = function(arr, size){
+        var newArr =[];
+            for (var i=0; i<arr.length; i+=size) {
+                newArr.push(arr.slice(i, i+size));
+            }
+            return newArr
+    };
 
   //$scope.getUser = function(){
     //$http.get('/currentuser')
@@ -164,12 +174,12 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
       };
 
     $scope.toggle2 = function (tag, whatyouneed) {
-        var idx = whatyouneed.indexOf(tag);
+        var idx = $scope.whatyouneed.indexOf(tag);
         if (idx > -1) {
-            whatyouneed.splice(idx, 1);
+            $scope.whatyouneed.splice(idx, 1);
         }
         else {
-          whatyouneed.push(tag);
+          $scope.whatyouneed.push(tag);
         }
       };  
 
@@ -326,5 +336,28 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         //now we'll put our array of strings/tagnames onto our scope 
         $scope.tagnames = tagnames;
     };
+
+
+    $scope.choose = function(comp){
+        $scope.company = comp;
+        console.log("$scope.company", $scope.company);
+        var company = $scope.company;
+
+        $http({
+            method: 'GET',
+            url: '/findcompanycontacts',
+            params: {Company_name: company}
+        }).then(function(company){
+            $scope.company = company.data;
+            console.log("COMpanyfound", $scope.company);
+            $scope.contacts = $scope.company.Contacts;
+            console.log($scope.contacts, "$scope.contacts");
+            $scope.contactschunked = $scope.chunk($scope.contacts, 3);
+        });
+    }; 
+
+    $scope.select = function(contact){
+        $scope.contact = contact;
+    };  
 
 }]);

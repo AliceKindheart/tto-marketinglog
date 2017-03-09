@@ -64,6 +64,7 @@ exports.show = function(req, res) {
  * Create an event
  */
 exports.create = function(req, res) {
+    console.log("CCCCCCCCCCRRRRRRRRRRRRREEEEEEEEEEEAATE");
     // augment the event by adding the UserId
     req.body.UserId = req.user.id;
     console.log("req.body");
@@ -80,10 +81,9 @@ exports.create = function(req, res) {
             return res.jsonp(event);
         }
     }).catch(function(err){
-        console.log("THROWING AN ERROR MESSAGE");
-        return res.status(status).send(body, {
-        //return res.send('users/signup', { 
-            errors: err,
+        console.log("THROWING AN ERROR MESSAGE", err);
+        return res.render('error', {
+            error: err,
             status: 500
         });
     });
@@ -133,6 +133,33 @@ exports.destroy = function(req, res) {
             status: 500
         });
     });
+};
+
+
+exports.findcompanies = function(req,res){
+    console.log("FINDDDCOMPPPSSS");
+    db.Company.findAll({include: {model: db.Contact}})
+        .then(function(comps){
+            //console.log("COMMPS", comps);
+            return res.jsonp(comps);
+        });
+};
+
+exports.findtech = function(req,res){
+    //console.log("FINDDDTECCCCC");
+    db.Technology.findOne({where: {id: req.query.id}})
+        .then(function(tec){
+            return res.jsonp(tec);
+        });
+};
+
+exports.getcontacts = function(req,res){
+    //console.log("GETTTTCONTACTSSSS", req.query);
+    db.Company.findOne({where: {Company_name: req.query.Company_name}, include: {model: db.Contact}})
+        .then(function(company){
+            return res.jsonp(company);
+            
+        });
 };
 
 /**

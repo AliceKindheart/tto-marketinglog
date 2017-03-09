@@ -17,33 +17,26 @@
 
 		<div >
         <fieldset class="standard">
-          <h4>Select Primary Marketer</h4>
-          <div layout="row" layout-wrap flex>
-            <div class="standard" flex="50">
-              <p ng-repeat="name in usernames">
-              <label>
-                <input type="radio" name="name" required ng-value="name" ng-click="choosemarketer(name)"/>
-                {{name}}
-              </label>
-              </p>
-            </div>
-          </div>
+          <h4 id="colorrow">Select Primary Marketer</h4>
+
+          <table class="table" colspan="3" >
+            <tr ng-repeat="marketers in chunkedmarketers">
+              <td ng-repeat="name in marketers"><input type="radio" name="name" required ng-value="name" ng-click="choosemarketer(name)"/>{{name}}</td>
+            </tr>
+          </table>
         </fieldset>
 		
 		<div >
         <fieldset class="standard">
-          <h4>Select Tags</h4>
-          <div layout="row" layout-wrap flex>
-            <div ng-repeat="tag in tagnames" class="standard" flex="50">
-              <label>
-                <input type="checkbox" ng-checked="exists(tag, selected)"
-                       ng-click="toggle(tag, selected)"/>
-                {{ tag }}
-              </label>
-            </div>
-          </div>
-        </fieldset>
-      </div>
+          <h4 id="colorrow">Select Tags</h4>
+          <table class="table" colspan="5" >
+            <tr ng-repeat="tags in chunkedtagnames">
+              <td ng-repeat="tag in tags"><input type="checkbox" ng-checked="exists(tag, selected)" ng-click="toggle(tag, selected)"/>{{tag}}</td>
+            </tr>
+          </table>
+
+      </fieldset>
+    </div>
 
 		
 		<div class="control-group">

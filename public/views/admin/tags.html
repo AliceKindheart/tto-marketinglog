@@ -1,5 +1,5 @@
 <div>
-<h4>Add New Tag</h4>
+<h2>Add New Tag</h2>
     <form ng-submit="addNewTag()"  class="form-horizontal">
         <div class="control-group">
             <table>
@@ -15,17 +15,15 @@
 
         
         <fieldset class="standard">
-          <h4>Select Tag to Delete</h4>
-          <div layout="row" layout-wrap flex>
-            <div class="standard" flex="50">
-                <p ng-repeat="tag in tagnames">
-              <label>
-                <input type="radio" name="tag" ng-click="choose(tag)"/>
-                {{ tag }}
-              </label>
-              </p>
-            </div>
-            <button class='btn btn-danger' data-ng-click="deleteTag();">Delete Tag</button>
+          <h4 id="colorrow">Select Tag to Delete</h4>
+            <table class="table" colspan="5" >
+              <tr ng-repeat="tags in chunkedtagnames">
+                <td ng-repeat="tag in tags"><input type="radio" name="tag" ng-checked="exists(tag, selected)" ng-click="choose(tag)"/>{{tag}}</td>
+              </tr>
+            </table>
+
+          
+            <button class='btn btn-danger' data-ng-click="deleteTag()">Delete Tag</button>
           </div>
         </fieldset>
     </span>

@@ -4,26 +4,26 @@ angular.module('mean.system').controller('HeaderController', ['$scope', 'Global'
     $scope.global = Global;
 
     $scope.menu = [{
+        "title": "Campaigns",
+        "state": "techs"
+    },{
         "title": "Companies",
         "state": "companies"
     }, {
         "title": "Contacts",
         "state": "contacts"
-    }, {
-        "title": "Marketing Campaigns",
-        "state": "techs"
     }];
     
     $scope.isCollapsed = false;
 
-    //$scope.isAdmin = function(){
-      //  console.log("user.admin", user.admin);
-        //var x = user.id;
+//    $scope.isAdmin = function(){
+  //      console.log("user.admin", user.admin);
+    //    var x = user.id;
 //        console.log("x", x);
-  //      $http({
-    //        url: '/isadmin',
-      //      method: "GET",
-        //    params: {id: x}
+      //  $http({
+        //    url: '/isadmin',
+          //  method: "GET",
+            //params: {id: x}
 //        }).then(function(user){
   //          console.log("user", user);
     //        if (user.admin){
@@ -35,11 +35,11 @@ angular.module('mean.system').controller('HeaderController', ['$scope', 'Global'
   //      });
     //};
 
-    $scope.isAdmin = function(){
-        if (user.admin){
-            $scope.admin = true;
-        } 
-    };
+   // $scope.isAdmin = function(){
+     //   if (global.user.admin){
+       //     $scope.admin = true;
+    //    } 
+    //};
 
     $scope.SignOut = function(){
         SignOut.get(function(response){

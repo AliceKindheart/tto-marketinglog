@@ -21,16 +21,14 @@
 	  	
 
         <fieldset class="standard">
-          <h4>Select Company</h4>
-          <div layout="row" layout-wrap flex>
-            <div class="standard" flex="50">
-              <p ng-repeat="company in companies">
-              <label>
-                <input type="radio" required name="company" ng-click="choose(company)"/>
-                {{company}}
-              </label>
-              </p>
-            </div>
+          <h4 id="colorrow">Select Company</h4>
+
+          <table class="table" colspan="3" >
+			<tr ng-repeat="companies in chunkedcompanies">
+				<td ng-repeat="company in companies"><input type="radio" required name="company"
+                       ng-click="choose(company)"/>{{company}}</td>
+			</tr>
+		  </table>
          
         </fieldset>
 
