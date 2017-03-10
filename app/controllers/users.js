@@ -137,10 +137,10 @@ exports.changepassword = function(req,res){
         console.log(user, "USERRRR");
         return res.send({status : 'success', message : 'User password changed successfully.'});
       } else {
-        return res.status(500).body({'error': err});
+        return res.status(500).body({err: "error"});
       }
     }).catch(function(err){
-        return res.status(500).body({"error": err});
+        return res.status(500).body({err: "error"});
     });
     
 };
@@ -198,11 +198,11 @@ exports.hasAuthorization = function(req, res, next) {
 exports.isadmin = function(req, res) {
     db.User.find({where : { id: req.query.id }}).then(function(user){
       if (!user) {
-          return next(new Error('Failed to load User ' + id));
+          return (new Error('Failed to load User ' + req.query.id));
       }
       req.profile = user;
       return user.jsonp;
     }).catch(function(err){
-      next(err);
+      return (err);
     });
 };

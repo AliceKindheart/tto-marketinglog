@@ -64,24 +64,63 @@ exports.show = function(req, res) {
  * Create an event
  */
 exports.create = function(req, res) {
-    console.log("CCCCCCCCCCRRRRRRRRRRRRREEEEEEEEEEEAATE");
+    //console.log("CCCCCCCCCCRRRRRRRRRRRRREEEEEEEEEEEAATE");
+    //console.log("REQ.USERRRRR", req.user);
     // augment the event by adding the UserId
-    req.body.UserId = req.user.id;
-    console.log("req.body");
-    console.log(req.body);
-    // save and return an instance of event on the res object. 
-    db.Event.create(req.body).then(function(event){
-        //event.addCompany([req.body.Company_name]);
-        console.log("TRYING TO SAVE THE EVENT INFO");
-        //console.log(req.body);
-        if(!event){
-            console.log("NOTANEVENT!!!!");
-            return res.send('users/signup', {errors: new StandardError('EVENT could not be created')});
-        } else {
-            return res.jsonp(event);
-        }
+    //req.body.UserId = req.user.id;
+    //console.log("req.body");
+    //console.log(req.body);
+    var techtofind = req.body.Technology;
+    //console.log("techtofind", techtofind);
+    var user;
+    var tek;
+
+   // db.User.findOne({where: {id: req.user.id}})
+     //   .then(function(user){
+       //     console.log("USERUSER", user);
+         //   user = user;
+       // }).then(function(){
+    db.Technology.findOne({where: {id: techtofind.id}
+        }).then(function(foundtech){
+            tek=foundtech;
+        // save and return an instance of event on the res object. 
+            return db.Event.create(req.body);
+        }).then(function(event){
+                event.setUser(req.user, {through: 'UserEvents'});
+                //console.log("USER SUCCESS!");
+                //event.setCompany(req.body.Company);
+                //console.log("COMPANY SUCCESS!");
+                event.setTechnology(tek, {through: 'TechEvents'});
+                //console.log("TECHNOLOGY SUCCESS");
+                //event.setContacts(req.body.Contacts);
+                //console.log("CONTACTS SUCCESS");
+
+                //event.addCompany([req.body.Company_name]);
+                //console.log("TRYING TO SAVE THE EVENT INFO");
+                //console.log(req.body);
+                if(!event){
+                    console.log("NOTANEVENT!!!!");
+                    return res.send('users/signup', {errors: new StandardError('EVENT could not be created')});
+                } else {
+                    return res.jsonp(event);
+                }
+        }).catch(function(err){
+            console.log("THROWING AN ERROR MESSAGE", err);
+            return res.render('error', {
+                error: err,
+                status: 500
+            });
+        });
+
+};
+
+exports.getusers = function(req,res){
+    console.log("REQ.QUERY", req.query);
+    db.User.findOne({where: {id: req.query.id}})
+    .then(function(user){
+        console.log("Found USer", user);
+        return res.jsonp(user);
     }).catch(function(err){
-        console.log("THROWING AN ERROR MESSAGE", err);
         return res.render('error', {
             error: err,
             status: 500
@@ -159,6 +198,18 @@ exports.getcontacts = function(req,res){
         .then(function(company){
             return res.jsonp(company);
             
+        });
+};
+
+exports.getem = function(req,res){
+    db.Event.findAll()
+        .then(function(evnts){
+            return res.jsonp(evnts);
+        }).catch(function(err){
+            return res.render('error', {
+                error: err,
+                status: 500
+            });
         });
 };
 

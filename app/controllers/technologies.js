@@ -27,7 +27,7 @@ exports.all = function(req, res) {
  * Its purpose is to preload the company on the req object then call the next function. 
  */
 exports.technology = function(req, res, next, id) {
-    db.Technology.find({where: {id: id}, include: [{model: db.Tag}, {model: db.User}]})
+    db.Technology.find({where: {id: id}, include: [{model: db.Tag}, {model: db.User}, {model: db.Event}]})
         .then(function(technology){
             if(!technology) {
                 return next();
@@ -248,6 +248,19 @@ exports.destroy = function(req, res) {
 
     technology.destroy().then(function(){
         return res.jsonp(technology);
+    }).catch(function(err){
+        return res.render('error', {
+            error: err,
+            status: 500
+        });
+    });
+};
+
+exports.runumbers = function(req,res){
+    console.log("req.query", req.query);
+    db.Technology.findOne({where: {id:req.query.id}})
+    .then(function(tec){
+        return res.jsonp(tec);
     }).catch(function(err){
         return res.render('error', {
             error: err,

@@ -23,6 +23,10 @@ app.route('/findcompanycontacts')
 	.get(events.getcontacts);
 app.route('/findtech')
 	.get(events.findtech);
+app.route('/findevents')
+	.get(events.getem);
+app.route('/getusers')
+	.get(events.getusers);
 
 
 // Finish with setting up the id param

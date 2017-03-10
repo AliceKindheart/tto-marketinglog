@@ -141,7 +141,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             for (var i=0; i<arr.length; i+=size) {
                 newArr.push(arr.slice(i, i+size));
             }
-            return newArr
+            return newArr;
     };
 
     $scope.findtags =  function(){

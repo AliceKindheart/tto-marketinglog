@@ -148,7 +148,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             for (var i=0; i<arr.length; i+=size) {
                 newArr.push(arr.slice(i, i+size));
             }
-            return newArr
+            return newArr;
     };
 
   //$scope.getUser = function(){
@@ -359,5 +359,60 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
     $scope.select = function(contact){
         $scope.contact = contact;
     };  
+
+
+    $scope.findEvents = function(){
+        $scope.RUnumbers =[];
+        $scope.Technologytitles=[];
+        $scope.followups=[];
+        $scope.users=[];
+        $http({
+            method: 'GET',
+            url: '/findevents'
+        }).then(function(response){
+            $scope.events = response.data;
+            var evnts = $scope.events;
+            //console.log("TYpeof $scope.events", typeof $scope.events);
+            console.log("events", $scope.events);
+            if($scope.events.length===0){
+                //console.log("should hide");
+                $scope.noevents = true;
+            } else {
+                $scope.noevents = false;
+            }
+
+            for(var i=0; i<evnts.length; i++){
+                //get technology info
+                $http({
+                    method: "GET",
+                    url: "/getrunumbers",
+                    params: {id: evnts[i].TechnologyId}
+                }).then(function(ru){
+                    //console.log(ru);
+                    var tek = ru.data;
+                    //console.log("tek", tek);
+               
+                    $scope.RUnumbers.push(tek.Tech_RUNumber);
+                    $scope.Technologytitles.push(tek.Tech_name);
+                    //console.log($scope.Technologytitles, "$scope.Technologytitles");
+                });  
+                //get user info
+                $http({
+                    method: "GET", 
+                    url: '/getusers',
+                    params: {id: evnts[i].UserId}
+                }).then(function(user){
+                    //console.log("user", user);
+                    var usr = user.data;
+                    $scope.users.push(usr.username);
+                    console.log('$scope.users', $scope.users);
+                });
+
+
+
+            }
+            
+        });
+    };
 
 }]);

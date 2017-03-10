@@ -60,7 +60,7 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
                 data: {
                     oldpassword: $scope.oldpassword,
                     newpassword: $scope.newpassword,
-                    id: user.id
+                    //id: user.id
                 }
             }).then(function(){
                 $window.confirm("Password updated successfully");
@@ -151,7 +151,7 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
             for (var i=0; i<arr.length; i+=size) {
                 newArr.push(arr.slice(i, i+size));
             }
-            return newArr
+            return newArr;
     };
 
     $scope.addNewTag = function(){
@@ -162,8 +162,8 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
                 Tag_name: $scope.tagname
             }
         }).then(function(){
-            $scope.user = user;
-            console.log("$scope.user", $scope.user);
+        //    $scope.user = user;
+        //    console.log("$scope.user", $scope.user);
             $window.location.reload();
         });
     };
