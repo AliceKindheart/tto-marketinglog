@@ -362,14 +362,17 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
 
 
     $scope.findEvents = function(){
-        $scope.RUnumbers =[];
+        $scope.Eventtechs =[];
         $scope.Technologytitles=[];
         $scope.followups=[];
         $scope.users=[];
+        $scope.companies=[];
+        $scope.arrayofarrayofcontacts=[];
         $http({
             method: 'GET',
-            url: '/findevents'
+            url: '/getem'
         }).then(function(response){
+            //console.log("ReSPONSE", response);
             $scope.events = response.data;
             var evnts = $scope.events;
             //console.log("TYpeof $scope.events", typeof $scope.events);
@@ -380,39 +383,41 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             } else {
                 $scope.noevents = false;
             }
+            //console.log("Found events");
+            for(var i=0; i<$scope.events.length; i++){
+                $scope.Eventtechs.push($scope.events[i].Technology);
+                $scope.users.push($scope.events[i].User);
+                $scope.companies.push($scope.events[i].Company);
 
-            for(var i=0; i<evnts.length; i++){
-                //get technology info
-                $http({
-                    method: "GET",
-                    url: "/getrunumbers",
-                    params: {id: evnts[i].TechnologyId}
-                }).then(function(ru){
-                    //console.log(ru);
-                    var tek = ru.data;
-                    //console.log("tek", tek);
-               
-                    $scope.RUnumbers.push(tek.Tech_RUNumber);
-                    $scope.Technologytitles.push(tek.Tech_name);
-                    //console.log($scope.Technologytitles, "$scope.Technologytitles");
-                });  
-                //get user info
-                $http({
-                    method: "GET", 
-                    url: '/getusers',
-                    params: {id: evnts[i].UserId}
-                }).then(function(user){
-                    //console.log("user", user);
-                    var usr = user.data;
-                    $scope.users.push(usr.username);
-                    console.log('$scope.users', $scope.users);
-                });
-
-
-
+                if($scope.events[i].Contacts){
+                    $scope.arrayofarrayofcontacts.push($scope.events[i].Contacts);
+                } else {
+                    $scope.arrayofarrayofcontacts.push({"Contact Name": "none"});
+                }
             }
-            
+
+            var arrayofcontactnames =[];
+            var contactnames =[];
+
+            $scope.arrayofarrayofcontacts.forEach(function(array){
+                array.forEach(function(contact){
+                    contactnames.push(contact.Contact_name);
+                });
+                arrayofcontactnames.push(contactnames);
+                contactnames = [];
+            });
+
+            var stringofcontactnames;
+            arrayofcontactnames.forEach(function(array){
+                stringofcontactnames=array.join(", ");
+                contactnames.push(stringofcontactnames);
+            });
+
+            $scope.contactnames = contactnames;
+            //$scope.geteventsinfo();
+            console.log("$scope.arrayofarrayofcontacts", $scope.arrayofarrayofcontacts);
         });
     };
+           
 
 }]);

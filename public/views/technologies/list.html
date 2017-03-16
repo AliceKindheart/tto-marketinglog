@@ -56,20 +56,18 @@
             		<th id="colorrow">RU Number</th>
             		<th id="colorrow">Technology Title</th>
             		<th id="colorrow">Company</th>
-            		<th id="colorrow">Contact</th>
+            		<th id="colorrow">Contact(s)</th>
             		<th id="colorrow">Method</th>
-            		<th id="colorrow">Follow Up?</th>
             		<th id="colorrow">Follow Up Date</th>
         		</tr>
         		<tr data-ng-repeat="event in events" >
         			<td>{{event.Event_date | date:'MM/dd/yyyy'}}</td>
-        			<td>{{users[$index]}}</td>
-        			<td>{{RUnumbers[$index]}}</td>
-        			<td>{{Technologytitles[$index]}}</td>
-        			<td>{{event.Company.Company_name}}</td>
-        			<td>{{event.Contact.Contact_name}}</td>
+        			<td>{{users[$index].username}}</td>
+        			<td>{{Eventtechs[$index].Tech_RUNumber}}</td>
+        			<td>{{Eventtechs[$index].Tech_name}}</td>
+        			<td>{{companies[$index].Company_name}}</td>
+        			<td>{{contactnames[$index]}}</td>
         			<td>{{event.Event_method}}</td>
-        			<td>{{event.Event_flag}}</td>
         			<td>{{event.Event_followupdate | date:'MM/dd/yyyy'}}</td>
     			</tr>
 			</table>

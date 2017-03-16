@@ -34,6 +34,9 @@ app.route('/usercampaigns')
 app.route('/getrunumbers')
 	.get(technologies.runumbers);
 
+app.route('/getcompanies')
+	.get(technologies.getcompanies);
+
 //app.route('/mymarketing')
 //	.get(technologies.mine);
 

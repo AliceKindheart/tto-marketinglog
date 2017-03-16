@@ -8,14 +8,18 @@ module.exports = function(sequelize, DataTypes) {
 			//Event_outcome: DataTypes.STRING,
 			Event_method: DataTypes.STRING,
 			Event_flag: DataTypes.BOOLEAN,
-			Event_followupdate: DataTypes.DATE
+			Event_followupdate: DataTypes.DATE,
+			isFollowUp: DataTypes.BOOLEAN
 		},
 		{
 			associate: function(models) {
 					Event.belongsTo(models.User, {through: 'UserEvents'});
 					Event.belongsTo(models.Company, {through: 'CompanyEvents'});
 					Event.belongsTo(models.Technology, {through: 'TechEvents'});
-					Event.belongsToMany(models.Contact, {through: 'ContactEvents'});
+					Event.belongsToMany(models.Contact, {
+						through: 'ContactEvents',
+						foreignKey: "Event_rowId"
+					});
 			}
 		}
 

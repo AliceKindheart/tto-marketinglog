@@ -257,10 +257,22 @@ exports.destroy = function(req, res) {
 };
 
 exports.runumbers = function(req,res){
-    console.log("req.query", req.query);
+    //console.log("req.query", req.query);
     db.Technology.findOne({where: {id:req.query.id}})
     .then(function(tec){
         return res.jsonp(tec);
+    }).catch(function(err){
+        return res.render('error', {
+            error: err,
+            status: 500
+        });
+    });
+};
+
+exports.getcompanies = function(req,res){
+    db.Company.findOne({where: {id:req.query.id}})
+    .then(function(cmp){
+        return res.jsonp(cmp);
     }).catch(function(err){
         return res.render('error', {
             error: err,

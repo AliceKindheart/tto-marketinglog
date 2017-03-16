@@ -10,10 +10,10 @@ var db = require('../../config/sequelize');
  * List of Events
  */
 exports.all = function(req, res) {
-    console.log("exports.all events happened");
+    //console.log("exports.all events happened");
     
     db.Event.findAll().then(function(events){
-        console.log("EVVVVVVENNNNTTTSSS");
+        //console.log("EVVVVVVENNNNTTTSSS");
         return res.jsonp(events);
     }).catch(function(err){
         return res.render('error', {
@@ -64,61 +64,70 @@ exports.show = function(req, res) {
  * Create an event
  */
 exports.create = function(req, res) {
-    //console.log("CCCCCCCCCCRRRRRRRRRRRRREEEEEEEEEEEAATE");
-    //console.log("REQ.USERRRRR", req.user);
-    // augment the event by adding the UserId
-    //req.body.UserId = req.user.id;
-    //console.log("req.body");
-    //console.log(req.body);
     var techtofind = req.body.Technology;
-    //console.log("techtofind", techtofind);
+    //console.log("REQ>BODY.company", req.body.Company);
+    var comptofind = req.body.Company;
+    console.log("REQBODYCONTACTS", req.body.Contacts);
+    //console.log("comptofind.CONTACTS", comptofind.Contacts);
     var user;
     var tek;
+    var comp;
 
-   // db.User.findOne({where: {id: req.user.id}})
-     //   .then(function(user){
-       //     console.log("USERUSER", user);
-         //   user = user;
-       // }).then(function(){
-    db.Technology.findOne({where: {id: techtofind.id}
-        }).then(function(foundtech){
-            tek=foundtech;
-        // save and return an instance of event on the res object. 
-            return db.Event.create(req.body);
-        }).then(function(event){
-                event.setUser(req.user, {through: 'UserEvents'});
-                //console.log("USER SUCCESS!");
-                //event.setCompany(req.body.Company);
-                //console.log("COMPANY SUCCESS!");
-                event.setTechnology(tek, {through: 'TechEvents'});
-                //console.log("TECHNOLOGY SUCCESS");
-                //event.setContacts(req.body.Contacts);
-                //console.log("CONTACTS SUCCESS");
+    db.Company.findOne({where: {Company_name: comptofind.Company_name}
+        }).then(function(cmp){
+            comp = cmp;
+            //console.log("COMAONY", comp);
+            return db.Technology.findOne({where: {id: techtofind.id}
+            }).then(function(foundtech){
+                tek=foundtech;
+            // save and return an instance of event on the res object. 
+                return db.Event.create(req.body);
+            }).then(function(event){
+                    event.setUser(req.user, {through: 'UserEvents'});
+                    event.setTechnology(tek, {through: 'TechEvents'});
+                    event.setCompany(comp, {through:'CompanyEvents'});
 
-                //event.addCompany([req.body.Company_name]);
-                //console.log("TRYING TO SAVE THE EVENT INFO");
-                //console.log(req.body);
-                if(!event){
-                    console.log("NOTANEVENT!!!!");
-                    return res.send('users/signup', {errors: new StandardError('EVENT could not be created')});
-                } else {
-                    return res.jsonp(event);
-                }
-        }).catch(function(err){
-            console.log("THROWING AN ERROR MESSAGE", err);
-            return res.render('error', {
-                error: err,
-                status: 500
+                    //req.body.Contacts.forEach(function(cont){
+                      //  console.log("CONTACT", cont);
+                        //event.createContact(cont, {through: 'ContactEvents'});
+                    //});
+
+                    for(var i=0; i<req.body.Contacts.length; i++){
+                        console.log("req.body.Contacts[i]", req.body.Contacts[i]);
+                        db.Contact.findOne({where: {id: req.body.Contacts[i].id}
+                            }).then(function(cont){
+                                console.log("CTONCTAFOUND", cont);
+                                cont.addEvent(event);
+                            });
+                       // event.setContact(req.body.Contacts[i]);
+                    }
+
+
+
+
+                    //event.setContacts(req.body.Contacts, {through: 'ContactEvents'});
+                    if(!event){
+                        console.log("NOTANEVENT!!!!");
+                        return res.send('users/signup', {errors: new StandardError('EVENT could not be created')});
+                    } else {
+                        return res.jsonp(event);
+                    }
+            }).catch(function(err){
+                console.log("THROWING AN ERROR MESSAGE", err);
+                return res.render('error', {
+                    error: err,
+                    status: 500
+                });
             });
         });
 
 };
 
 exports.getusers = function(req,res){
-    console.log("REQ.QUERY", req.query);
+    //console.log("REQ.QUERY", req.query);
     db.User.findOne({where: {id: req.query.id}})
     .then(function(user){
-        console.log("Found USer", user);
+        //console.log("Found USer", user);
         return res.jsonp(user);
     }).catch(function(err){
         return res.render('error', {
@@ -126,6 +135,21 @@ exports.getusers = function(req,res){
             status: 500
         });
     });
+};
+
+exports.getcontactsforevents = function(req,res){
+    console.log("E:TLKJER:LKJEWT:KLWEJT:LWTEJ:WLTJK:WLTJ:WETJKW:ETJHEEEEEEEEEEEEEEEEEEEE");
+    db.Contact.getEvents({
+            where: {Event_rowId: req.query.id}
+        }).then(function(cntcs){
+            console.log("CATAAGDFADFG", cntcs);
+            return res.jsonp(cntcs);
+        }).catch(function(err){
+            return res.render('error', {
+                error: err,
+                status: 500
+            });
+        });
 };
 
 /**
@@ -202,8 +226,10 @@ exports.getcontacts = function(req,res){
 };
 
 exports.getem = function(req,res){
-    db.Event.findAll()
+    //console.log("THEHEHTHT:SWEKT");
+    db.Event.findAll({include: [{model: db.Contact}, {model: db.User}, {model:db.Company}, {model:db.Technology}]})
         .then(function(evnts){
+            //console.log("EVENTSEVENTSEVENTSEVETNTSEVENTESEVENTS", evnts);
             return res.jsonp(evnts);
         }).catch(function(err){
             return res.render('error', {

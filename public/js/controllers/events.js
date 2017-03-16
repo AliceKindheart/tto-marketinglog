@@ -8,7 +8,7 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
             Event_date: this.Event_date,
             Event_notes: this.notes,
             Company: this.company,
-            Contacts: this.contact,
+            Contacts: this.selected,
             Technology: this.technology,
             Event_flag: this.Event_flag,
             Event_followupdate: this.followupdate, 
@@ -163,6 +163,25 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
     $scope.selectmethod = function (method){
         $scope.Event_method = method;
     }; 
+
+    $scope.selected = [];
+
+    $scope.toggle = function (contact, selected) {
+        var idx = selected.indexOf(contact);
+        console.log("idx", idx);
+        if (idx > -1) {
+          selected.splice(idx, 1);
+        }
+        else {
+          selected.push(contact);
+        }
+      };
+
+      $scope.exists = function (tag, list) {
+    return list.indexOf(tag) > -1;
+    };
+
+
     
 
 }]);

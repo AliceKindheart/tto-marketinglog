@@ -62,7 +62,7 @@ Company.create({
 }).then(function(comp){
 	var company = comp;
 	Contact.create({
-	Contact_name: "Kitty Cat",
+	Contact_name: "Ms. Rumplefur",
 	Contact_title: "Cutest cat on the internet",
 	Contact_email: "cat@internet.net",
 	Contact_phone: "555-234-5644"
@@ -79,7 +79,7 @@ Company.create({
 }).then(function(company){
 	var company=company;
 	Contact.create({
-		Contact_name: "Mr. Whiskers",
+		Contact_name: "Mr. Whiskerface",
 		Contact_title: "Chief Napper",
 		Contact_email: "whiskers@catcat.net",
 		Contact_phone: "555-233-5676"
@@ -95,7 +95,7 @@ Company.create({
 }).then(function(comp){
 	var company = comp;
 	Contact.create({
-		Contact_name: "Zippy Sipperson",
+		Contact_name: "Zippy the Squirrel",
 		Contact_title: "Chief Coffee Drinker",
 		Contact_email: "coffeecoffeebuzzbuzzbuzz@gmail.com",
 		Contact_phone: "586-395-0395"
@@ -111,7 +111,7 @@ Company.create({
 	}).then(function(comp){
 		var company = comp;
 		Contact.create({
-		Contact_name: "Flappy Jackson",
+		Contact_name: "Flappy Jack Patterson",
 		Contact_title: "Head Flapjack",
 		Contact_email: "jack@flap.net",
 		Contact_phone: "555-244-5676"
