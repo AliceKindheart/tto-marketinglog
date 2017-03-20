@@ -139,6 +139,82 @@ exports.searchformine = function(req,res){
         });
 };
 
+exports.geteventsforonetechnology = function(req,res){
+    db.Event.findAll({where: {TechnologyId: req.query.techid}, include: [{model:db.User}, {model:db.Contact}, {model:db.Technology}, {model:db.Company}]
+    }).then(function(evnts){
+        return res.jsonp(evnts);
+    }).catch(function(err){
+        return res.send({
+            errors: err,
+            status: 500
+        });
+    });
+};
+
+exports.findsuggestedcompanies = function(req,res){
+    console.log("FFFFFFFFFFFFFFFFFFFFunctionwas called");
+    var Tagnames = req.query.tagids;
+    console.log("TAGss", Tagnames);
+    var foundcomps = [];
+    console.log("TYPEOF TAGNAMES:", typeof Tagnames);
+
+    if(typeof Tagnames==="string"){
+        console.log("NUMBER@@@@@$%#^@$%&#^&");
+        db.Company.findAll({
+            include: [{
+                model: db.Tag,
+                attributes: ['id', 'Tag_name'],
+                where: {'$TagId$': Tagnames}
+            }]
+        }).then(function(cmps){
+            return res.jsonp(cmps);
+        });
+    } else {
+        db.Company.findAll({
+            include: [{
+                model: db.Tag,
+                attributes: ['id', 'Tag_name'],
+                //through: {CompanyTags: {where: {TagId: 2}}}
+                where: {'$TagId$': {$in:Tagnames}}
+                //where: {TagId: {$in: Tagnames}}
+            }]
+        }).then(function(cmps){
+            console.log(cmps);
+            return res.jsonp(cmps);
+        });
+    }
+
+
+//    if(Tagnames.length>0){
+  //      for (var i=0; i<Tagnames.length; i++){
+    //        db.Company.findAll({
+      //          include: [{
+                     
+        //            model:db.Tag, 
+          //          where: {id: Tagnames[i].id} 
+            //    }]
+//            }).then(function(comp){
+  //              if (comp){foundcomps.push(comp);}
+    //        });
+      //      console.log("FOUDNCOMPS", foundcomps);
+        //return res.jsonp(foundcomps);
+        //}
+    //}
+
+
+    //db.Company.findAll()
+//    db.Company.findAll({through: 'CompanyTags', where: {Tag_name:{$in:Tagnames}}, include: [{model: db.Company}, {model: db.Technology}]
+  //  }).then(function(comps){
+    //    console.log("COMPS", comps);
+      //  return res.jsonp(comps);
+//    }).catch(function(err){
+  //      return res.send({
+    //        errors: err,
+      //      status: 500
+        //});
+    //});
+};
+
 exports.active = function(req,res){
     //console.log("HHHHHHHHHHHHHHIIIII");
     db.Technology.findAll({where: {isActive: true}, include: [{model: db.User}, {model: db.Tag}]})

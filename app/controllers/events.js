@@ -86,6 +86,7 @@ exports.create = function(req, res) {
                     event.setUser(req.user, {through: 'UserEvents'});
                     event.setTechnology(tek, {through: 'TechEvents'});
                     event.setCompany(comp, {through:'CompanyEvents'});
+                    comp.addEvent(event, {through:"CompanyEvents"});
 
                     //req.body.Contacts.forEach(function(cont){
                       //  console.log("CONTACT", cont);

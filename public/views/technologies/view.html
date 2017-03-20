@@ -27,16 +27,46 @@
           </table>
         </div>
     </div>  
-    <a class="btn btn-primary" ui-sref="addEvent({id : technology.id})">Add Event</a>
-   <div class="panel panel-primary">
+
+
+    <div class="panel panel-primary">
       <div class="panel-heading">
-        <h4 class="panel-title ">{{technology.Tech_name}} Campaign Events</h4>
+        <h4 class="panel-title">Suggested Companies</h4>
       </div>
-      <div class="panel-body"> 
-        <p>nothing yet</p>
+      <table class="table">
+            <tr ng-repeat="company in suggestedcompanies" ui-sref="viewCompany({id: company.id})"><td>{{company.Company_name}}</td>
+            </tr>
+      </table>
+
+
+    <a class="btn btn-primary" ui-sref="addEvent({id : technology.id})">Add Event</a>
+   
+    <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h4 class="panel-title ">{{technology.Tech_name}} Marketing Events</h4>
+          </div>
+          <div class="panel-body"> 
+            <p ng-show="!events">No Events at this time.</p>
+            <table ng-hide="noevents" class="table table-bordered">
+              <tr>
+                <th id="colorrow">Event Date</th>
+                <th id="colorrow">Marketer</th>
+                <th id="colorrow">Company</th>
+                <th id="colorrow">Contact(s)</th>
+                <th id="colorrow">Method</th>
+                <th id="colorrow">Follow Up Date</th>
+            </tr>
+            <tr data-ng-repeat="event in events" >
+              <td>{{event.Event_date | date:'MM/dd/yyyy'}}</td>
+              <td>{{users[$index].username}}</td>
+              <td>{{companies[$index].Company_name}}</td>
+              <td>{{contactnames[$index]}}</td>
+              <td>{{event.Event_method}}</td>
+              <td>{{event.Event_followupdate | date:'MM/dd/yyyy'}}</td>
+          </tr>
+        </table>
       </div>
     </div>  
-    <div>
 
 </section>
 

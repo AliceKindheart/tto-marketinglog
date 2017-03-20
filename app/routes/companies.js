@@ -24,8 +24,11 @@ app.route('/companies/:companyid')
 app.route('/searchforcompany')
 	.get(companies.search);
 
+app.route('/getcompanyevents')
+	.get(companies.getcompanyevents);
+
+
 // Finish with setting up the id param
 // Note: the companies.company function will be called everytime then it will call the next function.
 app.param('companyid', companies.company);
 };
-

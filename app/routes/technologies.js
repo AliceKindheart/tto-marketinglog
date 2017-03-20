@@ -37,6 +37,12 @@ app.route('/getrunumbers')
 app.route('/getcompanies')
 	.get(technologies.getcompanies);
 
+app.route('/geteventsforonetechnology')
+	.get(technologies.geteventsforonetechnology);
+
+app.route('/findsuggestedcompanies')
+	.get(technologies.findsuggestedcompanies);
+
 //app.route('/mymarketing')
 //	.get(technologies.mine);
 

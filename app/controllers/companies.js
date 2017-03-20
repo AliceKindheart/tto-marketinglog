@@ -13,7 +13,7 @@ var db = require('../../config/sequelize');
  * Its purpose is to preload the company on the req object then call the next function. 
  */
 exports.company = function(req, res, next, id) {
-    db.Company.find({where: {id: id}, include: [{model: db.Tag}, {model: db.Contact}]}).then(function(company){
+    db.Company.find({where: {id: id}, include: [{model: db.Tag}, {model: db.Contact}, {model: db.Event}]}).then(function(company){
         if(!company) {
             return next();
         } else {            
@@ -116,8 +116,28 @@ exports.search = function(req, res) {
     db.Company.findAll({where: {Company_name:  {$like: '%' + req.query.compname + '%'}}, include: [{model: db.Tag}]})
         .then(function(comps){
             return res.jsonp(comps);
+        }).catch(function(err){
+            return res.render('error', {
+                error: err,
+                status: 500
+            });
         });
 };
+
+exports.getcompanyevents = function(req,res){
+    db.Event.findAll({where: {CompanyId: req.query.compid}, include: [{model: db.Contact}, {model: db.User}, {model: db.Company}, {model: db.Technology}]
+        }).then(function(events){
+            return res.jsonp(events);
+        }).catch(function(err){
+            return res.render('error',{
+                error: err,
+                status: 500
+            });
+        });
+};
+
+
+
 
 /**
  * Update a company
