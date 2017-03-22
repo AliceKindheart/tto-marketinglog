@@ -68,17 +68,20 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
     var showtags;
     var whatyouneed;
 
+    
+    //$scope.tagids = [];
+
     $scope.findOne = function() {
         var tagarray = [];
         var tags = [];
-        var tagids =[];
+        var tagids =[]; 
         var user;
     
         Technologies.get({
             id: $stateParams.id 
             }, function(technology) {
                 $scope.technology = technology;
-                console.log($scope.technology, "$scope.technology");
+                //console.log($scope.technology, "$scope.technology");
                 if (technology.User) {
                     //console.log("whyis thisbeing called?");
                     $scope.user = technology.User;
@@ -104,7 +107,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
                 });
 
                 $scope.tagids = tagids;
-                console.log("$scope.tagids", $scope.tagids);
+                //console.log("$scope.tagids", $scope.tagids);
 
 
 
@@ -116,14 +119,17 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
                 $scope.selected = $scope.tags;
 
                 $scope.findEventsforOneTechnology();
-                $scope.findSuggestedCompanies();
+                
+                
+                
+                
         
             });
     };
 
     $scope.findSuggestedCompanies = function(){
-        console.log("findSuggestedCompanieswas called");
-        console.log("$SCOPE")
+        //console.log("findSuggestedCompanieswas called");
+        //console.log("$SCOPE");
         $http({
             method: 'GET',
             url: '/findsuggestedcompanies',
@@ -135,8 +141,62 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
 
             }
         }).then(function(resp){
-            console.log("response", resp);
+            //console.log("response", resp);
             $scope.suggestedcompanies=resp.data;
+            $scope.suggestedcompanynames=[];
+
+            //put suggested company names into an array so that it can be cross-checked against companies that have been contacted
+            for (var x=0; x<$scope.suggestedcompanies.length; x++){
+                $scope.suggestedcompanynames.push($scope.suggestedcompanies[x].Company_name);
+            }
+
+            console.log("$scope.suggestedcompanynames before loop", $scope.suggestedcompanynames);
+            console.log("$scope.companynames", $scope.companynames);
+
+            //loop through $scope.suggestedcompanies to get rid of companies that have already been contacted (i.e., there's an event associated with the company)
+            for (var k=0; k<$scope.suggestedcompanynames.length; k++){
+                for(var m=0; m<$scope.companynames.length; m++){
+                    console.log("$scope.suggestedcompanynames[k]", $scope.suggestedcompanynames[k], "$scope.companynames[m]", $scope.companynames[m]);
+                    if($scope.suggestedcompanynames[k]===$scope.companynames[m]){
+                        console.log("SPLICE");
+                        $scope.suggestedcompanynames.splice(k,1);
+                        break;
+                    }
+                }
+            }
+            console.log("$scope.suggestedcompanynames", $scope.suggestedcompanynames);
+
+            var foundtags=[];
+            var foundtagnames =[];
+            var foundarrayoftagnames=[];
+            var foundarrayofarrayoftags=[];
+            //$scope.foundtagnames=[];
+            //creating an array of arrays of tag objects 
+            for (var i=0; i<$scope.suggestedcompanies.length; i++){
+                    foundtags.push($scope.suggestedcompanies[i].Tags);
+                }            
+            //going through the array of array of tag objects and putting the name of each tag into a separate array
+            //console.log("foundtags", foundtags);
+
+            foundtags.forEach(function(arrayoftags){
+                arrayoftags.forEach(function(tagobject){
+                    foundtagnames.push(tagobject.Tag_name);
+                });
+                //push all the tagnames for one matched company into another array
+                foundarrayoftagnames.push(foundtagnames);
+                //clear the array of tagnames we just pushed
+                foundtagnames = [];
+            });
+
+            //make foundarrayoftagnames into one string of found tag names
+            var foundstringoftagnames;
+            var finaltagnames=[];
+            foundarrayoftagnames.forEach(function(array){
+                foundstringoftagnames=array.join(", ");
+                finaltagnames.push(foundstringoftagnames);
+            });
+            $scope.finaltagnames=finaltagnames;
+            //console.log("$scope.finaltagnames", $scope.finaltagnames);
         });
     };
 
@@ -424,6 +484,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             params: {techid: $scope.technology.id}
         }).then(function(response){
             $scope.makeEventDataUseable(response);
+            //return true;
             //console.log("ReSPONSE", response);
             
             //$scope.geteventsinfo();
@@ -431,8 +492,11 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         });
     };
 
+    $scope.companynames=[];
+
     $scope.makeEventDataUseable = function(response){
         $scope.events = response.data;
+        
             var evnts = $scope.events;
             //console.log("TYpeof $scope.events", typeof $scope.events);
             console.log("events", $scope.events);
@@ -455,6 +519,14 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
                 }
             }
 
+            //push company names into $scope.companynames so that they can be compared to list of suggested companies and duplicates removed
+            console.log("$scope.companies", $scope.companies);
+            for(var w=0; w<$scope.companies.length; w++){
+                console.log("$scope.companies[w].Company_name", $scope.companies[w].Company_name);
+                $scope.companynames.push($scope.companies[w].Company_name);
+            }
+            console.log("$scope.companynames", $scope.companynames);
+
             var arrayofcontactnames =[];
             var contactnames =[];
 
@@ -473,6 +545,8 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             });
 
             $scope.contactnames = contactnames;
+           // console.log("$scope.companies", $scope.companies);
+           $scope.findSuggestedCompanies();
     };
            
 

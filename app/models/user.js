@@ -10,6 +10,8 @@ module.exports = function(sequelize, DataTypes) {
 
 	var User = sequelize.define('User', 
 		{
+			//first_name: DataTypes.STRING,
+			//last_name: DataTypes.STRING,
 			name: DataTypes.STRING,
 			email: DataTypes.STRING,
 			username: DataTypes.STRING,
@@ -45,11 +47,15 @@ module.exports = function(sequelize, DataTypes) {
 					salt = new Buffer(salt, 'base64');
 					return crypto.pbkdf2Sync(password, salt, 10000, 64).toString('base64');
 				}
+
 			},
 			associate: function(models) {
 				User.hasMany(models.Article);
 				User.belongsToMany(models.Technology, {through: 'UserTechnologies'});
 				//User.belongsToMany(models.Events, {through: 'UserEvents'})
+			},
+			get fullName(){
+				return (this.first_name + " " + this.last_name);
 			}
 		}
 	);

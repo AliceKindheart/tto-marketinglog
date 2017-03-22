@@ -74,7 +74,7 @@ exports.create = function(req, res) {
 };
 
 exports.search = function(req,res) {
-    db.Contact.findAll({where: {Contact_name: {$like: '%' + req.query.contactname + '%'}}, include: [{model: db.Company}]})
+    db.Contact.findAll({where: {Contact_name: {$like: '%' + req.query.contactname + '%'}}, include: [{model: db.Company}], order: 'Contact_name'})
         .then(function(contacts){
             return res.jsonp(contacts);
         });
@@ -156,7 +156,7 @@ exports.showy = function(req, res) {
 exports.all = function(req, res) {
     console.log("exports.all for contacts happened");
     
-    db.Contact.findAll({include: [{model: db.Company}]}).then(function(contacts){
+    db.Contact.findAll({include: [{model: db.Company}], order: "Contact_name"}).then(function(contacts){
         console.log("CCCCCContacts");
         return res.jsonp(contacts);
     }).catch(function(err){

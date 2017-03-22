@@ -10,7 +10,7 @@ var db = require('../../config/sequelize');
  * List of Technologies
  */
 exports.all = function(req, res) {
-    db.Technology.findAll({include: [{model: db.Tag}, {model: db.User}]})
+    db.Technology.findAll({include: [{model: db.Tag}, {model: db.User}], order: 'Tech_RUNumber'})
         .then(function(technologies){
             return res.jsonp(technologies);
         }).catch(function(err){
@@ -127,7 +127,7 @@ exports.search = function(req, res){
 
 exports.searchformine = function(req,res){
     //console.log("req.user:", req.user);
-    db.Technology.findAll({where: {UserId: req.user.id, isActive: true}, include: [{model: db.User}, {model: db.Tag}]})
+    db.Technology.findAll({where: {UserId: req.user.id, isActive: true}, include: [{model: db.User}, {model: db.Tag}], order: 'Tech_RUNumber'})
         .then(function(tex){
             //console.log("TEXXXXXXXXX", tex);
             return res.jsonp(tex);
@@ -140,7 +140,7 @@ exports.searchformine = function(req,res){
 };
 
 exports.geteventsforonetechnology = function(req,res){
-    db.Event.findAll({where: {TechnologyId: req.query.techid}, include: [{model:db.User}, {model:db.Contact}, {model:db.Technology}, {model:db.Company}]
+    db.Event.findAll({where: {TechnologyId: req.query.techid}, include: [{model:db.User}, {model:db.Contact}, {model:db.Technology}, {model:db.Company}], order: 'Event_date'
     }).then(function(evnts){
         return res.jsonp(evnts);
     }).catch(function(err){
@@ -164,8 +164,9 @@ exports.findsuggestedcompanies = function(req,res){
             include: [{
                 model: db.Tag,
                 attributes: ['id', 'Tag_name'],
-                where: {'$TagId$': Tagnames}
+                where: [{'$TagId$': Tagnames}]
             }]
+            
         }).then(function(cmps){
             return res.jsonp(cmps);
         });
@@ -175,49 +176,42 @@ exports.findsuggestedcompanies = function(req,res){
                 model: db.Tag,
                 attributes: ['id', 'Tag_name'],
                 //through: {CompanyTags: {where: {TagId: 2}}}
-                where: {'$TagId$': {$in:Tagnames}}
+                where: [{'$TagId$': {$in:Tagnames}}],
+                order: "Company_name"
                 //where: {TagId: {$in: Tagnames}}
             }]
         }).then(function(cmps){
             console.log(cmps);
             return res.jsonp(cmps);
         });
-    }
 
-
-//    if(Tagnames.length>0){
-  //      for (var i=0; i<Tagnames.length; i++){
-    //        db.Company.findAll({
-      //          include: [{
-                     
-        //            model:db.Tag, 
-          //          where: {id: Tagnames[i].id} 
-            //    }]
-//            }).then(function(comp){
-  //              if (comp){foundcomps.push(comp);}
-    //        });
-      //      console.log("FOUDNCOMPS", foundcomps);
-        //return res.jsonp(foundcomps);
-        //}
-    //}
-
-
-    //db.Company.findAll()
-//    db.Company.findAll({through: 'CompanyTags', where: {Tag_name:{$in:Tagnames}}, include: [{model: db.Company}, {model: db.Technology}]
-  //  }).then(function(comps){
-    //    console.log("COMPS", comps);
-      //  return res.jsonp(comps);
-//    }).catch(function(err){
-  //      return res.send({
-    //        errors: err,
-      //      status: 500
-        //});
-    //});
+        //if(typeof Tagnames==="string"){
+//            db.Company.findAll({
+  //              include: [{
+    //                model: db.Event,
+      //              attributes: ['CompanyId', 'id'],
+        //            where: [{id: {$ne: 'CompanyId'}}]
+          //      }]
+  //          }).then(function(comps){
+    //            return res.jsonp(comps);
+         //   });
+        //} else {
+          //  db.Company.findAll({
+            //    include: [{
+              //      model: db.Event,
+                //    attributes: ['CompanyId', 'id'],
+                  //  where: [{id: {$ne: 'CompanyId'}}]
+            //    }],
+    //        }).then(function(cmps){
+      //          return res.jsonp(cmps);
+        //    });
+    }        
 };
+
 
 exports.active = function(req,res){
     //console.log("HHHHHHHHHHHHHHIIIII");
-    db.Technology.findAll({where: {isActive: true}, include: [{model: db.User}, {model: db.Tag}]})
+    db.Technology.findAll({where: {isActive: true}, include: [{model: db.User}, {model: db.Tag}], order: 'Tech_RUNumber'})
         .then(function(tex){
             //console.log("TEXXXXX", tex);
             return res.jsonp(tex);
@@ -231,7 +225,7 @@ exports.active = function(req,res){
 
 exports.usercampaigns = function(req,res){
     //console.log("REQQQQQ.QUERY", req.query);
-    db.Technology.findAll({where: {UserId: req.query.id}, include: [{model: db.User}, {model: db.Tag}]})
+    db.Technology.findAll({where: {UserId: req.query.id}, include: [{model: db.User}, {model: db.Tag}], order: 'Tech_RUNumber'})
         .then(function(tex){
             //console.log(tex, "TEXXXXXXXX");
             return res.jsonp(tex);

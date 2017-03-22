@@ -29,7 +29,7 @@ exports.company = function(req, res, next, id) {
  * List of Companies
  */
 exports.all = function(req, res) {    
-    db.Company.findAll({include: [{model: db.Tag}]}).then(function(companies){
+    db.Company.findAll({include: [{model: db.Tag}], order: 'Company_name'}).then(function(companies){
         return res.jsonp(companies);
     }).catch(function(err){
         return res.render('error', {

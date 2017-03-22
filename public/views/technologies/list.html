@@ -45,9 +45,9 @@
 
 		<div class="panel panel-primary">
           <div class="panel-heading" data-ng-init="findEvents()">
-            <h4 class="panel-title ">Events Marked for Follow-Up</h4>
+            <h4 class="panel-title ">{{global.user.name}}'s Events Marked for Follow-Up</h4>
           </div>
-          <div class="panel-body"> 
+          
             <p ng-show="noevents">Nothing to follow up with at this time.</p>
             <table ng-hide="noevents" class="table table-bordered">
             	<tr>
@@ -71,7 +71,7 @@
         			<td>{{event.Event_followupdate | date:'MM/dd/yyyy'}}</td>
     			</tr>
 			</table>
-          </div>
+          
     	</div>  
 
 
