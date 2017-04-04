@@ -4,14 +4,16 @@
 	<form class="form-horizontal" data-ng-submit="update()">
 		<table class="table table-bordered">
 			<tr>
-				<th id="colorrow">Contact Name</th>
+				<th id="colorrow">First Name</th>
+				<th id="colorrow">Last Name</th>
 				<th id="colorrow">Title/Position</th>
 				<th id="colorrow">Email</th>
 				<th id="colorrow">Phone</th>
 				<th id="colorrow">Notes</th>
 			</tr>
 			<tr>
-				<td><input type="text" data-ng-model="contact.Contact_name" id="Contact_name" placeholder="Contact Name" required/>
+				<td><input type="text" data-ng-model="contact.Contact_firstname" id="Contact_firstname" placeholder="First Name" required/>
+				<td><input type="text" data-ng-model="contact.Contact_lastname" id="Contact_lastname" placeholder="Last Name" required/>
 				</td><td><input type="text" data-ng-model="contact.Contact_title" id="title" placeholder="Title"/></td>
 				<td><input type="text" data-ng-model="contact.Contact_email" id="Email" placeholder="Email" required /></td>
 				<td><input type="text" data-ng-model="contact.Contact_phone" id="Phone" placeholder="Phone number"/></td>

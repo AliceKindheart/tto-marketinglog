@@ -43,57 +43,47 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
     };
 
     $scope.update = function() {
-        //$scope.$apply();
         var technology = $scope.technology;
         var tagname = $scope.whatyouneed;
-        //console.log("tagname", tagname);
         var marketer = $scope.Tech_marketer;
-        //console.log("$scope.marketer", $scope.marketer);
 
         technology.Tag_name = $scope.whatyouneed;
-        //console.log(technology.Tag_name, "technology.Tag_name");
         technology.marketer = $scope.marketer;
-        //technology.User = $scope.Tech_marketer;
-        console.log(technology, "technology");
-    
+        
         technology.updated = [];
         
         technology.updated.push(new Date().getTime());
         technology.$update(function() {
         $state.go('viewTech',{id : technology.id});
-
         });
     };
 
     var showtags;
     var whatyouneed;
-
-    
-    //$scope.tagids = [];
+    var tagarray = [];
+    var tags = [];
+    var tagids =[]; 
+    var user;
 
     $scope.findOne = function() {
-        var tagarray = [];
-        var tags = [];
-        var tagids =[]; 
-        var user;
+        
     
+        //get information about technology
         Technologies.get({
             id: $stateParams.id 
             }, function(technology) {
                 $scope.technology = technology;
-                //console.log($scope.technology, "$scope.technology");
+
+                //get technology marketer
                 if (technology.User) {
-                    //console.log("whyis thisbeing called?");
                     $scope.user = technology.User;
                     $scope.username = technology.User.name;
                 } else {
                     $scope.username = "none";
                     $scope.user = "none";
                 }
-                //console.log($scope.user, "$scope.user");
-                //console.log($scope.user.name, "$scope.user.name");
-                //$scope.tagstomatch = $scope.technology.Tags;
-                //console.log("$scope.tagstomatch", $scope.tagstomatch);
+                
+                //get technology tag objects
                 if(technology.Tags.length!==0){
                     tagarray = technology.Tags;
                 } else {
@@ -101,70 +91,227 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
                 }
                 $scope.tagarray = tagarray;
 
+                //pull out tagnames of each tag
                 tagarray.forEach(function(tag){
                     tags.push(tag.Tag_name);
                     tagids.push(tag.id);
                 });
 
-                $scope.tagids = tagids;
-                //console.log("$scope.tagids", $scope.tagids);
+                //$scope.tagids = tagids;
+               // $scope.whatyouneed = tags;
+                //whatyouneed = $scope.whatyouneed;
 
-
-
-                $scope.whatyouneed = tags;
-                whatyouneed = $scope.whatyouneed;
-
+                //get tagnames into easy to display format
                 $scope.tags = tags.join(", ");
-                 $scope.findtagsandusers();
-                $scope.selected = $scope.tags;
-
+                 //$scope.findtagsandusers();
+                //$scope.selected = $scope.tags;
                 $scope.findEventsforOneTechnology();
-                
-                
-                
-                
-        
             });
     };
 
+    $scope.findEventsforOneTechnology = function(){
+      $http({
+            method: 'GET',
+            url: '/geteventsforonetechnology',
+            params: {techid: $scope.technology.id}
+        }).then(function(response){
+            $scope.makeEventDataUseable(response);
+        });
+    };
+
+    $scope.companynames=[];
+    $scope.Eventtechs =[];
+    $scope.users=[];
+    $scope.companies=[];
+    $scope.arrayofarrayofcontacts=[];
+    $scope.arrayofcontacts=[];
+    $scope.parsedevents=[];
+    $scope.collectingevents=[];
+
+    $scope.makeEventDataUseable = function(response){
+        $scope.events = response.data;
+        //var evnts = $scope.events;
+        
+        console.log("events", $scope.events);
+        if($scope.events.length===0){
+            //console.log("No events");
+            //console.log("should hide");
+            $scope.noevents = true;
+        } else {
+            $scope.noevents = false;
+        }
+
+        //separate events by company 
+        //(events are returned sorted by company, but this will put all the events associated with a company 
+        //into a separate array)
+        //we'll also create an array of contact objects for each set of company events
+        if(!$scope.noevents){
+            var nametocheck = $scope.events[0].Company.Company_name;
+            
+            for(var k=0; k<$scope.events.length; k++){
+                if($scope.events[k].Company.Company_name===nametocheck){
+                    $scope.collectingevents.push($scope.events[k]);
+                    $scope.arrayofcontacts.push($scope.events[k].Contacts);
+                } else {
+                    nametocheck=$scope.events[k].Company.Company_name;
+                    $scope.parsedevents.push($scope.collectingevents);
+                   $scope.arrayofarrayofcontacts.push($scope.arrayofcontacts);
+                   $scope.arrayofcontacts.push($scope.events[k].Contacts);
+                    $scope.collectingevents=[];
+                    $scope.arrayofcontacts=[];
+                    $scope.collectingevents.push($scope.events[k]);
+                    $scope.arrayofcontacts.push($scope.events[k].Contacts);
+                }
+                if(k===$scope.events.length-1){
+                    $scope.parsedevents.push($scope.collectingevents);
+                    $scope.arrayofarrayofcontacts.push($scope.arrayofcontacts);
+                }
+            }
+        }
+
+        console.log('parsedevents', $scope.parsedevents);
+    
+
+        //push company names into $scope.companynames so that they can be compared to list of suggested companies and duplicates removed
+        //console.log("$scope.companies", $scope.companies);
+        for(var w=0; w<$scope.parsedevents.length; w++){
+            //console.log("$scope.companies[w].Company_name", $scope.companies[w].Company_name);
+            $scope.companynames.push(($scope.parsedevents[w])[0].Company.Company_name);
+        }
+        //console.log("$scope.companynames", $scope.companynames);
+        $scope.findSuggestedCompanies();        
+    };
+
+    $scope.contacts = function(event){
+        //console.log(event.Contacts);
+        var names=[];
+        for (var x=0; x<event.Contacts.length; x++){ 
+            if (event.Contacts[x].length===0){
+                console.log("triggered");
+                names.push(["None"]);
+            } else {
+                names.push(event.Contacts[x].Contact_name);
+                console.log("contactname", event.Contacts[x].Contact_name);
+            } 
+        }
+        names = names.join(", ");
+        //console.log ("names", names, typeof names);
+        event.names = names;
+    };
+
+    
+
+    
+
+    $scope.makeEventDataUseable2 = function(response){    
+        $scope.events = response.data;
+
+        if($scope.events.length===0){
+            //console.log("No events");
+            //console.log("should hide");
+            $scope.noevents = true;
+        } else {
+            $scope.noevents = false;
+        }
+        //console.log("Found events");
+        //parse out marketer, technology, and company info for each event
+        if(!$scope.noevents){
+            for(var i=0; i<$scope.events.length; i++){
+                $scope.Eventtechs.push($scope.events[i].Technology);
+                $scope.users.push($scope.events[i].User);
+                $scope.companies.push($scope.events[i].Company);
+
+                //parse out contact info for each event
+                if($scope.events[i].Contacts){
+                    $scope.arrayofarrayofcontacts.push($scope.events[i].Contacts);
+                } else {
+                    $scope.arrayofarrayofcontacts.push({"Contact_name": "none"});
+                }
+            }
+
+
+            var arrayofcontactnames =[];
+            var contactnames =[];
+
+            //parse out contact names from each contact object
+            $scope.arrayofarrayofcontacts.forEach(function(array){
+                array.forEach(function(contact){
+                    contactnames.push(contact.Contact_name);
+                });
+                arrayofcontactnames.push(contactnames);
+                contactnames = [];
+            });
+
+            //make a string of all the contact names for each company
+            var stringofcontactnames;
+            arrayofcontactnames.forEach(function(array){
+                stringofcontactnames=array.join(", ");
+                contactnames.push(stringofcontactnames);
+            });
+
+            $scope.contactnames = contactnames;
+           // console.log("$scope.companies", $scope.companies);
+       }
+
+    };
+          
+
     $scope.findSuggestedCompanies = function(){
         //console.log("findSuggestedCompanieswas called");
+        //console.log("tags", tags);
         //console.log("$SCOPE");
         $http({
             method: 'GET',
             url: '/findsuggestedcompanies',
             params: {
                 //tech: $scope.technology,
-                tags: $scope.tags,
+                tags: tags,
                 tagarray: $scope.tagarray,
-                tagids: $scope.tagids
+                tagids: tagids
 
             }
         }).then(function(resp){
-            //console.log("response", resp);
+            //console.log("response for suggested companies", resp);
             $scope.suggestedcompanies=resp.data;
-            $scope.suggestedcompanynames=[];
+            //console.log("$scope.suggesedcompanies", $scope.suggestedcompanies);
+            //$scope.suggestedcompanynames=[];
+            $scope.revisedsuggestedcompanies=[];
 
-            //put suggested company names into an array so that it can be cross-checked against companies that have been contacted
-            for (var x=0; x<$scope.suggestedcompanies.length; x++){
-                $scope.suggestedcompanynames.push($scope.suggestedcompanies[x].Company_name);
-            }
+            //put suggested companies into an array so that they can be cross-checked against companies that have been contacted
+            //for (var x=0; x<$scope.suggestedcompanies.length; x++){
+              //  $scope.suggestedcompanynames.push($scope.suggestedcompanies[0]);
+            //}
 
-            console.log("$scope.suggestedcompanynames before loop", $scope.suggestedcompanynames);
+            //console.log("$scope.suggestedcompanynames before loop", $scope.suggestedcompanynames);
             console.log("$scope.companynames", $scope.companynames);
 
-            //loop through $scope.suggestedcompanies to get rid of companies that have already been contacted (i.e., there's an event associated with the company)
-            for (var k=0; k<$scope.suggestedcompanynames.length; k++){
+
+            for(var k=0; k<$scope.suggestedcompanies.length; k++){
                 for(var m=0; m<$scope.companynames.length; m++){
-                    console.log("$scope.suggestedcompanynames[k]", $scope.suggestedcompanynames[k], "$scope.companynames[m]", $scope.companynames[m]);
-                    if($scope.suggestedcompanynames[k]===$scope.companynames[m]){
-                        console.log("SPLICE");
-                        $scope.suggestedcompanynames.splice(k,1);
+                    if($scope.suggestedcompanies[k].Company_name===$scope.companynames[m]){
+                        //console.log("hit");
+                        $scope.suggestedcompanies.splice(k,1);
+                        k--;
                         break;
                     }
                 }
             }
-            console.log("$scope.suggestedcompanynames", $scope.suggestedcompanynames);
+
+            //loop through $scope.suggestedcompanies to get rid of companies that have already been contacted (i.e., there's an event associated with the company)
+            //for (var k=0; k<$scope.suggestedcompanynames.length; k++){
+              //  for(var m=0; m<$scope.companynames.length; m++){
+                    //console.log("$scope.suggestedcompanynames[k]", $scope.suggestedcompanynames[k], "$scope.companynames[m]", $scope.companynames[m]);
+                //    if($scope.suggestedcompanynames[k]===$scope.companynames[m]){
+                        //console.log("SPLICE");
+                        //$scope.suggestedcompanynames.splice(k,1);
+                        //k-1;
+                  //      break;
+                    //}
+                    //$scope.revisedsuggestedcompanies.push($scope.suggestedcompanynames[k]);
+               // }
+
+ //           }
+            console.log("$scope.suggestedcompanies after loop", $scope.suggestedcompanies);
 
             var foundtags=[];
             var foundtagnames =[];
@@ -199,6 +346,10 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             //console.log("$scope.finaltagnames", $scope.finaltagnames);
         });
     };
+
+    $scope.getNow = function(){
+        return new Date();
+    }
 
     
     $scope.find = function() {
@@ -325,7 +476,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
     $scope.mymarketing = function(){
         $scope.showall = false;
 
-        $scope.mycampaignsbutton = false;
+        $scope.mycampaignsbutton = true;
         $scope.allactivebutton =  true;
         $scope.activeinactivebutton = true;
         //console.log("yes");
@@ -345,7 +496,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         $scope.title = "All Active and Inactive ";
         $scope.mycampaignsbutton = true;
         $scope.allactivebutton =  true;
-        $scope.activeinactivebutton = false;
+        $scope.activeinactivebutton = true;
 
         $http({
             method: 'GET',
@@ -361,7 +512,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         $scope.showall = false;
 
         $scope.mycampaignsbutton = true;
-        $scope.allactivebutton =  false;
+        $scope.allactivebutton =  true;
         $scope.activeinactivebutton = true;
 
         $scope.title = "All Active ";
@@ -463,7 +614,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             method: 'GET',
             url: '/getem'
         }).then(function(response){
-            $scope.makeEventDataUseable(response);
+            $scope.makeEventDataUseable2(response);
             //console.log("ReSPONSE", response);
             
             //$scope.geteventsinfo();
@@ -471,83 +622,13 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         });
     };
 
-    $scope.findEventsforOneTechnology = function(){
-        $scope.Eventtechs =[];
-        $scope.Technologytitles=[];
-        $scope.followups=[];
-        $scope.users=[];
-        $scope.companies=[];
-        $scope.arrayofarrayofcontacts=[];
-        $http({
-            method: 'GET',
-            url: '/geteventsforonetechnology',
-            params: {techid: $scope.technology.id}
-        }).then(function(response){
-            $scope.makeEventDataUseable(response);
-            //return true;
-            //console.log("ReSPONSE", response);
-            
-            //$scope.geteventsinfo();
-            //console.log("$scope.arrayofarrayofcontacts", $scope.arrayofarrayofcontacts);
-        });
+    $scope.showdetails = function(){
+        if(!$scope.showthedetails){
+            $scope.showthedetails=true;
+        } else {
+            $scope.showthedetails=false;
+        }
     };
-
-    $scope.companynames=[];
-
-    $scope.makeEventDataUseable = function(response){
-        $scope.events = response.data;
-        
-            var evnts = $scope.events;
-            //console.log("TYpeof $scope.events", typeof $scope.events);
-            console.log("events", $scope.events);
-            if($scope.events.length===0){
-                //console.log("should hide");
-                $scope.noevents = true;
-            } else {
-                $scope.noevents = false;
-            }
-            //console.log("Found events");
-            for(var i=0; i<$scope.events.length; i++){
-                $scope.Eventtechs.push($scope.events[i].Technology);
-                $scope.users.push($scope.events[i].User);
-                $scope.companies.push($scope.events[i].Company);
-
-                if($scope.events[i].Contacts){
-                    $scope.arrayofarrayofcontacts.push($scope.events[i].Contacts);
-                } else {
-                    $scope.arrayofarrayofcontacts.push({"Contact Name": "none"});
-                }
-            }
-
-            //push company names into $scope.companynames so that they can be compared to list of suggested companies and duplicates removed
-            console.log("$scope.companies", $scope.companies);
-            for(var w=0; w<$scope.companies.length; w++){
-                console.log("$scope.companies[w].Company_name", $scope.companies[w].Company_name);
-                $scope.companynames.push($scope.companies[w].Company_name);
-            }
-            console.log("$scope.companynames", $scope.companynames);
-
-            var arrayofcontactnames =[];
-            var contactnames =[];
-
-            $scope.arrayofarrayofcontacts.forEach(function(array){
-                array.forEach(function(contact){
-                    contactnames.push(contact.Contact_name);
-                });
-                arrayofcontactnames.push(contactnames);
-                contactnames = [];
-            });
-
-            var stringofcontactnames;
-            arrayofcontactnames.forEach(function(array){
-                stringofcontactnames=array.join(", ");
-                contactnames.push(stringofcontactnames);
-            });
-
-            $scope.contactnames = contactnames;
-           // console.log("$scope.companies", $scope.companies);
-           $scope.findSuggestedCompanies();
-    };
-           
+   
 
 }]);

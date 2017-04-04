@@ -85,7 +85,7 @@ exports.me = function(req, res) {
 };
 
 exports.getall = function(req, res) {
-  db.User.findAll({include: [{model: db.Technology}]})
+  db.User.findAll({include: [{model: db.Technology}], order: "last_name"})
     .then(function(users){
       res.jsonp(users);
     });
@@ -107,9 +107,12 @@ exports.update = function(req, res) {
   db.User.findOne({where: {id: req.query.id}})
     .then(function(user){
       return user.updateAttributes({
-        name: req.query.name,
+        name: req.query.first_name + " " + req.query.last_name,
+        username: req.query.username,
         email: req.query.email,
-        admin: req.query.admin
+        admin: req.query.admin,
+        first_name: req.query.first_name, 
+        last_name: req.query.last_name
       });
     }).then(function(user){
       return res.jsonp(user);

@@ -153,6 +153,8 @@ exports.getcontactsforevents = function(req,res){
         });
 };
 
+
+
 /**
  * Update an event
  */

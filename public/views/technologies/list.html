@@ -9,12 +9,12 @@
 	        <button class="btn btn-success" ng-click="searchForTech()" type="button">Go!</button>
 	       </ng-form>
 	      </span>
+	      	<button margin-bottom="10px" type="button" class="btn btn-primary" ui-sref="addTech">Start a New Campaign</button>
 	    </div><!-- /input-group -->
 	  </div><!-- /.col-lg-6 -->
 	</div><!-- /.row -->
 	
 	<div>
-		<button type="button" class="btn btn-primary" ui-sref="addTech">Start a New Campaign</button>
 		<button type="button" ng-show="mycampaignsbutton" ng-click="mymarketing()" class="btn btn-info">My Active Marketing Campaigns</button>
 		<button type="button" ng-show="allactivebutton" ng-click="active()" class="btn btn-info">All Active Campaigns</button>
 		<button type="button" ng-show="activeinactivebutton" ng-click="allcamps()" class="btn btn-info">Active AND Inactive Campaigns</button>
@@ -62,13 +62,13 @@
         		</tr>
         		<tr data-ng-repeat="event in events" >
         			<td>{{event.Event_date | date:'MM/dd/yyyy'}}</td>
-        			<td>{{users[$index].username}}</td>
+        			<td>{{users[$index].name}}</td>
         			<td>{{Eventtechs[$index].Tech_RUNumber}}</td>
         			<td>{{Eventtechs[$index].Tech_name}}</td>
         			<td>{{companies[$index].Company_name}}</td>
         			<td>{{contactnames[$index]}}</td>
         			<td>{{event.Event_method}}</td>
-        			<td>{{event.Event_followupdate | date:'MM/dd/yyyy'}}</td>
+        			<td ng-class="{'alert' : (event.Event_followupdate | date:'MM/dd/yyyy')<=(getNow() | date:'MM/dd/yyyy')}">{{event.Event_followupdate | date:'MM/dd/yyyy'}}</td>
     			</tr>
 			</table>
           

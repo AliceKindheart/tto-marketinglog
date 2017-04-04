@@ -102,7 +102,9 @@ exports.update = function(req, res) {
             newcompany=company;
             compid = company.id;
             return contact.updateAttributes({
-                Contact_name: req.body.Contact_name,
+                Contact_name: req.body.Contact_firstname + " " + req.body.Contact_lastname,
+                Contact_firstname: req.body.Contact_firstname,
+                Contact_lastname: req.body.Contact_lastname,
                 Contact_title: req.body.Contact_title,
                 Contact_email: req.body.Contact_email,
                 Contact_phone: req.body.Contact_phone,
@@ -156,7 +158,7 @@ exports.showy = function(req, res) {
 exports.all = function(req, res) {
     console.log("exports.all for contacts happened");
     
-    db.Contact.findAll({include: [{model: db.Company}], order: "Contact_name"}).then(function(contacts){
+    db.Contact.findAll({include: [{model: db.Company}], order: "Contact_lastname"}).then(function(contacts){
         console.log("CCCCCContacts");
         return res.jsonp(contacts);
     }).catch(function(err){

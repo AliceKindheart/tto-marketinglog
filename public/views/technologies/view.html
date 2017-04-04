@@ -34,13 +34,13 @@
         <h4 class="panel-title">Suggested Companies</h4>
       </div>
       <table class="table">
-            <tr ><td ng-show="suggestedcompanynames.length===0">No suggested companies</td></tr>
-            <tr id="colorrow" ng-show="suggestedcompanynames.length>0">
+            <tr ><td ng-show="suggestedcompanies.length===0">No suggested companies</td></tr>
+            <tr id="colorrow" ng-show="suggestedcompanies.length>0">
               <th>Company Name</th>
               <th>Matching tag(s)</th>
             </tr>
-            <tr ng-repeat="name in suggestedcompanynames" ui-sref="viewCompany({id: company.id})">
-              <td>{{name}}</td>
+            <tr ng-repeat="company in suggestedcompanies" ui-sref="viewCompany({id: company.id})">
+              <td>{{company.Company_name}}</td>
               <td>{{finaltagnames[$index]}}</td>
             </tr>
       </table>
@@ -51,30 +51,40 @@
    
     <div class="panel panel-primary">
           <div class="panel-heading">
-            <h4 class="panel-title ">{{technology.Tech_name}} Marketing Events</h4>
+            <h4 class="panel-title ">{{technology.Tech_name}} Contacted Companies</h4>
           </div>
           
-            <p ng-show="!events">No Events at this time.</p>
-            <table ng-hide="noevents" class="table table-bordered">
-              <tr>
-                <th id="colorrow">Event Date</th>
-                <th id="colorrow">Marketer</th>
-                <th id="colorrow">Company</th>
-                <th id="colorrow">Contact(s)</th>
-                <th id="colorrow">Method</th>
-                <th id="colorrow">Follow Up Date</th>
-            </tr>
-            <tr data-ng-repeat="event in events" >
-              <td>{{event.Event_date | date:'MM/dd/yyyy'}}</td>
-              <td>{{users[$index].username}}</td>
-              <td>{{companies[$index].Company_name}}</td>
-              <td>{{contactnames[$index]}}</td>
-              <td>{{event.Event_method}}</td>
-              <td>{{event.Event_followupdate | date:'MM/dd/yyyy'}}</td>
-          </tr>
-        </table>
-      
-    </div>  
+            <p ng-show="!events">No Contacted Companies at this time.</p>
 
+            <div ng-hide="noevents" class="panel panel-info">
+            
+              <accordion>
+                <accordion-group data-ng-repeat="arrayofevents in parsedevents" heading="{{arrayofevents[0].Company.Company_name}}">
+                  <table class="table table-bordered">
+                    <caption ><strong>{{arrayofevents[0].Company.Company_name}}</strong></caption>
+                    <tr >
+                      <th id="colorrow">Event Date</th>
+                      <th id="colorrow">Marketer</th>   
+                      <th id="colorrow">Contact(s)</th>
+                      <th id="colorrow">Method</th>
+                      <th id="colorrow">Follow Up Date</th>
+                      <th id="colorrow">Notes</th>
+                      <th id="colorrow">Outcome</th>
+                    </tr>
+                    <tr data-ng-repeat="event in arrayofevents">
+                      <td>{{event.Event_date | date:'MM/dd/yyyy'}}</td>
+                      <td>{{event.User.name}}</td> 
+                      <td data-ng-init="contacts(event)">{{event.names}}</td>
+                      <td>{{event.Event_method}}</td>
+                      <td ng-class="{'alert' : (event.Event_followupdate | date:'MM/dd/yyyy')<=(getNow() | date:'MM/dd/yyyy')}">{{event.Event_followupdate | date:'MM/dd/yyyy'}}</td>
+                      <td>{{event.Event_notes}}</td>
+                      <td>outcome will go here</td>
+                </tr> 
+              </table> 
+            </accordion-group>
+          </accordion>
+                   
+        </div>  
+    </div>  
 </section>
 

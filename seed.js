@@ -57,12 +57,14 @@ Tag.create({
 })
 
 Company.create({
-	Company_name: "Cute Cats R Us",
+	Company_name: "Cats in Hats R Us",
 	Notes: "finicky and sometimes feisty"
 }).then(function(comp){
 	var company = comp;
 	Contact.create({
-	Contact_name: "Ms. Rumplefur",
+	Contact_firstname: "Rupert",
+	Contact_lastname: "Rumplefurred",
+	Contact_name: "Rupert Rumplefurred",
 	Contact_title: "Cutest cat on the internet",
 	Contact_email: "cat@internet.net",
 	Contact_phone: "555-234-5644"
@@ -79,7 +81,9 @@ Company.create({
 }).then(function(company){
 	var company=company;
 	Contact.create({
-		Contact_name: "Mr. Whiskerface",
+		Contact_firstname: "Mister",
+		Contact_lastname: "Whiskerface",
+		Contact_name: "Mister Whiskerface",
 		Contact_title: "Chief Napper",
 		Contact_email: "whiskers@catcat.net",
 		Contact_phone: "555-233-5676"
@@ -95,7 +99,9 @@ Company.create({
 }).then(function(comp){
 	var company = comp;
 	Contact.create({
-		Contact_name: "Zippy the Squirrel",
+		Contact_firstname: "Zippy",
+		Contact_lastname: "Squirrel",
+		Contact_name: "Zippy Squirrel",
 		Contact_title: "Chief Coffee Drinker",
 		Contact_email: "coffeecoffeebuzzbuzzbuzz@gmail.com",
 		Contact_phone: "586-395-0395"
@@ -111,6 +117,8 @@ Company.create({
 	}).then(function(comp){
 		var company = comp;
 		Contact.create({
+		Contact_firstname: "Flappy Jack",
+		Contact_lastname: "Patterson",
 		Contact_name: "Flappy Jack Patterson",
 		Contact_title: "Head Flapjack",
 		Contact_email: "jack@flap.net",
@@ -128,6 +136,8 @@ Company.create({
 }).then(function(comp){
 	var company = comp;
 	Contact.create({
+		Contact_firstname: "Chippy",
+		Contact_lastname:  "Chinchilla",
 		Contact_name: "Chippy Chinchilla",
 		Contact_title: "Head Chinchilla",
 		Contact_email: "chippy@chinchilla.net",

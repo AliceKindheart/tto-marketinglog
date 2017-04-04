@@ -8,11 +8,15 @@
     <table class="table table-striped table-bordered">
         <tr>
             <th id="colorrow">User Name</th>
+            <th id="colorrow">First Name</th>
+            <th id="colorrow">Last Name</th>
             <th id="colorrow">Email</th>
             <th id="colorrow">Administrator?</th>
         </tr>
         <tr>
-            <td>{{user.name}}</td>
+            <td>{{user.username}}</td>
+            <td>{{user.first_name}}</td>
+            <td>{{user.last_name}}</td>
             <td>{{user.email}}</td>
             <td ng-show="user.admin">Yes</td>
             <td ng-show="!user.admin">No</td>

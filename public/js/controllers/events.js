@@ -15,8 +15,9 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
             Event_method: this.Event_method
         });
         event.$save(function(response) {
+            console.log("response", response);
             //$state.go('viewCompany',{Company_name : responseid});
-            $state.go('techs');
+            $state.go('viewTech',{id: response.TechnologyId});
         });
 
         this.Event_date = "";
@@ -164,7 +165,7 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
         $scope.Event_method = method;
     }; 
 
-    $scope.selected = [];
+    $scope.selected = ["None"];
 
     $scope.toggle = function (contact, selected) {
         var idx = selected.indexOf(contact);

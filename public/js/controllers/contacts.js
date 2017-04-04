@@ -6,7 +6,9 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
     $scope.create = function() {
         console.log($scope.selected, "Company_name");
         var contact = new Contacts({
-            Contact_name: this.Contact_name,
+            Contact_firstname: this.Contact_firstname,
+            Contact_lastname: this.Contact_lastname,
+            Contact_name: this.Contact_firstname + this.Contact_lastname,
             Contact_email: this.Contact_email,
             Contact_phone: this.Contact_phone,
             Contact_title: this.Contact_title,
@@ -18,6 +20,8 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
         });
 
         this.Contact_name = "";
+        this.Contact_firstname="";
+        this.Contact_lastname="";
         this.Contact_email = "";
         this.Contact_phone = "";
         this.Contact_title = "";

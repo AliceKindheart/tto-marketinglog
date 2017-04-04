@@ -36,9 +36,11 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
     $scope.signUp = function(newuser) {
 
         var signUp = new SignUp({
-            name: newuser.name,
+            name: newuser.first_name + " " + newuser.last_name,
+            first_name: newuser.first_name,
+            last_name: newuser.last_name,
             email: newuser.email,
-            username : newuser.name,
+            username : newuser.username,
             password : newuser.password,
             admin: newuser.admin
         });
@@ -83,6 +85,7 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
     $scope.updateUser = function(){
         var user = $scope.user;
         console.log("user", user);
+        $scope.name = $scope.user.firstname + " " + $scope.user.lastname;
 
         $http({
             url: "/updateuser", 
@@ -90,7 +93,10 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
             params: {
                 id: $scope.user.id,
                 email: $scope.user.email,
-                name: $scope.user.name,
+                username: $scope.user.username,
+                firstname: $scope.user.first_name,
+                lastname: $scope.user.last_name,
+                name: $scope.name,
                 admin: $scope.user.admin
                 }
         }).then(function(){

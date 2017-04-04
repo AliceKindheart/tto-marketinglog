@@ -140,7 +140,7 @@ exports.searchformine = function(req,res){
 };
 
 exports.geteventsforonetechnology = function(req,res){
-    db.Event.findAll({where: {TechnologyId: req.query.techid}, include: [{model:db.User}, {model:db.Contact}, {model:db.Technology}, {model:db.Company}], order: 'Event_date'
+    db.Event.findAll({where: {TechnologyId: req.query.techid}, include: [{model:db.User}, {model:db.Contact}, {model:db.Technology}, {model:db.Company}], order: ['Company_name','Event_date']
     }).then(function(evnts){
         return res.jsonp(evnts);
     }).catch(function(err){

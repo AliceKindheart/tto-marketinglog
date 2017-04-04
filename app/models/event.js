@@ -2,6 +2,10 @@
 
 module.exports = function(sequelize, DataTypes) {
 
+	var CompanyEvents = sequelize.define('companyEvents', {
+		status: DataTypes.STRING
+	});
+
 	var Event = sequelize.define('Event', {
 			Event_date: DataTypes.DATE,
 			Event_notes: DataTypes.STRING,

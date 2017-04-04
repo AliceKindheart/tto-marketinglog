@@ -1,3 +1,7 @@
+.alert {
+  text-decoration-color: #DC143C;
+}
+
 #colorrow {
   background-color: lightblue;
 }
@@ -10,6 +14,14 @@
 .content {
     margin-top:50px;
     width:100%
+}
+
+caption {
+  text-align:left;
+  font-size:large;
+  background-color: lightgray;
+  height: 30px;
+  padding-top: 10px;
 }
 
 footer {

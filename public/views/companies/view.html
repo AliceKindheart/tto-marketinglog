@@ -24,25 +24,20 @@
       <div class="panel-heading">
         <h4 class="panel-title">Company Contacts</h4>
       </div>
-      <div class="panel-body">
-        <table>
-            <tr data-ng-repeat="contact in completecontacts"><td ui-sref="viewContact({id: contact.id})">{{contact.Contact_name}}</td></tr>
-       </table>
-      </div>
-
-    </div>
-
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h4 class="panel-title">Company Contacts</h4>
-      </div>
-      <table class="table" colspan="3" >
-            <tr ng-repeat="contacts in contactschunked">
-              <td ng-repeat="contact in contacts" ui-sref="viewContact({id: contact.id})">{{contact}}</td>
-            </tr>
-      </table>
       
-
+        <table class="table table-bordered">
+            <tr id="colorrow">
+              <th>Contact Name</th>
+              <th>Contact Title</th>
+              <th>Contact Tags</th>
+            </tr>
+            <tr data-ng-repeat="contact in completecontacts">
+              <td ui-sref="viewContact({id: contact.id})">{{contact.Contact_name}}</td>
+              <td ui-sref="viewContact({id: contact.id})">{{contact.Contact_title}}</td>
+              <td ui-sref="viewContact({id: contact.id})">{{contact.tags}}</td>
+            </tr>
+       </table>
+    </div>
     </div>
 
 
@@ -51,24 +46,28 @@
             <h4 class="panel-title ">Marketing Events</h4>
           </div>
           
-            <p ng-show="!events">Nothing to follow up with at this time.</p>
+            <table class="table table-bordered" ng-if="noevents">
+              <tr>
+                <td>No events at this time.</td>
+              </tr>
+            </table>
             <table ng-hide="noevents" class="table table-bordered">
               <tr>
-                <th id="colorrow">Event Date</th>
-                <th id="colorrow">Marketer</th>
                 <th id="colorrow">RU Number</th>
                 <th id="colorrow">Technology Title</th>
-                <th id="colorrow">Contact(s)</th>
+                <th id="colorrow">Marketer</th>
                 <th id="colorrow">Method</th>
+                <th id="colorrow">Contact(s)</th>
+                <th id="colorrow">Event Date</th>
                 <th id="colorrow">Follow Up Date</th>
             </tr>
             <tr data-ng-repeat="event in events" >
-              <td>{{event.Event_date | date:'MM/dd/yyyy'}}</td>
-              <td>{{users[$index].username}}</td>
               <td>{{Eventtechs[$index].Tech_RUNumber}}</td>
               <td>{{Eventtechs[$index].Tech_name}}</td>
-              <td>{{contactnames[$index]}}</td>
+              <td>{{users[$index].name}}</td>
               <td>{{event.Event_method}}</td>
+              <td>{{contactnames[$index]}}</td>
+              <td>{{event.Event_date | date:'MM/dd/yyyy'}}</td>
               <td>{{event.Event_followupdate | date:'MM/dd/yyyy'}}</td>
           </tr>
         </table>
