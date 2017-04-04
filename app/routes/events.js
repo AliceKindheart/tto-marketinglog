@@ -29,7 +29,9 @@ app.route('/getusers')
 	.get(events.getusers);
 app.route('/getcontactsforevents')
 	.get(events.getcontactsforevents);
-	
+app.route('/geteventinfo')
+	.get(events.geteventinfo);
+
 
 // Finish with setting up the id param
 // Note: the companies.company function will be called everytime then it will call the next function.

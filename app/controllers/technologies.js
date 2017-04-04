@@ -110,7 +110,7 @@ exports.create = function(req, res) {
         });
 };
 
-exports.search = function(req, res){
+exports.searchfortech = function(req, res){
     //console.log("SEARCHING");
     //console.log(req.query.number);
     db.Technology.findOne({where: {Tech_RUNumber: req.query.number}, include: [{model: db.Tag}, {model: db.User}]})

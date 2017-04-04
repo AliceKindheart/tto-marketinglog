@@ -58,7 +58,7 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
 
     $scope.findOne = function() {
         var company;
-        console.log("$stateParams.id", $stateParams.id);
+        //console.log("$stateParams.id", $stateParams.id);
         Contacts.get({
             id: $stateParams.id 
         }, function(contact) {
@@ -66,9 +66,24 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
             $scope.contact = contact;
             $scope.company = company;
             $scope.nameofcompany=company.Company_name;
+            
+            $scope.events = contact.Events;
+            console.log("$scope.events", $scope.events);
         });
+        
 
         $scope.findcompanies();
+    };
+
+    $scope.geteventinfo = function(event){
+        $http({
+            method: 'GET', 
+            url: '/geteventinfo',
+            params: {id: event.id}
+        }).then(function(resp){
+            console.log("resp", resp);
+            $scope.eventdetails=resp.data;
+        });
     };
 
 

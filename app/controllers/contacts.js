@@ -14,7 +14,7 @@ var db = require('../../config/sequelize');
 exports.contact = function(req, res, next, id) {
     console.log('contactid => ' + id);
     console.log("CONTACTS.CONTACT");
-    db.Contact.find({where: {id: id}, include: [{model: db.Company}]}).then(function(contact){
+    db.Contact.find({where: {id: id}, include: [{model: db.Company}, {model:db.Event}]}).then(function(contact){
         if(!contact) {
             //return next(new Error('Failed to load contact ' + id));
             return next();
@@ -74,10 +74,13 @@ exports.create = function(req, res) {
 };
 
 exports.search = function(req,res) {
-    db.Contact.findAll({where: {Contact_name: {$like: '%' + req.query.contactname + '%'}}, include: [{model: db.Company}], order: 'Contact_name'})
-        .then(function(contacts){
-            return res.jsonp(contacts);
-        });
+    db.Contact.findAll({
+        where: {Contact_name: {$like: '%' + req.query.contactname + '%'}},
+        include: [{model: db.Company}], 
+        order: 'Contact_name'
+    }).then(function(contacts){
+        return res.jsonp(contacts);
+    });
 };
 
 /**

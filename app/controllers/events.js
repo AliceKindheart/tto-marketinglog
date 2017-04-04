@@ -242,6 +242,19 @@ exports.getem = function(req,res){
         });
 };
 
+exports.geteventinfo = function(req,res){
+    db.Event.findOne({where: {id:req.query.id}, include: [{model: db.User}, {model: db.Technology}]})
+        .then(function(event){
+            return res.jsonp(event);
+        }).catch(function(err){
+            return res.render('error', {
+                error: err,
+                status: 500
+            });
+        });
+};
+
+
 /**
 
 

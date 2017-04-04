@@ -43,6 +43,9 @@ app.route('/geteventsforonetechnology')
 app.route('/findsuggestedcompanies')
 	.get(technologies.findsuggestedcompanies);
 
+app.route('/searchfortech')
+	.get(technologies.searchfortech);
+
 //app.route('/mymarketing')
 //	.get(technologies.mine);
 

@@ -27,11 +27,35 @@
 
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h4 class="panel-title ">Marketing Campaigns</h4>
+            <h4 class="panel-title ">Marketing Events</h4>
           </div>
-          <div class="panel-body"> 
-            <p>No campaigns at this time.</p>
-          </div>
+          <div class="panel-body" > 
+            <table class="table table-bordered" ng-if="noevents">
+              <tr>
+                <td>No events at this time.</td>
+              </tr>
+            </table>
+            <table ng-hide="noevents" class="table table-bordered">
+              <tr>
+                <th id="colorrow">RU Number</th>
+                <th id="colorrow">Technology Title</th>
+                <th id="colorrow">Marketer</th>
+                <th id="colorrow">Method</th>
+                <th id="colorrow">Event Notes</th>
+                <th id="colorrow">Event Date</th>
+                <th id="colorrow">Follow Up Date</th>
+              </tr>
+              <tr data-ng-repeat="event in events" data-ng-init="geteventinfo(event)">
+                <td>{{eventdetails.Technology.Tech_RUNumber}}</td>
+                <td>{{eventdetails.Technology.Tech_name}}</td>
+                <td>{{eventdetails.User.name}}</td>
+                <td>{{event.Event_method}}</td>
+                <td>{{event.Event_notes}}</td>
+                <td>{{event.Event_date | date:'MM/dd/yyyy'}}</td>
+                <td ng-class="{'alert' : (event.Event_followupdate | date:'MM/dd/yyyy')<=(getNow() | date:'MM/dd/yyyy')}">{{event.Event_followupdate | date:'MM/dd/yyyy'}}</td>
+            </tr>
+          </table>
+        </div>
     </div>  
 
 </section>
