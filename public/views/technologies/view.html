@@ -71,7 +71,7 @@
                       <th id="colorrow">Notes</th>
                       <th id="colorrow">Outcome</th>
                     </tr>
-                    <tr data-ng-repeat="event in arrayofevents">
+                    <tr data-ng-repeat="event in arrayofevents" ui-sref="viewEvent({id: event.id})">
                       <td>{{event.Event_date | date:'MM/dd/yyyy'}}</td>
                       <td>{{event.User.name}}</td> 
                       <td data-ng-init="contacts(event)">{{event.names}}</td>

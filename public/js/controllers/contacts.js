@@ -69,6 +69,11 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
             
             $scope.events = contact.Events;
             console.log("$scope.events", $scope.events);
+            if($scope.events.length===0){
+                $scope.noevents = true;
+            } else {
+                $scope.noevents = false
+            }
         });
         
 

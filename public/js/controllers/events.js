@@ -79,10 +79,29 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
         console.log($stateParams.id);
         Events.get({
             id: $stateParams.id 
-        }, function(event) {
-            console.log(event);
-            $scope.event = event;
+        }, function(response) {
+            console.log(response);
+            $scope.event = response;
+            $scope.contacts(response);
         });
+
+    };
+
+    $scope.contacts = function(event){
+        //console.log(event.Contacts);
+        var names=[];
+        for (var x=0; x<event.Contacts.length; x++){ 
+            if (event.Contacts[x].length===0){
+                console.log("triggered");
+                names.push(["None"]);
+            } else {
+                names.push(event.Contacts[x].Contact_name);
+               // console.log("contactname", event.Contacts[x].Contact_name);
+            } 
+        }
+        names = names.join(", ");
+        //console.log ("names", names, typeof names);
+        event.names = names;
     };
 
     $scope.findEvent = function() {

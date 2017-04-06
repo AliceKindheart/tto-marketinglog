@@ -10,7 +10,7 @@ var db = require('../../config/sequelize');
  * List of Events
  */
 exports.all = function(req, res) {
-    //console.log("exports.all events happened");
+    console.log("exports.all events happened WHEN IT SHOULDNT");
     
     db.Event.findAll().then(function(events){
         //console.log("EVVVVVVENNNNTTTSSS");
@@ -31,7 +31,7 @@ exports.all = function(req, res) {
 exports.event = function(req, res, next, id) {
     console.log('eventid => ' + id);
     console.log("EVENTS.EVENT");
-    db.Event.find({where: {id: id}}).then(function(event){
+    db.Event.find({where: {id: id}, include: [{model: db.User}, {model: db.Technology}, {model: db.Contact}]}).then(function(event){
         //console.log(id);
         if(!event) {
             console.log("not an event");

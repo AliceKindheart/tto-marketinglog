@@ -1,11 +1,39 @@
-<section data-ng-init="findOne()">
-    <h3>Event Details</h3>
-    <p>Date: {{event.Event_date}}</p>
-    <p>Notes: {{event.Event_notes}}</p>
+<section data-ng-init="findOneEvent()">
+  
     	
     <div style="margin-top:10px">
-        <a class="btn" ui-sref="editEvent({id : event.id})">Edit</a>
-        <a class="btn" data-ng-click="remove();">Delete</a>
+    	<a class="btn btn-primary" data-ng-click="addFollowUp()">Add Follow Up</a>
+        <a class="btn btn-primary" ui-sref="editEvent({id : event.id})">Edit</a>
+        <a class="btn btn-danger" data-ng-click="remove()">Delete</a>
+    </div>
+
+    
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h4 class="panel-title">Event Details</h4>
+      </div>
+      
+        <table class="table table-bordered">
+              <tr>
+                <th id="colorrow">RU Number</th>
+                <th id="colorrow">Technology Title</th>
+                <th id="colorrow">Marketer</th>
+                <th id="colorrow">Method</th>
+                <th id="colorrow">Contact(s)</th>
+                <th id="colorrow">Event Date</th>
+                <th id="colorrow">Follow Up Date</th>
+            </tr>
+            <tr>
+              <td>{{event.Technology.Tech_RUNumber}}</td>
+              <td>{{event.Technology.Tech_name}}</td>
+              <td>{{event.User.name}}</td>
+              <td>{{event.Event_method}}</td>
+              <td>{{event.names}}</td>
+              <td>{{event.Event_date | date:'MM/dd/yyyy'}}</td>
+              <td>{{event.Event_followupdate | date:'MM/dd/yyyy'}}</td>
+          </tr>
+        </table>
+    </div>
     </div>
 
 </section>

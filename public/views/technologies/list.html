@@ -60,7 +60,7 @@
             		<th id="colorrow">Method</th>
             		<th id="colorrow">Follow Up Date</th>
         		</tr>
-        		<tr data-ng-repeat="event in events" >
+        		<tr data-ng-repeat="event in events" ui-sref="viewEvent({id: event.id})">
         			<td>{{event.Event_date | date:'MM/dd/yyyy'}}</td>
         			<td>{{users[$index].name}}</td>
         			<td>{{Eventtechs[$index].Tech_RUNumber}}</td>

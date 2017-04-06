@@ -1,30 +1,57 @@
-<section data-ng-init="findOne()">
-	<form class="form-horizontal" data-ng-submit="update()">
-		<div class="control-group">
-			<label class="control-label" for="title">Title</label>
+<section>
+	<h2 data-ng-init="gettech()">Create New Event for the {{technology.Tech_name}} Campaign</h2>
+	<form class="form-horizontal" data-ng-submit="createEvent()" data-ng-init="findOneEvent()">
 
-			<div class="controls">
-				<input type="text" data-ng-model="company.Company_name" id="name" placeholder="Company Name" required>
-				</input>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="tags">Tags</label>
-			<div class="controls">
-				<input type="text" data-ng-model="company.Tag_name" id="Tag_name" placeholder="Tag">
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="notes">Notes</label>
+		<table class="table table-bordered">
+			<tr>
+				<th id="colorrow">Event Date</th>
+				<th id="colorrow">Contact Method</th>
+				<th id="colorrow">Flag for Follow Up?</th>
+				<th id="colorrow" ng-show="flagyes">Follow Up Date</th>
+				<th id="colorrow">Notes</th>
+			</tr>
+			<tr>
+				<td><input type="date" data-ng-model="Event_date" id="Event_date" placeholder="Event Date" required/>
+				</td>
+				<td>
+					<table rowspan="3">
+						<tr data-ng-repeat="method in methods" >
+							<td><input type="radio" ng-click="selectmethod(method)" name="Event_method" id="Event_method" required/>{{method}}</td>
+						</tr>
+					</table>
+				</td>
+				<td>
+					<table rowspan="2">
+						<tr data-ng-repeat="answer in yesno">
+							<td><input type="radio" data-ng-model="flag" ng-click="setfollowupflag(answer)" name="flag" id="flag" required/>{{answer}}</td>
+						</tr>
+					</table>
+				</td>
+				<td ng-show="flagyes"><input type="date" data-ng-model="followupdate" id="followupdate"/></td>
+				<td><textarea data-ng-model="notes" id="Notes" placeholder="Notes"/></textarea></td>
+			</tr>
+		</table>
 
-			<div class="controls">
-				<textarea data-ng-model="company.Notes" id="notes" cols="30" rows="3" placeholder="Notes">
-				</textarea>
-			</div>
-		</div>
+		<h4 id="colorrow">Select Company</h4>
+		<table class="table" colspan="3" >
+			<tr ng-repeat="companies in chunkedcompanies">
+				<td ng-repeat="company in companies"><input type="radio" required name="company"
+                       ng-click="choose(company)"/>{{company}}</td>
+			</tr>
+		  </table>
+
+		<h4 id="colorrow">Select Contact(s)</h4>
+		<table class="table" colspan="3" >
+			<tr ng-repeat="contacts in contactschunked">
+				<td ng-repeat="contact in contacts"><input type="checkbox" ng-checked="exists(contact, selected)" name="contact"
+                       ng-click="toggle(contact, selected)"/>{{contact.Contact_name}}</td>
+			</tr>
+		  </table>
+
+		
 		<div class="control-group">
 			<div class="controls">
-				<input type="submit" class="btn">
+				<input type="submit" class="btn btn-primary">
 			</div>
 		</div>
 	</form>

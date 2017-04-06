@@ -11,12 +11,14 @@ module.exports = function(app) {
 app.route('/events')
     .get(events.all)
     .post(users.requiresLogin, events.create);
-//app.route('/companies/create')
-//	.get(companies.all);
-app.route('/events/:techid')
+
+app.route('/events/:eventid')
     .get(events.show)
     .put(users.requiresLogin, events.update)
     .delete(users.requiresLogin, events.destroy);
+//app.route('/companies/create')
+//	.get(companies.all);
+
 app.route('/companiesforevent')
 	.get(events.findcompanies);
 app.route('/findcompanycontacts')
@@ -34,7 +36,8 @@ app.route('/geteventinfo')
 
 
 // Finish with setting up the id param
-// Note: the companies.company function will be called everytime then it will call the next function.
+// Note: the events.event function will be called everytime then it will call the next function.
 //app.param(':id', events.event);
+app.param('eventid', events.event);
 };
 
