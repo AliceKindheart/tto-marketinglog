@@ -16,13 +16,17 @@
               <th id="colorrow">Inventor</th>
               <th id="colorrow">Tags</th>
               <th id="colorrow">Active Campaign?</th>
+              <th id="colorrow">Unloved?</th>
             </tr>
             <tr>
               <td>{{user.name}}</td>
               <td>{{technology.Tech_RUNumber}}</td>
               <td>{{technology.Tech_inventor}}</td>
               <td>{{tags}}</td>
-              <td>{{technology.isActive}}</td>
+              <td ng-show="technology.isActive">Yes</td>
+              <td ng-show="!technology.isActive">No</td>
+              <td ng-show="technology.isUnloved">Yes</td>
+              <td ng-show="!technology.isUnloved">No</td>
             </tr>
           </table>
         
@@ -53,8 +57,12 @@
           <div class="panel-heading">
             <h4 class="panel-title ">{{technology.Tech_name}} Contacted Companies</h4>
           </div>
-          
-            <p ng-show="!events">No Contacted Companies at this time.</p>
+
+          <table class="table table-bordered" ng-show="noevents">
+              <tr>
+                <td>No contacted companies at this time.</td>
+              </tr>
+            </table>
 
             <div ng-hide="noevents" class="panel panel-info">
             

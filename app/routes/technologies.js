@@ -46,6 +46,9 @@ app.route('/findsuggestedcompanies')
 app.route('/searchfortech')
 	.get(technologies.searchfortech);
 
+app.route('/unloved')
+	.get(technologies.unloved);
+
 //app.route('/mymarketing')
 //	.get(technologies.mine);
 

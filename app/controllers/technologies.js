@@ -151,6 +151,18 @@ exports.geteventsforonetechnology = function(req,res){
     });
 };
 
+exports.geteventsforonetechnologyforfollowup = function(req,res){
+    db.Event.findAll({where: {TechnologyId: req.query.techid, isFollowup: true}, include: [{model:db.User}, {model:db.Contact}, {model:db.Technology}, {model:db.Company}], order: ['Company_name','Event_date']
+    }).then(function(evnts){
+        return res.jsonp(evnts);
+    }).catch(function(err){
+        return res.send({
+            errors: err,
+            status: 500
+        });
+    });
+};
+
 exports.findsuggestedcompanies = function(req,res){
     console.log("FFFFFFFFFFFFFFFFFFFFunctionwas called");
     var Tagnames = req.query.tagids;
@@ -214,6 +226,18 @@ exports.active = function(req,res){
     db.Technology.findAll({where: {isActive: true}, include: [{model: db.User}, {model: db.Tag}], order: 'Tech_RUNumber'})
         .then(function(tex){
             //console.log("TEXXXXX", tex);
+            return res.jsonp(tex);
+        }).catch(function(err){
+            return res.send({
+                errors: err,
+                status: 500
+            });
+        });
+};
+
+exports.unloved = function(req,res){
+    db.Technology.findAll({where: {isUnloved: true}, include: [{model: db.User}, {model: db.Tag}], order: 'Tech_RUNumber'})
+        .then(function(tex){
             return res.jsonp(tex);
         }).catch(function(err){
             return res.send({

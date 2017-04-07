@@ -230,7 +230,7 @@ exports.getcontacts = function(req,res){
 
 exports.getem = function(req,res){
     //console.log("THEHEHTHT:SWEKT");
-    db.Event.findAll({where: {UserId: req.user.id}, include: [{model: db.Contact}, {model: db.User}, {model:db.Company}, {model:db.Technology}], order: 'Event_date'})
+    db.Event.findAll({where: {UserId: req.user.id, Event_followupdate: {$ne:null}}, include: [{model: db.Contact}, {model: db.User}, {model:db.Company}, {model:db.Technology}], order: 'Event_date'})
         .then(function(evnts){
             //console.log("EVENTSEVENTSEVENTSEVETNTSEVENTESEVENTS", evnts);
             return res.jsonp(evnts);

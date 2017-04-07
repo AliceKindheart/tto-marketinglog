@@ -65,7 +65,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
         cmpnyid = $stateParams.id;
         Companies.get({id: $stateParams.id}, function(company) {
             $scope.company=company;
-            console.log("$scope.company", $scope.company);
+            //console.log("$scope.company", $scope.company);
             contactarray = company.Contacts;
             $scope.completecontacts = company.Contacts;
             $scope.events=company.Events;
@@ -80,7 +80,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             }
             $scope.contacts = contacts;
             $scope.contactschunked = $scope.chunk($scope.contacts, 3);
-            console.log("$scope.contactschunked", $scope.contactschunked);
+            //console.log("$scope.contactschunked", $scope.contactschunked);
 
             if(company.Tags.length!==0){
                 tagarray = company.Tags;
@@ -99,7 +99,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             $scope.findtags();
             $scope.selected = $scope.tags;
 
-            //$scope.findCompanyEvents();
+            $scope.findCompanyEvents();
             
         });
     };
@@ -243,7 +243,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             } else {
                 $scope.noevents = false;
             }
-            //console.log("Found events");
+            console.log("$scope.events.length", $scope.events.length, $scope.noevents);
             for(var i=0; i<$scope.events.length; i++){
                 $scope.Eventtechs.push($scope.events[i].Technology);
                 $scope.users.push($scope.events[i].User);

@@ -15,9 +15,10 @@
 	</div><!-- /.row -->
 	
 	<div>
-		<button type="button" ng-show="mycampaignsbutton" ng-click="mymarketing()" class="btn btn-info">My Active Marketing Campaigns</button>
-		<button type="button" ng-show="allactivebutton" ng-click="active()" class="btn btn-info">All Active Campaigns</button>
-		<button type="button" ng-show="activeinactivebutton" ng-click="allcamps()" class="btn btn-info">Active AND Inactive Campaigns</button>
+		<button type="button"  ng-click="mymarketing()" class="btn btn-info">My Active Marketing Campaigns</button>
+		<button type="button"  ng-click="active()" class="btn btn-info">All Active Campaigns</button>
+		<button type="button" ng-click="allcamps()" class="btn btn-info">Active AND Inactive Campaigns</button>
+		<button type="button" ng-click="unloved()" class="btn btn-info">Unloved Campaigns</button>
 	
 	</div>
 		<table class="table table-bordered table-striped" data-ng-init="mymarketing()" >
@@ -47,8 +48,13 @@
           <div class="panel-heading" data-ng-init="findEvents()">
             <h4 class="panel-title ">{{global.user.name}}'s Events Marked for Follow-Up</h4>
           </div>
-          
-            <p ng-show="noevents">Nothing to follow up with at this time.</p>
+
+          	<table class="table table-bordered" ng-show="noevents">
+              <tr>
+                <td>Nothing to follow up with at this time.</td>
+              </tr>
+            </table>
+         
             <table ng-hide="noevents" class="table table-bordered">
             	<tr>
             		<th id="colorrow">Event Date</th>

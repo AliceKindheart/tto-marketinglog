@@ -10,7 +10,8 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             Tech_inventor: this.Tech_inventor,
             Tag_name: this.selected,
             Tech_marketer: $scope.marketer,
-            isActive: true
+            isActive: true, 
+            isUnloved: false
         });
         console.log("$scope.marketer", $scope.marketer);
         console.log("technology:", technology);
@@ -23,6 +24,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         this.Tech_inventor = "";
         this.Tag_name = "";
         this.Tech_marketer = "";
+        this.isUnloved= "";
     };
 
     $scope.remove = function(technology) {
@@ -111,6 +113,8 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             });
     };
 
+  
+
     $scope.findEventsforOneTechnology = function(){  
       $http({
             method: 'GET',
@@ -120,6 +124,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             $scope.makeEventDataUseable(response);
         });
     };
+
 
     $scope.companynames=[];
     $scope.Eventtechs =[];
@@ -351,7 +356,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
 
     $scope.getNow = function(){
         return new Date();
-    }
+    };
 
     
     $scope.find = function() {
@@ -439,6 +444,14 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         $scope.technology.isActive = false;
       };
 
+      $scope.unlovedYes = function(){
+        $scope.technology.isUnloved = true;
+      };
+
+      $scope.unlovedNo = function(){
+        $scope.technology.isUnloved = false;
+      };
+
  
     $scope.choosemarketer = function (name) {
         $scope.marketer = name;
@@ -478,9 +491,9 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
     $scope.mymarketing = function(){
         $scope.showall = false;
 
-        $scope.mycampaignsbutton = true;
-        $scope.allactivebutton =  true;
-        $scope.activeinactivebutton = true;
+    //    $scope.mycampaignsbutton = true;
+    //    $scope.allactivebutton =  true;
+    //    $scope.activeinactivebutton = true;
         //console.log("yes");
         $http({
             method: "GET",
@@ -496,9 +509,9 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
 
     $scope.allcamps = function(){
         $scope.title = "All Active and Inactive ";
-        $scope.mycampaignsbutton = true;
-        $scope.allactivebutton =  true;
-        $scope.activeinactivebutton = true;
+     //   $scope.mycampaignsbutton = true;
+       // $scope.allactivebutton =  true;
+     //   $scope.activeinactivebutton = true;
 
         $http({
             method: 'GET',
@@ -513,9 +526,9 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
     $scope.active = function(){
         $scope.showall = false;
 
-        $scope.mycampaignsbutton = true;
-        $scope.allactivebutton =  true;
-        $scope.activeinactivebutton = true;
+     //   $scope.mycampaignsbutton = true;
+     //   $scope.allactivebutton =  true;
+    //    $scope.activeinactivebutton = true;
 
         $scope.title = "All Active ";
         $http({
@@ -525,6 +538,18 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             //console.log("TEXX:", tex);
             $scope.technologies = tex.data;
             //console.log($scope.technologies, "$scope.technologies2");
+            $scope.gettagsandmarketers();
+        });
+    };
+
+    $scope.unloved = function(){
+        $scope.title = "Unloved ";
+        $scope.showall = true;
+        $http({
+            method: 'GET',
+            url: '/unloved'
+        }).then(function(tex){
+            $scope.technologies = tex.data;
             $scope.gettagsandmarketers();
         });
     };
