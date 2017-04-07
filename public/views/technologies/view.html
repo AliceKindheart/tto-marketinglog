@@ -78,7 +78,7 @@
                       <td>{{event.Event_method}}</td>
                       <td ng-class="{'alert' : (event.Event_followupdate | date:'MM/dd/yyyy')<=(getNow() | date:'MM/dd/yyyy')}">{{event.Event_followupdate | date:'MM/dd/yyyy'}}</td>
                       <td>{{event.Event_notes}}</td>
-                      <td>outcome will go here</td>
+                      <td>{{event.Event_outcome}}</td>
                 </tr> 
               </table> 
             </accordion-group>

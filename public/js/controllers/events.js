@@ -12,7 +12,8 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
             Technology: this.technology,
             Event_flag: this.Event_flag,
             Event_followupdate: this.followupdate, 
-            Event_method: this.Event_method
+            Event_method: this.Event_method, 
+            Event_outcome: this.Event_outcome
         });
         event.$save(function(response) {
             console.log("response", response);
@@ -26,13 +27,16 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
         this.contacts = "";
         this.flag = "";
         this.followupdate = "";
+        this.Event_outcome = "";
     };
 
     $scope.methods = ["Phone", "Email", "Meeting"];
 
     $scope.yesno = ["Yes", "No"];
 
-    $scope.outcomes =["Waiting to hear", "Possibly interested", "Not interested", "Other"];
+    $scope.outcomes = ["In review", "Not interested", "No response", "Other"];
+
+    
 
     $scope.numberofoutcomes = $scope.outcomes.length;
 
@@ -183,6 +187,10 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
     $scope.selectmethod = function (method){
         $scope.Event_method = method;
     }; 
+
+    $scope.selectoutcome = function (outcome){
+        $scope.Event_outcome = outcome;
+    };
 
     $scope.selected = ["None"];
 

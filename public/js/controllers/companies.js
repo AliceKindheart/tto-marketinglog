@@ -99,7 +99,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             $scope.findtags();
             $scope.selected = $scope.tags;
 
-            $scope.findCompanyEvents();
+            //$scope.findCompanyEvents();
             
         });
     };

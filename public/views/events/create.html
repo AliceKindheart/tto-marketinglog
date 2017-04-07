@@ -6,6 +6,7 @@
 			<tr>
 				<th id="colorrow">Event Date</th>
 				<th id="colorrow">Contact Method</th>
+				<th id="colorrow">Event Outcome</th>
 				<th id="colorrow">Flag for Follow Up?</th>
 				<th id="colorrow" ng-show="flagyes">Follow Up Date</th>
 				<th id="colorrow">Notes</th>
@@ -17,6 +18,13 @@
 					<table rowspan="3">
 						<tr data-ng-repeat="method in methods" >
 							<td><input type="radio" ng-click="selectmethod(method)" name="Event_method" id="Event_method" required/>{{method}}</td>
+						</tr>
+					</table>
+				</td>
+				<td>
+					<table rowspan="4">
+						<tr data-ng-repeat="outcome in outcomes">
+							<td><input type="radio" ng-click="selectoutcome(outcome)" name="Event_outcome" id="Event_outcome" required/>{{outcome}}</td>
 						</tr>
 					</table>
 				</td>
