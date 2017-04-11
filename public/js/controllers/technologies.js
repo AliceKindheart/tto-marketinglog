@@ -444,13 +444,13 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         $scope.technology.isActive = false;
       };
 
-      $scope.unlovedYes = function(){
-        $scope.technology.isUnloved = true;
-      };
+    //  $scope.lovedYes = function(){
+      //  $scope.technology.isUnloved = false;
+    //  };
 
-      $scope.unlovedNo = function(){
-        $scope.technology.isUnloved = false;
-      };
+//      $scope.lovedNo = function(){
+  //      $scope.technology.isUnloved = true;
+    //  };
 
  
     $scope.choosemarketer = function (name) {
@@ -490,6 +490,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
 
     $scope.mymarketing = function(){
         $scope.showall = false;
+        $scope.showlovedstatus = true;
 
     //    $scope.mycampaignsbutton = true;
     //    $scope.allactivebutton =  true;
@@ -508,6 +509,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
     };
 
     $scope.allcamps = function(){
+        $scope.showlovedstatus = true;
         $scope.title = "All Active and Inactive ";
      //   $scope.mycampaignsbutton = true;
        // $scope.allactivebutton =  true;
@@ -524,6 +526,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
     };
 
     $scope.active = function(){
+        $scope.showlovedstatus = true;
         $scope.showall = false;
 
      //   $scope.mycampaignsbutton = true;
@@ -543,6 +546,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
     };
 
     $scope.unloved = function(){
+        $scope.showlovedstatus = false;
         $scope.title = "Unloved ";
         $scope.showall = true;
         $http({
@@ -550,6 +554,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             url: '/unloved'
         }).then(function(tex){
             $scope.technologies = tex.data;
+            console.log("$scope.technologies", $scope.technologies);
             $scope.gettagsandmarketers();
         });
     };

@@ -28,6 +28,7 @@
 				<th id="colorrow">Technology</th>
 				<th id="colorrow">Inventor</th>
 				<th id="colorrow">Tags</th>
+				<th id="colorrow" ng-show="showlovedstatus">Loved?</th>
 				<th id="colorrow" ng-show="showall">Active Campaign?</th>
 			</tr>
 			<tr data-ng-repeat="technology in technologies">
@@ -36,12 +37,15 @@
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_name}}</td>
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_inventor}}</td>
 				<td>{{tagnames[$index]}}</td>
+				<td ng-show="showlovedstatus" ng-if="technology.isUnloved">No</td>
+				<td ng-show="showlovedstatus" ng-if="!technology.isUnloved">Yes</td>
 				<td ng-show="showall" ng-if="technology.isActive">Yes</td>
 				<td ng-show="showall" ng-if="!technology.isActive">No</td>
 			</tr>
-			<tr data-ng-show="!technologies">
-				<td>No technologies yet</td>
+			<tr ng-if="technologies.length===0">
+				<td>No campaigns to show</td>
 			</tr>
+			
 		</table>
 
 		<div class="panel panel-primary">
