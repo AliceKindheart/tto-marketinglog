@@ -135,7 +135,8 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
                 console.log("this happened");
                 //$scope.$apply();
                 //$state.go('addtags');
-                $window.location.reload();
+                //$window.location.reload();
+                $scope.findtags();
             });
         }
     };
@@ -170,7 +171,9 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
         }).then(function(){
         //    $scope.user = user;
         //    console.log("$scope.user", $scope.user);
-            $window.location.reload();
+            //console.log("$scope.global", $scope.global);
+            //$window.location.reload();
+            $scope.findtags();
         });
     };
 

@@ -18,6 +18,9 @@ angular.module('mean.auth').controller('signIn', ['$scope', '$window', 'Global',
                 $window.confirm("Login Information Not Correct");
             }
         });
+
+        //$window.localStorage.setItem('user', JSON.stringify(user));
+        //this.currentUser= user;
     };
 
 

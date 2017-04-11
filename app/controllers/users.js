@@ -52,6 +52,7 @@ exports.session = function(req, res) {
  * Create user
  */
 exports.create = function(req, res, next) {
+  console.log("CREATECALLD");
     var message = null;
 
     var user = db.User.build(req.body);
@@ -62,13 +63,13 @@ exports.create = function(req, res, next) {
     console.log('New User (local) : { id: ' + user.id + ' username: ' + user.username + ' }');
     
     user.save().then(function(){
-      req.login(user, function(err){
-        if(err) {
-            return next(err);
-        }
+      //req.login(user, function(err){
+        //if(err) {
+          //  return next(err);
+        //}
           return res.send({status : 'success', message : 'User signup successfully.'});
        // res.redirect('/');
-      });
+      //});
     }).catch(function(err){
       res.render('users/signup',{
           message: message,
