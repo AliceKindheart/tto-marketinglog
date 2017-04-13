@@ -17,8 +17,7 @@
           <h4 id="colorrow">Tags</h4>
           <table class="table" colspan="5" >
             <tr ng-repeat="tags in chunkedtagnames">
-              <td ng-repeat="tag in tags"><input type="checkbox" ng-checked="exists(tag, selected)"
-                             ng-click="toggle2(tag, selected)"/>{{tag}}</td>
+              <td ng-repeat="tag in tags"><input type="checkbox" ng-checked="exists(tag, selected)" ng-click="toggle2(tag, selected)"/>{{tag}}</td>
             </tr>
           </table>
     </div>

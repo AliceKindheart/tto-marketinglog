@@ -62,9 +62,9 @@ Company.create({
 }).then(function(comp){
 	var company = comp;
 	Contact.create({
-	Contact_firstname: "Rupert",
-	Contact_lastname: "Rumplefurred",
-	Contact_name: "Rupert Rumplefurred",
+	Contact_firstname: "Daisy",
+	Contact_lastname: "Rumplefurd",
+	Contact_name: "Daisy Rumplefurd",
 	Contact_title: "Cutest cat on the internet",
 	Contact_email: "cat@internet.net",
 	Contact_phone: "555-234-5644"

@@ -6,13 +6,13 @@ var Contact = db.model("Contact");
 var Technology = db.model("Technology");
 var User = db.model("User");
 
-User.findOne({where: {name: 'Alice Kindheart'}})
+User.findOne({where: {name: 'Wonder Woman'}})
 	.then(function(person){
 		var person = person;
 		Technology.create({
 			Tech_RUNumber: 495,
 			Tech_name: "Grilled Cheese",
-			Tech_inventor: "Mildred Monroe",
+			Tech_inventor: "Brie Muenster",
 			isActive: true
 		}).then(function(tech){
 			tech.setUser(person);
@@ -32,7 +32,7 @@ User.findOne({where: {name: 'Wonder Woman'}})
 		})
 	})
 
-User.findOne({where: {name: "Alice Kindheart"}})
+User.findOne({where: {name: "Wonder Woman"}})
 	.then(function(pers){
 		var person = pers;
 		Technology.create({

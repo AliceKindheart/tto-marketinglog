@@ -4,16 +4,19 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
     $scope.global = Global;
 
     $scope.create = function() {
+        var Tagnames =[];
+
         console.log($scope.selected, "Company_name");
         var contact = new Contacts({
             Contact_firstname: this.Contact_firstname,
             Contact_lastname: this.Contact_lastname,
-            Contact_name: this.Contact_firstname + this.Contact_lastname,
+            Contact_name: this.Contact_firstname + " " + this.Contact_lastname,
             Contact_email: this.Contact_email,
             Contact_phone: this.Contact_phone,
             Contact_title: this.Contact_title,
             Company_name: this.Company_name,
-            Contact_notes: this.Contact_notes
+            Contact_notes: this.Contact_notes,
+            Tag_name: this.selected
         });
         contact.$save(function(response) {
             $state.go('viewContact',{id : response.id});
@@ -27,6 +30,7 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
         this.Contact_title = "";
         this.Company_name = "";
         this.Contact_notes = "";
+        this.Tag_name="";
     };
 
     $scope.remove = function(contact) {
@@ -47,6 +51,8 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
 
     $scope.update = function() {
         var contact = $scope.contact;
+        var tagname = $scope.whatyouneed;
+        contact.Tag_name = tagname;
         contact.compname = $scope.nameofcompany;
         console.log("contact", contact);
         contact.updated = [];
@@ -56,8 +62,12 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
         });
     };
 
+    var whatyouneed;
+
     $scope.findOne = function() {
         var company;
+        var tagarray = [];
+        var tags = [];
         //console.log("$stateParams.id", $stateParams.id);
         Contacts.get({
             id: $stateParams.id 
@@ -74,6 +84,23 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
             } else {
                 $scope.noevents = false;
             }
+        
+            if(contact.Tags.length!==0){
+                tagarray = contact.Tags;
+            } else {
+                tagarray.push({Tag_name:"None"});
+            }
+            
+            tagarray.forEach(function(tag){
+                tags.push(tag.Tag_name);
+            });
+
+            $scope.whatyouneed = tags;
+            whatyouneed = $scope.whatyouneed;
+        
+            $scope.tags = tags.join(", ");
+            $scope.findtags();
+            $scope.selected = $scope.tags;
         });
         
 
@@ -94,6 +121,8 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
 
     $scope.find = function() {
         var arrayofcontacts = [];
+        var arrayofarrayoftagobjects = [];
+        var arrayoftagobjects = [];
 
         Contacts.query(function(contacts) {
             $scope.contacts = contacts;
@@ -107,6 +136,34 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
                 }
                 $scope.companies = arrayofcontacts;
             });
+
+            contacts.forEach(function(contact){
+                if(contact.Tags){
+                    arrayofarrayoftagobjects.push(contact.Tags);
+                } else {
+                    arrayofarrayoftagobjects.push([{Tag_name: "None"}]);
+                }
+            });
+
+            var tags = [];
+            var arrayoftags = [];
+
+            arrayofarrayoftagobjects.forEach(function(array){
+                array.forEach(function(object){
+                    tags.push(object.Tag_name);    
+                });
+                arrayoftags.push(tags);   
+                tags = [];  
+            });
+
+            var arrayoftagnames = [];
+            var stringoftagnames;
+            arrayoftags = arrayoftags.forEach(function(array){
+                stringoftagnames = array.join(", ");
+                arrayoftagnames.push(stringoftagnames);
+            });
+
+            $scope.tags=arrayoftagnames;
         });
     };
 
@@ -119,6 +176,7 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
                 $scope.companies.push(company.Company_name);
             });
             $scope.chunkedcompanies = $scope.chunk($scope.companies, 3);
+            //$scope.findtags();
         });
     };
 
@@ -153,9 +211,56 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
             url: '/searchforcontacts',
             params: {contactname: $scope.contactname}
         }).then(function(resp){
-            console.log("response", resp.data);
-            $scope.contacts = resp.data;
-        });
+        //$searchcontacts
+          //  .then(function(resp){
+            //    console.log("response", resp.data);
+                $scope.contacts = resp.data;
+            });
       };
+
+    $scope.findtags =  function(){
+        $scope.tagnames = [];
+        $http.get('/tags')
+        .then(function(response){
+            $scope.tagresponse = response.data;
+            $scope.tagresponse.forEach(function(tag){
+                $scope.tagnames.push(tag.Tag_name);
+            });
+            $scope.chunkedtagnames = $scope.chunk($scope.tagnames, 5);
+            console.log("$scope.chunkedtagnames", $scope.chunkedtagnames);
+        });
+        
+    };
+
+    $scope.toggle = function (tag, tags) {
+        var idx = tags.indexOf(tag);
+        console.log("idx", idx);
+        if (idx > -1) {
+          tags.splice(idx, 1);
+        }
+        else {
+          tags.push(tag);
+        }
+      };
+
+    $scope.toggle2 = function (tag, whatyouneed) {
+        console.log("whatyouneed", whatyouneed, typeof whatyouneed);
+        console.log("$scope.whatyouneed", $scope.whatyouneed, typeof $scope.whatyouneed);
+        var idx = $scope.whatyouneed.indexOf(tag);
+        if (idx > -1) {
+            $scope.whatyouneed.splice(idx, 1);
+        }
+        else {
+          $scope.whatyouneed.push(tag);
+        }
+    };  
+
+    $scope.exists = function (tag, list) {
+        if(!list){
+            return -1;
+        } else {
+            return list.indexOf(tag) > -1;
+        }
+    };
 
 }]);

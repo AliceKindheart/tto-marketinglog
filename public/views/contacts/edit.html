@@ -2,7 +2,7 @@
 	<h2> Edit Contact Information</h2>
 
 	<form class="form-horizontal" data-ng-submit="update()">
-		<table class="table table-bordered">
+		<table class="table table-bordered" table-layout="fixed" width="80%">
 			<tr>
 				<th id="colorrow">First Name</th>
 				<th id="colorrow">Last Name</th>
@@ -31,6 +31,16 @@
           </table>
         </fieldset>
       	</div>
+
+      	<div >
+        <fieldset class="standard">
+          <h4 id="colorrow">Tags</h4>
+          <table class="table" colspan="5" >
+            <tr ng-repeat="tags in chunkedtagnames">
+              <td ng-repeat="tag in tags"><input type="checkbox" ng-checked="exists(tag, selected)" ng-click="toggle2(tag, selected)"/>{{tag}}</td>
+            </tr>
+          </table>
+    </div>
 
 		<div class="control-group">
 			<div class="controls">

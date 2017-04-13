@@ -14,7 +14,7 @@ var db = require('../../config/sequelize');
 exports.contact = function(req, res, next, id) {
     console.log('contactid => ' + id);
     console.log("CONTACTS.CONTACT");
-    db.Contact.find({where: {id: id}, include: [{model: db.Company}, {model:db.Event}]}).then(function(contact){
+    db.Contact.find({where: {id: id}, include: [{model: db.Company}, {model: db.Tag}, {model:db.Event}]}).then(function(contact){
         if(!contact) {
             //return next(new Error('Failed to load contact ' + id));
             return next();
@@ -40,6 +40,7 @@ exports.create = function(req, res) {
     var companyid;
     var foundcompany;
     var contact; 
+    var tagrows;
 
     // save and return an instance of contact on the res object. 
     db.Company.findOne({where:{Company_name: req.body.Company_name}, include: {model: db.Contact}})
@@ -57,11 +58,19 @@ exports.create = function(req, res) {
             return contact.updateAttributes({
                 CompanyId: companyid
             });
-            //contact.belongsTo(foundcompany);
-            
             //return contact;
         }).then(function(contact){
+            if (req.body.Tag_name){
+                var Tagnames = req.body.Tag_name;
+                db.Tag.findAll({where:{Tag_name:{$in:Tagnames}}})
+                    .then(function(rowoftags){
+                        tagrows=rowoftags;
+                        return contact.addTags(tagrows);
+                    }); 
 
+            } 
+                   // }).then(function(contact){
+        
             console.log("CONTACTBEINGRETURNED", contact);
             return res.jsonp(contact);
         }).catch(function(err){
@@ -76,7 +85,7 @@ exports.create = function(req, res) {
 exports.search = function(req,res) {
     db.Contact.findAll({
         where: {Contact_name: {$like: '%' + req.query.contactname + '%'}},
-        include: [{model: db.Company}], 
+        include: [{model: db.Company}, {model: db.Tag}], 
         order: 'Contact_name'
     }).then(function(contacts){
         return res.jsonp(contacts);
@@ -94,6 +103,8 @@ exports.update = function(req, res) {
     //console.log("REQQQQQQQQQQQQ>BODY", req.body);
     var newcompany;
     var compid;
+    var newtags = req.body.Tag_name.join(", ").split(", ");
+    var tagrows;
     var oldcompany = req.body.Company;
     console.log("oldcompany", oldcompany);
 
@@ -116,12 +127,16 @@ exports.update = function(req, res) {
         }).then(function(contact){
             contact.setCompany(newcompany);
             newcompany.addContact(contact);
-            return res.jsonp(contact);
-        }).catch(function(err){
-            return res.render('error', {
-                error: err, 
-                status: 500
-            });
+            db.Tag.findAll({where: {Tag_name: {$in:newtags}}})
+                .then(function(rowoftags){
+                    contact.setTags(rowoftags);
+                    return res.jsonp(contact);
+                }).catch(function(err){
+                    return res.render('error', {
+                        error: err, 
+                        status: 500
+                    });
+                });
         });
 };
 
@@ -161,7 +176,7 @@ exports.showy = function(req, res) {
 exports.all = function(req, res) {
     console.log("exports.all for contacts happened");
     
-    db.Contact.findAll({include: [{model: db.Company}], order: "Contact_lastname"}).then(function(contacts){
+    db.Contact.findAll({include: [{model: db.Company}, {model: db.Tag}], order: "Contact_lastname"}).then(function(contacts){
         console.log("CCCCCContacts");
         return res.jsonp(contacts);
     }).catch(function(err){

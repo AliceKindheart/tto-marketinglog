@@ -22,6 +22,8 @@ module.exports = function(sequelize, DataTypes) {
 						through: "ContactEvents",
 						foreignKey: "Contact_rowId"
 					});
+					Contact.belongsToMany(models.Tag, {through: 'ContactTags'});
+
 			}
 		}
 	);
