@@ -78,18 +78,21 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
     };
 
     $scope.findOneEvent = function() {
-        console.log("findOneEvent ran");
-        console.log("$stateParams.id=");
-        console.log($stateParams.id);
+       // console.log("findOneEvent ran");
+       // console.log("$stateParams.id=");
+       // console.log($stateParams.id);
         Events.get({
             id: $stateParams.id 
         }, function(response) {
-            console.log(response);
+            //console.log("response", response);
             $scope.event = response;
             $scope.contacts(response);
+            $scope.event.Event_date = new Date($scope.event.Event_date);
+            //$scope.event.Event_date=($scope.event.Event_date | date:'MM/dd/yyyy');
         });
-
     };
+
+
 
     $scope.contacts = function(event){
         //console.log(event.Contacts);

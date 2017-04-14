@@ -1,5 +1,5 @@
 <section>
-	<h2 data-ng-init="gettech()">Create New Event for the {{technology.Tech_name}} Campaign</h2>
+	<h2 data-ng-init="findOneEvent()">Edit Event for the {{event.Technology.Tech_name}} Campaign</h2>
 	<form class="form-horizontal" data-ng-submit="createEvent()" data-ng-init="findOneEvent()">
 
 		<table class="table table-bordered">
@@ -11,32 +11,31 @@
 				<th id="colorrow">Notes</th>
 			</tr>
 			<tr>
-				<td><input type="date" data-ng-model="Event_date" id="Event_date" placeholder="Event Date" required/>
+				<td><input type="date" data-ng-model="event.Event_date" id="Event_date" placeholder="Event Date" required/>
 				</td>
 				<td>
 					<table rowspan="3">
 						<tr data-ng-repeat="method in methods" >
-							<td><input type="radio" ng-click="selectmethod(method)" name="Event_method" id="Event_method" required/>{{method}}</td>
+							<td><input type="radio" ng-click="selectmethod(method)" ng-checked="event.Event_method" name="Event_method" id="Event_method" required/>{{method}}</td>
 						</tr>
 					</table>
 				</td>
 				<td>
 					<table rowspan="2">
 						<tr data-ng-repeat="answer in yesno">
-							<td><input type="radio" data-ng-model="flag" ng-click="setfollowupflag(answer)" name="flag" id="flag" required/>{{answer}}</td>
+							<td><input type="radio" data-ng-model="flag" ng-click="setfollowupflag(answer)" ng-checked="event.Event_flag" name="flag" id="flag" required/>{{answer}}</td>
 						</tr>
 					</table>
 				</td>
-				<td ng-show="flagyes"><input type="date" data-ng-model="followupdate" id="followupdate"/></td>
-				<td><textarea data-ng-model="notes" id="Notes" placeholder="Notes"/></textarea></td>
+				<td ng-show="flagyes"><input type="date" data-ng-model="followupdate" ng-checked="event.Event_followupdate" id="followupdate"/></td>
+				<td><textarea data-ng-model="event.Event_notes" id="Notes" placeholder="Notes"/></textarea></td>
 			</tr>
 		</table>
 
-		<h4 id="colorrow">Select Company</h4>
+		<h4 id="colorrow" data-ng-init="findComapnies()">Select Company</h4>
 		<table class="table" colspan="3" >
 			<tr ng-repeat="companies in chunkedcompanies">
-				<td ng-repeat="company in companies"><input type="radio" required name="company"
-                       ng-click="choose(company)"/>{{company}}</td>
+				<td ng-repeat="company in companies"><input type="radio" required name="company" ng-checked="event.Company.Contact_name" ng-click="choose(company)"/>{{company}}</td>
 			</tr>
 		  </table>
 

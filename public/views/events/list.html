@@ -3,9 +3,9 @@
 	<button type="button" class="btn btn-primary" ui-sref="addEvent">Add Event</button>
 		<table class="table table-bordered table-striped" data-ng-init="find()" >
 			<tr>
-				<th>ID#</th>
-				<th>Date</th>
-				<th>Notes</th>
+				<th id="colorrow">ID#</th>
+				<th id="colorrow">Date</th>
+				<th id="colorrow">Notes</th>
 			</tr>
 			<tr data-ng-repeat="event in events">
 				<td ui-sref="viewEvent({id : event.id})">{{event.id}}</td>

@@ -47,7 +47,7 @@
                 <th id="colorrow">Event Date</th>
                 <th id="colorrow">Follow Up Date</th>
               </tr>
-              <tr data-ng-repeat="event in events" data-ng-init="geteventinfo(event)">
+              <tr data-ng-repeat="event in events" data-ng-init="geteventinfo(event)" ui-sref="viewEvent({id: event.id})">
                 <td>{{eventdetails.Technology.Tech_RUNumber}}</td>
                 <td>{{eventdetails.Technology.Tech_name}}</td>
                 <td>{{eventdetails.User.name}}</td>
