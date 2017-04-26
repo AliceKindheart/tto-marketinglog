@@ -190,7 +190,6 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
     };
 
     $scope.contacts = function(event){
-        //console.log(event.Contacts);
         var names=[];
         for (var x=0; x<event.Contacts.length; x++){ 
             if (event.Contacts[x].length===0){
@@ -198,11 +197,9 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
                 names.push(["None"]);
             } else {
                 names.push(event.Contacts[x].Contact_name);
-               // console.log("contactname", event.Contacts[x].Contact_name);
             } 
         }
         names = names.join(", ");
-        //console.log ("names", names, typeof names);
         event.names = names;
     };
 
@@ -214,13 +211,11 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         $scope.events = response.data;
 
         if($scope.events.length===0){
-            //console.log("No events");
-            //console.log("should hide");
             $scope.noevents = true;
         } else {
             $scope.noevents = false;
         }
-        //console.log("Found events");
+    
         //parse out marketer, technology, and company info for each event
         if(!$scope.noevents){
             for(var i=0; i<$scope.events.length; i++){
@@ -235,7 +230,6 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
                     $scope.arrayofarrayofcontacts.push({"Contact_name": "none"});
                 }
             }
-
 
             var arrayofcontactnames =[];
             var contactnames =[];
@@ -257,46 +251,28 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             });
 
             $scope.contactnames = contactnames;
-           // console.log("$scope.companies", $scope.companies);
        }
 
     };
           
 
     $scope.findSuggestedCompanies = function(){
-        //console.log("findSuggestedCompanieswas called");
-        //console.log("tags", tags);
-        //console.log("$SCOPE");
         $http({
             method: 'GET',
             url: '/findsuggestedcompanies',
             params: {
-                //tech: $scope.technology,
                 tags: tags,
                 tagarray: $scope.tagarray,
                 tagids: tagids
-
             }
         }).then(function(resp){
-            //console.log("response for suggested companies", resp);
             $scope.suggestedcompanies=resp.data;
-            //console.log("$scope.suggesedcompanies", $scope.suggestedcompanies);
-            //$scope.suggestedcompanynames=[];
             $scope.revisedsuggestedcompanies=[];
 
             //put suggested companies into an array so that they can be cross-checked against companies that have been contacted
-            //for (var x=0; x<$scope.suggestedcompanies.length; x++){
-              //  $scope.suggestedcompanynames.push($scope.suggestedcompanies[0]);
-            //}
-
-            //console.log("$scope.suggestedcompanynames before loop", $scope.suggestedcompanynames);
-           // console.log("$scope.companynames", $scope.companynames);
-
-
             for(var k=0; k<$scope.suggestedcompanies.length; k++){
                 for(var m=0; m<$scope.companynames.length; m++){
                     if($scope.suggestedcompanies[k].Company_name===$scope.companynames[m]){
-                        //console.log("hit");
                         $scope.suggestedcompanies.splice(k,1);
                         k--;
                         break;
@@ -304,34 +280,16 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
                 }
             }
 
-            //loop through $scope.suggestedcompanies to get rid of companies that have already been contacted (i.e., there's an event associated with the company)
-            //for (var k=0; k<$scope.suggestedcompanynames.length; k++){
-              //  for(var m=0; m<$scope.companynames.length; m++){
-                    //console.log("$scope.suggestedcompanynames[k]", $scope.suggestedcompanynames[k], "$scope.companynames[m]", $scope.companynames[m]);
-                //    if($scope.suggestedcompanynames[k]===$scope.companynames[m]){
-                        //console.log("SPLICE");
-                        //$scope.suggestedcompanynames.splice(k,1);
-                        //k-1;
-                  //      break;
-                    //}
-                    //$scope.revisedsuggestedcompanies.push($scope.suggestedcompanynames[k]);
-               // }
-
- //           }
-            //console.log("$scope.suggestedcompanies after loop", $scope.suggestedcompanies);
-
             var foundtags=[];
             var foundtagnames =[];
             var foundarrayoftagnames=[];
             var foundarrayofarrayoftags=[];
-            //$scope.foundtagnames=[];
+            
             //creating an array of arrays of tag objects 
             for (var i=0; i<$scope.suggestedcompanies.length; i++){
                     foundtags.push($scope.suggestedcompanies[i].Tags);
                 }            
             //going through the array of array of tag objects and putting the name of each tag into a separate array
-            //console.log("foundtags", foundtags);
-
             foundtags.forEach(function(arrayoftags){
                 arrayoftags.forEach(function(tagobject){
                     foundtagnames.push(tagobject.Tag_name);
@@ -350,7 +308,6 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
                 finaltagnames.push(foundstringoftagnames);
             });
             $scope.finaltagnames=finaltagnames;
-            //console.log("$scope.finaltagnames", $scope.finaltagnames);
         });
     };
 
@@ -361,8 +318,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
     
     $scope.find = function() {
         Technologies.query(function(technologies) {
-            $scope.technologies = technologies;
-            //console.log("$scope.technologies:", $scope.technologies);  
+            $scope.technologies = technologies;  
             $scope.gettagsandmarketers();         
         });
     };
@@ -370,7 +326,6 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
     $scope.usernames = [];
 
      $scope.findtagsandusers =  function(){
-            //console.log("findtagsandusers");
             $scope.tagnames = [];
             $http.get('/tags')
             .then(function(response){
@@ -388,7 +343,6 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
                     });
                     $scope.chunkedmarketers = $scope.chunk($scope.usernames, 3);
                 });
-                //console.log("$scope.usernames: ", $scope.usernames);
         };
      $scope.selected = [];
 
@@ -399,14 +353,6 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             }
             return newArr;
     };
-
-  //$scope.getUser = function(){
-    //$http.get('/currentuser')
-      //  .then(function(response){
-        //    $scope.user = response;
-          //  console.log("$scope.user", $scope.user);
-            //});
-    //};
 
     $scope.getAdmin = function(){
         console.log("hello?");
@@ -444,25 +390,13 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         $scope.technology.isActive = false;
       };
 
-    //  $scope.lovedYes = function(){
-      //  $scope.technology.isUnloved = false;
-    //  };
-
-//      $scope.lovedNo = function(){
-  //      $scope.technology.isUnloved = true;
-    //  };
-
- 
     $scope.choosemarketer = function (name) {
         $scope.marketer = name;
-        //$scope.user.name = name;
         console.log(" chosen $scope.marketer", $scope.marketer);
         $scope.marketerchosenorchanged = true;
-        //$scope.$apply();
     };  
 
       $scope.marktheusername = function (name) {
-        //console.log("marktheuser");
         var thingtocheck;
         thingtocheck = $scope.user.name;
         if($scope.user.name && !$scope.marketerchosenorchanged) {
@@ -470,14 +404,12 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         } else if ($scope.marketerchosenorchanged) {
             thingtocheck = $scope.marketer;
         }
-        //console.log("$scope.marketer", $scope.marketer);
         if (thingtocheck === name){
             return true;
         }
       };
 
     $scope.searchForTech = function(){
-        //console.log($scope.number, "$scope.number");
         $http({
             method: 'GET',
             url: '/searchfortech',
@@ -492,17 +424,11 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         $scope.showall = false;
         $scope.showlovedstatus = true;
 
-    //    $scope.mycampaignsbutton = true;
-    //    $scope.allactivebutton =  true;
-    //    $scope.activeinactivebutton = true;
-        //console.log("yes");
         $http({
             method: "GET",
             url: '/mymarketing'
         }).then(function(tex){
-            //console.log("returned");
             $scope.technologies = tex.data;
-            //console.log("$scope.technologies", $scope.technologies);
             $scope.gettagsandmarketers();
         });
         $scope.title = "My Active ";
@@ -511,10 +437,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
     $scope.allcamps = function(){
         $scope.showlovedstatus = true;
         $scope.title = "All Active and Inactive ";
-     //   $scope.mycampaignsbutton = true;
-       // $scope.allactivebutton =  true;
-     //   $scope.activeinactivebutton = true;
-
+     
         $http({
             method: 'GET',
             url: '/allcampaigns'
@@ -529,18 +452,12 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         $scope.showlovedstatus = true;
         $scope.showall = false;
 
-     //   $scope.mycampaignsbutton = true;
-     //   $scope.allactivebutton =  true;
-    //    $scope.activeinactivebutton = true;
-
         $scope.title = "All Active ";
         $http({
             method: 'GET',
             url: '/active'
         }).then(function(tex){
-            //console.log("TEXX:", tex);
             $scope.technologies = tex.data;
-            //console.log($scope.technologies, "$scope.technologies2");
             $scope.gettagsandmarketers();
         });
     };
@@ -647,10 +564,6 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             url: '/getem'
         }).then(function(response){
             $scope.makeEventDataUseable2(response);
-            //console.log("ReSPONSE", response);
-            
-            //$scope.geteventsinfo();
-            //console.log("$scope.arrayofarrayofcontacts", $scope.arrayofarrayofcontacts);
         });
     };
 

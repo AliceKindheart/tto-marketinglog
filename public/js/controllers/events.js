@@ -30,6 +30,33 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
         this.Event_outcome = "";
     };
 
+    $scope.createMultEvent = function() {
+        var event = new Events({
+            Event_date: this.Event_date,
+            Event_notes: this.notes,
+            Company: this.company,
+            Contacts: this.selected,
+            Technology: this.technology,
+            Event_flag: this.Event_flag,
+            Event_followupdate: this.followupdate, 
+            Event_method: this.Event_method, 
+            Event_outcome: this.Event_outcome
+        });
+        event.$save(function(response) {
+            console.log("response", response);
+            //$state.go('viewCompany',{Company_name : responseid});
+            $state.go('viewTech',{id: response.TechnologyId});
+        });
+
+        this.Event_date = "";
+        this.Event_notes = "";
+        this.company = "";
+        this.contacts = "";
+        this.flag = "";
+        this.followupdate = "";
+        this.Event_outcome = "";
+    };
+
     $scope.methods = ["Phone", "Email", "Meeting"];
 
     $scope.yesno = ["Yes", "No"];
@@ -173,9 +200,96 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
         });
     }; 
 
-    $scope.select = function(contact){
-        $scope.contact = contact;
-    };     
+    $scope.comps = [];
+    $scope.cntcts = [];
+
+//    $scope.choosemany = function(comp){
+        //$scope.comps.push(comp);
+        
+  //      console.log("$scope.comps", $scope.comps, typeof $scope.comps);
+
+    //    $http({
+      //      method: 'GET',
+        //    url: '/findcompanycontacts',
+          //  params: {Company_name: comp}
+//        }).then(function(company){
+  //          $scope.comps.push(company.data);
+            //console.log("COMpanyfound", $scope.comps.Contacts);
+    //        var cmpny = company.data;
+            //var temp =$scope.comps.Contacts;
+      //      console.log("cmpny.Contacts", cmpny.Contacts);
+        //    $scope.contactschunked = $scope.chunk($scope.cntcts, 3);
+    //    });
+
+
+//    }
+    $scope.findCompanies2 = function() {
+        $http({
+            method: 'GET',
+            url: '/companiesforevent'
+        }).then(function(response){
+            $scope.companies = response.data;
+            $scope.companynames = [];
+            console.log("$scope.companies", $scope.companies);
+            
+            $scope.chunkedcompanies = $scope.chunk($scope.companies, 3);
+           // response.data.forEach(function(company){
+             //   $scope.companynames.push(company.Company_name);
+            //});
+//console.log("companynames", $scope.companynames);
+            //$scope.chunkedcompanies = $scope.chunk($scope.companynames, 3);
+        });            
+    };
+    
+    $scope.selectedcompanies =[];
+
+    $scope.toggleCompanies = function (company,selected) {
+        $scope.selectedcompanynames=[];
+        $scope.contacts = [];
+        $scope.contactnames = [];
+        console.log("$scope.companies", $scope.companies);
+        var idx = selected.indexOf(company);
+        console.log("idx", idx);
+        if (idx > -1) {
+          selected.splice(idx, 1);
+          $scope.selectedcompanies.splice(idx,1);
+        }
+        else {
+          selected.push(company);
+          $scope.selectedcompanies.push(company.Company_name);
+        }
+        console.log("selected", selected);
+        console.log("$scope.selectedcompanies", $scope.selectedcompanies);
+
+        //get contact objects into a separate array
+        for (var x=1; x<selected.length; x++){
+            if(typeof selected[x]==="object"){
+                $scope.contacts.push(selected[x].Contacts);
+                $scope.selectedcompanynames.push(selected[x].Company_name);
+            }
+        }
+        console.log("$scope.contacts", $scope.contacts);
+        //console.log("$scope.selectedcompanynames", $scope.selectedcompanynames);
+
+        if($scope.contacts!=="undefined"){
+            var temp = [];
+            for (var y=0; y<$scope.contacts.length; y++){
+                for (var z=0; z<$scope.contacts[y].length; z++){
+                    temp.push($scope.contacts[y][z].Contact_name);
+                    //$scope.contactnames.push($scope.contacts[y][z].Contact_name);
+                }
+                $scope.contactnames.push(temp);
+                temp=[];
+            }
+            //$scope.contactnames = $scope.chunk($scope.contactnames, 3);
+        }
+
+
+      };
+
+//    $scope.select = function(contact){
+  //      $scope.contact = contact;
+  //  };     
 
     $scope.setfollowupflag = function(answer){
         if(answer==="Yes"){
@@ -206,11 +320,35 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
         else {
           selected.push(contact);
         }
+
+        console.log("selected", selected);
       };
 
+      $scope.selectedcontactnames=[];
+
+      $scope.toggle2 = function (contact, selected) {
+        var idx = selected.indexOf(contact);
+        var idx2 = $scope.selectedcontactnames.indexOf(contact);
+        console.log("idx", idx);
+        if (idx > -1) {
+          selected.splice(idx, 1);
+        }
+        else {
+          selected.push(contact);
+        }
+
+        if (idx2 > -1){
+            $scope.selectedcontactnames.splice(idx2,1);
+        } else {
+            $scope.selectedcontactnames.push(contact);
+        }
+
+        console.log("$scope.selectedcontactnames", $scope.selectedcontactnames);
+    }
+
       $scope.exists = function (tag, list) {
-    return list.indexOf(tag) > -1;
-    };
+        return list.indexOf(tag) > -1;
+        };
 
 
     
