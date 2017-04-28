@@ -6,6 +6,10 @@
   background-color: lightblue;
 }
 
+#lightgray {
+  background-color: #D3D3D3;
+}
+
 .navbar .nav>li>a.brand {
     padding-left:20px;
     margin-left:0

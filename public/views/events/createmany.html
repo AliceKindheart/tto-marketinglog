@@ -43,20 +43,22 @@
 		<h4 id="colorrow">Select Companies</h4>
 		<table class="table" colspan="3" >
 			<tr ng-repeat="companies in chunkedcompanies">
-				<td ng-repeat="company in companies"><input type="checkbox" required name="company" ng-click="toggleCompanies(company,selected)"
+				<td ng-repeat="company in companies"><input type="checkbox" name="company" ng-click="toggleCompanies(company,selected)"
                        />{{company.Company_name}}</td>
 			</tr>
 		  </table>
 
 		<h4 id="colorrow">Select Contact(s)</h4>
 		<table class="table" colspan="3" ng-repeat="company in selectedcompanies">
-			<th >{{company}}</th>
-				<tr>
+			<th id="lightgray">{{company.Company_name}}</th>
+				<tr ng-repeat="contact in contactinfo[$index]">
 
-               <td ng-repeat="contact in contactnames[$index]"><input type="checkbox" ng-checked="exists(contact, selected)" name="contact"
-	                       ng-click="toggle2(contact,selected)"/>{{contact}}
+               <td ><input type="checkbox" ng-checked="exists(contact, selected)" name="contact"
+	                       ng-click="toggle2(contact,selected)"/>{{contact.Contact_name}}		
                    </td>
-
+                   <td>{{contact.Contact_title}}</td>  
+	               <td>{{contact.Contact_email}}</td>
+					<td>{{contact.Contact_phone}}</td>
                </tr>
        </table>
 			
