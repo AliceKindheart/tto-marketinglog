@@ -312,6 +312,11 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
 
     $scope.selectmethod = function (method){
         $scope.Event_method = method;
+        if(method==="Email"){
+            $scope.email=true;
+        } else {
+            $scope.email=false;
+        }
     }; 
 
     $scope.selectoutcome = function (outcome){
@@ -322,6 +327,7 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
 
     $scope.toggle = function (contact, selected) {
         var idx = selected.indexOf(contact);
+        var idx2 = $scope.selectedcontacts.indexOf(contact);
         console.log("idx", idx);
         if (idx > -1) {
           selected.splice(idx, 1);
@@ -330,8 +336,17 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
           selected.push(contact);
         }
 
+        if (idx2 > -1) {
+          $scope.selectedcontacts.splice(idx2, 1);
+        }
+        else {
+          $scope.selectedcontacts.push(contact);
+        }
+
+
+
         console.log("selected", selected);
-      };
+    };
 
       $scope.selectedcontacts=[];
 
@@ -354,11 +369,30 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
 
         console.log("$scope.contactinfo", $scope.contactinfo);
         console.log("selected", selected);
-    }
+    };
 
-      $scope.exists = function (tag, list) {
+    $scope.exists = function (tag, list) {
         return list.indexOf(tag) > -1;
-        };
+    };
+
+    $scope.emails=[];
+
+    $scope.sendemail = function(){
+        console.log("hello");
+        
+        console.log($scope.selectedcontacts, "$scope.selectedcontacts");
+
+        for(var x=0; x<$scope.selectedcontacts.length; x++){
+            console.log("$scope.selectedcontacts[x].Contact_email", $scope.selectedcontacts[x].Contact_email);
+            $scope.emails.push($scope.selectedcontacts[x].Contact_email);
+            //$scope.emails.push("; ");
+        }
+        
+        console.log("$scope.emails", $scope.emails);
+        $scope.emails = $scope.emails.join("; ");;
+
+        window.open('mailto:' + $scope.emails);
+    };
 
 
     
