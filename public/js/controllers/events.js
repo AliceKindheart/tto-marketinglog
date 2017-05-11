@@ -376,22 +376,43 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
     };
 
     $scope.emails=[];
+    $scope.addressees=[];
+
+    
+    $scope.sendemailandsubmit=function(){
+        $scope.createEvent();
+        $scope.sendemail();
+    }
+
+    $scope.sendemailandsubmit2=function(){
+        $scope.createMultEvent();
+        $scope.sendemail();
+    }
+
 
     $scope.sendemail = function(){
-        console.log("hello");
+        //console.log("hello");
         
-        console.log($scope.selectedcontacts, "$scope.selectedcontacts");
-
+        //console.log($scope.selectedcontacts, "$scope.selectedcontacts");
+        //$scope.emailbody =;
+        $scope.createEvent();
         for(var x=0; x<$scope.selectedcontacts.length; x++){
-            console.log("$scope.selectedcontacts[x].Contact_email", $scope.selectedcontacts[x].Contact_email);
+            //console.log("$scope.selectedcontacts[x].Contact_email", $scope.selectedcontacts[x].Contact_email);
             $scope.emails.push($scope.selectedcontacts[x].Contact_email);
-            //$scope.emails.push("; ");
-        }
-        
-        console.log("$scope.emails", $scope.emails);
-        $scope.emails = $scope.emails.join("; ");;
+            $scope.addressees.push($scope.selectedcontacts[x].Contact_name);
+            //console.log("$scope.addressees", $scope.addressees);
 
-        window.open('mailto:' + $scope.emails);
+        }
+        $scope.emails = $scope.emails.join("; ");
+        $scope.addressees=$scope.addressees.join(", ");
+        window.open('mailto:' + $scope.emails + '?subject=' + $scope.technology.Tech_name + '&body=Dear ' + $scope.addressees + ", \n Any interest in " + $scope.technology.Tech_name + "?");
+
+        
+        //console.log("Finish");
+        //console.log("$scope.emails", $scope.emails, "$scope.technology", $scope.technology);
+        
+
+        
     };
 
 
