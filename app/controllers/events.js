@@ -31,7 +31,7 @@ exports.all = function(req, res) {
 exports.event = function(req, res, next, id) {
     console.log('eventid => ' + id);
     console.log("EVENTS.EVENT");
-    db.Event.find({where: {id: id}, include: [{model: db.User}, {model: db.Technology}, {model: db.Contact}]}).then(function(event){
+    db.Event.find({where: {id: id}, include: [{model: db.User}, {model: db.Technology}, {model: db.Contact}, {model: db.Company}]}).then(function(event){
         //console.log(id);
         if(!event) {
             console.log("not an event");

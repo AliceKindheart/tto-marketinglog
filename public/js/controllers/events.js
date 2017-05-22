@@ -120,6 +120,7 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
         }, function(response) {
             //console.log("response", response);
             $scope.event = response;
+            console.log("$scope.event", $scope.event);
             $scope.contacts(response);
             $scope.event.Event_date = new Date($scope.event.Event_date);
             //$scope.event.Event_date=($scope.event.Event_date | date:'MM/dd/yyyy');
@@ -143,6 +144,8 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
         names = names.join(", ");
         //console.log ("names", names, typeof names);
         event.names = names;
+        $scope.contacts =names;
+        $scope.contactschunked=$scope.chunk($scope.contacts, 3)
     };
 
     $scope.findEvent = function() {
@@ -206,6 +209,12 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
             $scope.contactschunked = $scope.chunk($scope.contacts, 3);
         });
     }; 
+
+    $scope.findCompaniesToEditEvent=function(){
+        $scope.findCompanies();
+        $scope.choose()
+
+    }
 
     $scope.comps = [];
     $scope.cntcts = [];
@@ -405,7 +414,7 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
         }
         $scope.emails = $scope.emails.join("; ");
         $scope.addressees=$scope.addressees.join(", ");
-        window.open('mailto:' + $scope.emails + '?subject=' + $scope.technology.Tech_name + '&body=Dear ' + $scope.addressees + ", \n Any interest in " + $scope.technology.Tech_name + "?");
+        window.open('mailto:' + $scope.emails + '?subject=' + $scope.technology.Tech_name + '&body=Dear ' + $scope.addressees + ", \n Any interest in " + $scope.technology.Tech_name + "? It's really good and I think you might like it.");
 
         
         //console.log("Finish");

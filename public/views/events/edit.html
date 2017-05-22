@@ -1,6 +1,6 @@
 <section>
 	<h2 data-ng-init="findOneEvent()">Edit Event for the {{event.Technology.Tech_name}} Campaign</h2>
-	<form class="form-horizontal" data-ng-submit="createEvent()" data-ng-init="findOneEvent()">
+	<form class="form-horizontal" data-ng-submit="createEvent()" >
 
 		<table class="table table-bordered">
 			<tr>
@@ -32,14 +32,14 @@
 			</tr>
 		</table>
 
-		<h4 id="colorrow" data-ng-init="findComapnies()">Select Company</h4>
+		<h4 id="colorrow" >Select Company</h4>
 		<table class="table" colspan="3" >
 			<tr ng-repeat="companies in chunkedcompanies">
-				<td ng-repeat="company in companies"><input type="radio" required name="company" ng-checked="event.Company.Contact_name" ng-click="choose(company)"/>{{company}}</td>
+				<td ng-repeat="company in companies"><input type="radio" required name="company" ng-checked="event.Company.Company_name" ng-click="choose(company)"/>{{company}}</td>
 			</tr>
 		  </table>
 
-		<h4 id="colorrow">Select Contact(s)</h4>
+		<h4 id="colorrow">Select Contact(s)</h4 >
 		<table class="table" colspan="3" >
 			<tr ng-repeat="contacts in contactschunked">
 				<td ng-repeat="contact in contacts"><input type="checkbox" ng-checked="exists(contact, selected)" name="contact"
