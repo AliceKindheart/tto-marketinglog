@@ -31,8 +31,13 @@ app.route('/getusers')
 	.get(events.getusers);
 app.route('/getcontactsforevents')
 	.get(events.getcontactsforevents);
+app.route('/findteck')
+	.get(events.findteck);
+app.route('/findkomp')
+	.get(events.findkomp);
 app.route('/geteventinfo')
 	.get(events.geteventinfo);
+
 
 
 // Finish with setting up the id param

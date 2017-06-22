@@ -3,7 +3,7 @@
   
     	
     <div style="margin-top:10px">
-    	<a class="btn btn-primary" data-ng-click="addFollowUp()">Add Follow Up</a>
+    	<a class="btn btn-primary" ui-sref="addFollowUpEvent({TechId: event.TechnologyId, CompId:event.CompanyId})">Add Follow Up</a>
         <a class="btn btn-primary" ui-sref="editEvent({id : event.id})">Edit</a>
         <a class="btn btn-danger" data-ng-click="removeEvent()">Delete</a>
     </div>
@@ -19,6 +19,7 @@
                 <th id="colorrow">RU Number</th>
                 <th id="colorrow">Technology Title</th>
                 <th id="colorrow">Marketer</th>
+                <th id="colorrow">Company</th>
                 <th id="colorrow">Method</th>
                 <th id="colorrow">Contact(s)</th>
                 <th id="colorrow">Event Date</th>
@@ -30,6 +31,7 @@
               <td>{{event.Technology.Tech_RUNumber}}</td>
               <td>{{event.Technology.Tech_name}}</td>
               <td>{{event.User.name}}</td>
+              <td>{{event.Company.Company_name}}</td>
               <td>{{event.Event_method}}</td>
               <td>{{event.names}}</td>
               <td>{{event.Event_date | date:'MM/dd/yyyy'}}</td>

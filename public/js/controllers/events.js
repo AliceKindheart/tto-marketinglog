@@ -30,6 +30,8 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
         this.Event_outcome = "";
     };
 
+
+
     $scope.createMultEvent = function() {
         for (var x=0; x<$scope.selectedcompanies.length; x++){
             $scope.compny = $scope.selectedcompanies[x];
@@ -145,7 +147,7 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
         //console.log ("names", names, typeof names);
         event.names = names;
         $scope.contacts =names;
-        $scope.contactschunked=$scope.chunk($scope.contacts, 3)
+        $scope.contactschunked=$scope.chunk($scope.contacts, 3);
     };
 
     $scope.findEvent = function() {
@@ -183,6 +185,26 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
         });
     };
 
+    $scope.gettechandcomp = function(){
+        $http({
+            method: 'GET',
+            url: 'findteck',
+            params: {TechId: $stateParams.TechId}
+        }).then(function(teck){
+            $scope.technology=teck.data;
+            console.log("teck", $scope.technology);
+        });
+
+        $http({
+            method: 'GET',
+            url: 'findkomp',
+            params: {CompId: $stateParams.CompId}
+        }).then(function(komp){
+            $scope.kompany=komp.data;
+            console.log("komp", $scope.kompany);
+        });
+    };
+
 
     $scope.chunk = function(arr, size){
         var newArr =[];
@@ -212,9 +234,9 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
 
     $scope.findCompaniesToEditEvent=function(){
         $scope.findCompanies();
-        $scope.choose()
+        $scope.choose();
 
-    }
+    };
 
     $scope.comps = [];
     $scope.cntcts = [];
@@ -391,12 +413,12 @@ angular.module('mean.events').controller('EventController', ['$scope', '$http', 
     $scope.sendemailandsubmit=function(){
         $scope.createEvent();
         $scope.sendemail();
-    }
+    };
 
     $scope.sendemailandsubmit2=function(){
         $scope.createMultEvent();
         $scope.sendemail();
-    }
+    };
 
 
     $scope.sendemail = function(){

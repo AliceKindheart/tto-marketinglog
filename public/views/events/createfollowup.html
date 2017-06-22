@@ -1,0 +1,70 @@
+<section>
+	<h2 data-ng-init="gettechandcomp()">Create Follow Up Event for the {{technology.Tech_name}} Campaign</h2>
+	<form class="form-horizontal" data-ng-submit="createEvent()" data-ng-init="findCompanies()">
+
+		<table class="table table-bordered">
+			<tr>
+				<th id="colorrow">Event Date</th>
+				<th id="colorrow">Contact Method</th>
+				<th id="colorrow">Event Outcome</th>
+				<th id="colorrow">Flag for Follow Up?</th>
+				<th id="colorrow" ng-show="flagyes">Follow Up Date</th>
+				<th id="colorrow">Notes</th>
+			</tr>
+			<tr>
+				<td><input type="date" data-ng-model="Event_date" id="Event_date" placeholder="Event Date" required/>
+				</td>
+				<td>
+					<table rowspan="3">
+						<tr data-ng-repeat="method in methods" >
+							<td><input type="radio" ng-click="selectmethod(method)" name="Event_method" id="Event_method" required/>{{method}}</td>
+						</tr>
+					</table>
+				</td>
+				<td>
+					<table rowspan="4">
+						<tr data-ng-repeat="outcome in outcomes">
+							<td><input type="radio" ng-click="selectoutcome(outcome)" name="Event_outcome" id="Event_outcome" required/>{{outcome}}</td>
+						</tr>
+					</table>
+				</td>
+				<td>
+					<table rowspan="2">
+						<tr data-ng-repeat="answer in yesno">
+							<td><input type="radio" data-ng-model="flag" ng-click="setfollowupflag(answer)" name="flag" id="flag" required/>{{answer}}</td>
+						</tr>
+					</table>
+				</td>
+				<td ng-show="flagyes"><input type="date" data-ng-model="followupdate" id="followupdate"/></td>
+				<td><textarea data-ng-model="notes" id="Notes" placeholder="Notes"/></textarea></td>
+			</tr>
+		</table>
+
+		<h4 id="colorrow">Select Company</h4>
+		<table class="table" colspan="3" >
+			<tr ng-repeat="companies in chunkedcompanies"  >
+				<td ng-repeat="company in companies"><input type="radio" required name="company"
+                        ng-click="choose(company)" ng-init="choose(kompany.Company_name)" ng-checked = "kompany.Company_name"/>{{company}}</td>
+			</tr>
+		  </table>
+
+		<h4 id="colorrow">Select Contact(s)</h4>
+		<table class="table" colspan="3" >
+			<tr ng-repeat="contacts in contactschunked">
+				<td ng-repeat="contact in contacts"><input type="checkbox" ng-checked="exists(contact, selected)" name="contact"
+                       ng-click="toggle(contact, selected)"/>{{contact.Contact_name}}</td>
+			</tr>
+		  </table>
+
+		
+		<div class="control-group">
+			<div class="controls">
+				<a ng-show="email" class="btn btn-primary" data-ng-click="sendemailandsubmit()">Send Email and Submit</a>
+				<input type="submit" class="btn btn-primary">
+			</div>
+		</div>
+
+			</div>
+		</div>
+	</form>
+</section>

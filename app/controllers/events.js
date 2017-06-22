@@ -219,6 +219,20 @@ exports.findtech = function(req,res){
         });
 };
 
+exports.findkomp = function(req, res){
+    db.Company.findOne({where: {id:req.query.CompId}})
+        .then(function(komp){
+            return res.jsonp(komp);
+        });
+};
+
+exports.findteck = function(req,res){
+    db.Technology.findOne({where: {id:req.query.TechId}})
+        .then(function(teck){
+            return res.jsonp(teck);
+        });
+};
+
 exports.getcontacts = function(req,res){
     //console.log("GETTTTCONTACTSSSS", req.query);
     db.Company.findOne({where: {Company_name: req.query.Company_name}, include: {model: db.Contact}})
