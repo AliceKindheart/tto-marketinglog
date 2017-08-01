@@ -159,20 +159,26 @@ exports.getcontactsforevents = function(req,res){
  * Update an event
  */
 exports.update = function(req, res) {
+    console.log("REQ.BODYORRRRRREVVVENT", req.body);
 
     // create a new variable to hold the company that was placed on the req object.
     var event = req.event;
-    event.addCompany(req.body.Company_name, {through: 'CompanyEvents'});
-    event.addTech(req.body.Tech_name, {through: 'TechEvents'});
-    event.AddContact(req.body.Contact_name, {through: 'ContactEvents'});
+    event.setCompany(req.body.Company, {through: 'CompanyEvents'});
+    event.setTechnology(req.body.Technology, {through: 'TechEvents'});
+ //   event.setContact(req.body.Contact_name, {through: 'ContactEvents'});
 
     event.updateAttributes({
         Event_date: req.body.Event_date,
-        Event_notes: req.body.Event_notes
+        Event_notes: req.body.Event_notes,
+        Event_outcome: req.body.Event_outcome,
+        Event_method: req.body.Event_method,
+        Event_flag: req.body.Event_flag,
+        Event_followupdate: req.body.Event_followupdate,
+        FollowedUp: req.body.Followedupanswer
     }).then(function(a){
-        event.addCompany([req.body.Company_name]);
-        event.addTech([req.body.TechEvents]);
-        event.addContact(req.body.Contact_name);
+        event.setCompany([req.body.Company]);
+        event.setTechnology([req.body.Technology]);
+      //  event.setContact(req.body.Contact_name);
         return res.jsonp(a);
     }).catch(function(err){
         return res.render('error', {
@@ -267,6 +273,8 @@ exports.geteventinfo = function(req,res){
             });
         });
 };
+
+
 
 
 /**

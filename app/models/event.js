@@ -13,7 +13,7 @@ module.exports = function(sequelize, DataTypes) {
 			Event_method: DataTypes.STRING,
 			Event_flag: DataTypes.BOOLEAN,
 			Event_followupdate: DataTypes.DATE,
-			isFollowUp: DataTypes.BOOLEAN
+			FollowedUp: DataTypes.BOOLEAN
 		},
 		{
 			associate: function(models) {

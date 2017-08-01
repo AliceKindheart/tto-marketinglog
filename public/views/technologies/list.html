@@ -72,14 +72,14 @@
             		<th id="colorrow">Outcome</th>
         		</tr>
         		<tr data-ng-repeat="event in events" ui-sref="viewEvent({id: event.id})">
-        			<td>{{event.Event_date | date:'MM/dd/yyyy'}}</td>
+        			<td>{{event.Event_date | date:'MM/dd/yyyy': '+0200'}}</td>
         			<td>{{users[$index].name}}</td>
         			<td>{{Eventtechs[$index].Tech_RUNumber}}</td>
         			<td>{{Eventtechs[$index].Tech_name}}</td>
         			<td>{{companies[$index].Company_name}}</td>
         			<td>{{contactnames[$index]}}</td>
         			<td>{{event.Event_method}}</td>
-        			<td ng-class="{'alert' : (event.Event_followupdate | date:'MM/dd/yyyy')<=(getNow() | date:'MM/dd/yyyy')}">{{event.Event_followupdate | date:'MM/dd/yyyy'}}</td>
+        			<td ng-class="{'alert' : (event.Event_followupdate | date:'MM/dd/yyyy')<=(getNow() | date:'MM/dd/yyyy')}">{{event.Event_followupdate | date:'MM/dd/yyyy': '+0200'}}</td>
         			<td>{{event.Event_outcome}}</td>
     			</tr>
 			</table>
