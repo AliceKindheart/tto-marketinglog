@@ -29,18 +29,18 @@ exports.all = function(req, res) {
  * Its purpose is to preload the company on the req object then call the next function. 
  */
 exports.event = function(req, res, next, id) {
-    console.log('eventid => ' + id);
-    console.log("EVENTS.EVENT");
+   // console.log('eventid => ' + id);
+   // console.log("EVENTS.EVENT");
     db.Event.find({where: {id: id}, include: [{model: db.User}, {model: db.Technology}, {model: db.Contact}, {model: db.Company}]}).then(function(event){
         //console.log(id);
         if(!event) {
-            console.log("not an event");
+     //       console.log("not an event");
             //return next(new Error('Failed to load company ' + id));
             return next();
         } else {
             req.event = event;
-            console.log("EVENT");
-            console.log(event);
+       //     console.log("EVENT");
+       //     console.log(event);
             //return res.jsonp(company);
            return next();            
         }
@@ -49,13 +49,11 @@ exports.event = function(req, res, next, id) {
     });
 };
 
-
-
 /* Show an event
  */
 exports.show = function(req, res) {
-    console.log("EVENTS.SHOW");
-    console.log("LOOKEVENT!! SHOW!!!");
+ //   console.log("EVENTS.SHOW");
+  //  console.log("LOOKEVENT!! SHOW!!!");
         // Sending down the event that was just preloaded by the events.event function
     // and saves event on the req object.
     return res.jsonp(req.event);
@@ -103,9 +101,6 @@ exports.create = function(req, res) {
                        // event.setContact(req.body.Contacts[i]);
                     }
 
-
-
-
                     //event.setContacts(req.body.Contacts, {through: 'ContactEvents'});
                     if(!event){
                         console.log("NOTANEVENT!!!!");
@@ -121,7 +116,6 @@ exports.create = function(req, res) {
                 });
             });
         });
-
 };
 
 exports.getusers = function(req,res){
@@ -153,32 +147,42 @@ exports.getcontactsforevents = function(req,res){
         });
 };
 
+exports.newuser = function(req,res) {
+   // console.log("REQ.PARMSxxxxxxxxxxxxxxxxxxx", req.params);
+   // console.log("ReQ.QUERY", req.query);
+    db.User.findOne({where: {name: req.query.name}})
+        .then(function(user){
+            return res.jsonp(user)
+        });
+};
 
-
-/**
- * Update an event
- */
 exports.update = function(req, res) {
-    console.log("REQ.BODYORRRRRREVVVENT", req.body);
+    //console.log("REQ.BODYORRRRRREVVVENT", req.body);
+    console.log("REQ.BODYYYYYYYYYYYYYYYYYY", req.body);
 
     // create a new variable to hold the company that was placed on the req object.
     var event = req.event;
     event.setCompany(req.body.Company, {through: 'CompanyEvents'});
     event.setTechnology(req.body.Technology, {through: 'TechEvents'});
+ //   event.setUser(req.body.newuser, {through: 'UserEvents'});
  //   event.setContact(req.body.Contact_name, {through: 'ContactEvents'});
 
     event.updateAttributes({
-        Event_date: req.body.Event_date,
+       // Event_date: req.body.Event_date,
         Event_notes: req.body.Event_notes,
         Event_outcome: req.body.Event_outcome,
         Event_method: req.body.Event_method,
         Event_flag: req.body.Event_flag,
-        Event_followupdate: req.body.Event_followupdate,
+       // Event_followupdate: req.body.Event_followupdate,
         FollowedUp: req.body.Followedupanswer
     }).then(function(a){
         event.setCompany([req.body.Company]);
         event.setTechnology([req.body.Technology]);
+      //  event.setUser([req.body.newuser]);
+      
+
       //  event.setContact(req.body.Contact_name);
+     // console.log("WHATISBEINGRETURNED:" 
         return res.jsonp(a);
     }).catch(function(err){
         return res.render('error', {
@@ -206,7 +210,6 @@ exports.destroy = function(req, res) {
         });
     });
 };
-
 
 exports.findcompanies = function(req,res){
     console.log("FINDDDCOMPPPSSS");
@@ -273,13 +276,6 @@ exports.geteventinfo = function(req,res){
             });
         });
 };
-
-
-
-
-/**
-
-
 
 /**
  * Article authorizations routing middleware

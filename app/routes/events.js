@@ -23,6 +23,8 @@ app.route('/companiesforevent')
 	.get(events.findcompanies);
 app.route('/findcompanycontacts')
 	.get(events.getcontacts);
+app.route('/findnewuser')
+	.get(events.newuser);
 app.route('/findtech')
 	.get(events.findtech);
 app.route('/getem')
