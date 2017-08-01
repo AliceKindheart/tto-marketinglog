@@ -29,9 +29,11 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         }).then(function(company){
             $scope.company = company.data;
             //console.log("COMpanyfound", $scope.company);
-            $scope.contacts = $scope.company.Contacts;
-            //console.log($scope.contacts, "$scope.contacts");
-            $scope.contactschunked = $scope.chunk($scope.contacts, 3);
+            $scope.eventcontacts = $scope.company.Contacts;
+            console.log($scope.eventcontacts, "$scope.eventcontacts");
+            
+
+            $scope.eventcontactschunked = $scope.chunk($scope.eventcontacts, 3);
         });
         $scope.event.company = comp;
        // $scope.event.CompanyId = comp.id;
@@ -52,7 +54,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
     };
 
     $scope.contacts = function(event){
-        //console.log(event.Contacts);
+        console.log("event.Contacts", event.Contacts);
         var names=[];
         for (var x=0; x<event.Contacts.length; x++){ 
             if (event.Contacts[x].length===0){
@@ -455,7 +457,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
       };
 
     $scope.updateEvent = function() {
-        
+        console.log("typeof", typeof $scope.event);
 
         var event = $scope.event;
         event.updated = [];
@@ -484,7 +486,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
 
 
              
-                $scope.fixthedateformat();
+                $scope.fixthedateformatandupdate();
                 console.log("$scope.event typeof", typeof $scope.event, "$scope.event", $scope.event);
 
                 

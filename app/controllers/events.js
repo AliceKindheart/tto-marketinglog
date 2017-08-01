@@ -168,13 +168,13 @@ exports.update = function(req, res) {
  //   event.setContact(req.body.Contact_name, {through: 'ContactEvents'});
 
     event.updateAttributes({
-        Event_date: req.body.Event_date,
+        //Event_date: req.body.Event_date,
         Event_notes: req.body.Event_notes,
         Event_outcome: req.body.Event_outcome,
         Event_method: req.body.Event_method,
         Event_flag: req.body.Event_flag,
-        Event_followupdate: req.body.Event_followupdate,
-        FollowedUp: req.body.Followedupanswer
+        //Event_followupdate: req.body.Event_followupdate,
+        //FollowedUp: req.body.Followedupanswer
     }).then(function(a){
         event.setCompany([req.body.Company]);
         event.setTechnology([req.body.Technology]);
@@ -182,7 +182,7 @@ exports.update = function(req, res) {
       
 
       //  event.setContact(req.body.Contact_name);
-     // console.log("WHATISBEINGRETURNED:" 
+      console.log("WHATISBEINGRETURNED: ", a); 
         return res.jsonp(a);
     }).catch(function(err){
         return res.render('error', {
