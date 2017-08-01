@@ -338,7 +338,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
     }; 
 
     $scope.selectoutcome = function (outcome){
-        $scope.Event_outcome = outcome;
+        $scope.event.Event_outcome = outcome;
     };
 
     $scope.sendemail = function(){
@@ -497,9 +497,9 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
             });
         } else {
             console.log("ELLLLLLLLLLLLLSSSSSSSSSSSSEEEEEEEEEEE");
-           //$scope.fixthedateformatandupdate();
+           $scope.fixthedateformatandupdate();
             //console.log("$scope.event typeof", typeof $scope.event, "$scope.event", $scope.event);
-            $scope.updateEvent();
+            //$scope.updateEvent();
             
         }
     };
