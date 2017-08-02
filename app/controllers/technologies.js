@@ -198,25 +198,6 @@ exports.findsuggestedcompanies = function(req,res){
         });
 
         //if(typeof Tagnames==="string"){
-//            db.Company.findAll({
-  //              include: [{
-    //                model: db.Event,
-      //              attributes: ['CompanyId', 'id'],
-        //            where: [{id: {$ne: 'CompanyId'}}]
-          //      }]
-  //          }).then(function(comps){
-    //            return res.jsonp(comps);
-         //   });
-        //} else {
-          //  db.Company.findAll({
-            //    include: [{
-              //      model: db.Event,
-                //    attributes: ['CompanyId', 'id'],
-                  //  where: [{id: {$ne: 'CompanyId'}}]
-            //    }],
-    //        }).then(function(cmps){
-      //          return res.jsonp(cmps);
-        //    });
     }        
 };
 

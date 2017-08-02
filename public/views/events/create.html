@@ -44,15 +44,15 @@
 		<table class="table" colspan="3" >
 			<tr ng-repeat="companies in chunkedcompanies">
 				<td ng-repeat="company in companies"><input type="radio" required name="company"
-                       ng-click="choose(company)"/>{{company}}</td>
+                       ng-click="chooseforcreate(company)"/>{{company}}</td>
 			</tr>
 		  </table>
 
 		<h4 id="colorrow">Select Contact(s)</h4>
 		<table class="table" colspan="3" >
-			<tr ng-repeat="contacts in contactschunked">
-				<td ng-repeat="contact in contacts"><input type="checkbox" ng-checked="exists(contact, selected)" name="contact"
-                       ng-click="toggle(contact, selected)"/>{{contact.Contact_name}}</td>
+			<tr ng-repeat="compcontacts in compcontactschunked">
+				<td ng-repeat="compcontact in compcontacts"><input type="checkbox" ng-checked="exists(compcontact, selected)" name="contact"
+                       ng-click="toggle(compcontact, selected)"/>{{compcontact.Contact_name}}</td>
 			</tr>
 		  </table>
 

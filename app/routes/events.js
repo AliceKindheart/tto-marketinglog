@@ -14,7 +14,7 @@ app.route('/events')
 
 app.route('/events/:eventid')
     .get(events.show)
-    .put(users.requiresLogin, events.update)
+    .put(events.update)
     .delete(users.requiresLogin, events.destroy);
 //app.route('/companies/create')
 //	.get(companies.all);

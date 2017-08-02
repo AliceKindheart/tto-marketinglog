@@ -17,6 +17,12 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
     $scope.yesno = ["Yes", "No"];
 
     $scope.choose = function(comp){
+       $scope.chooseforcreate(comp);
+        $scope.event.company = comp;
+       // $scope.event.CompanyId = comp.id;
+    }; 
+
+    $scope.chooseforcreate = function(comp){
        // console.log("stupidchoosefunctionran");
         $scope.company = comp;
      //   console.log("$scope.company", $scope.company);
@@ -29,13 +35,14 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         }).then(function(company){
             $scope.company = company.data;
             //console.log("COMpanyfound", $scope.company);
-            $scope.eventcontacts = $scope.company.Contacts;
-            console.log($scope.eventcontacts, "$scope.eventcontacts");
+            $scope.compcontacts = $scope.company.Contacts;
+         //  console.log($scope.compcontacts, "$scope.compcontacts");
             
 
-            $scope.eventcontactschunked = $scope.chunk($scope.eventcontacts, 3);
+            $scope.compcontactschunked = $scope.chunk($scope.compcontacts, 3);
+     //       console.log($scope.compcontactschunked, "$scope.compcontactschunked");
         });
-        $scope.event.company = comp;
+       // $scope.event.company = comp;
        // $scope.event.CompanyId = comp.id;
     }; 
 
@@ -54,7 +61,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
     };
 
     $scope.contacts = function(event){
-        console.log("event.Contacts", event.Contacts);
+        //console.log("event.Contacts", event.Contacts);
         var names=[];
         for (var x=0; x<event.Contacts.length; x++){ 
             if (event.Contacts[x].length===0){
@@ -70,16 +77,15 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         event.names = names;
         $scope.eventcontacts =names;
         //console.log("$scope.eventcontacts", $scope.eventcontacts);
-        if ($scope.contacts.length>=3) {
+        if ($scope.eventcontacts.length>=3) {
           //  console.log("SHORT");
             $scope.eventcontactschunked=$scope.chunk($scope.eventcontacts, 3);
         } else {
-            $scope.contactschunked = $scope.contacts;
+            $scope.eventcontactschunked = $scope.eventcontacts;
         }
     };
 
     $scope.createEvent = function() {
-
         var event = new Events({
             Event_date: this.Event_date,
             Event_notes: this.notes,
@@ -92,10 +98,11 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
             Event_outcome: this.Event_outcome,
             FollowedUp: false
         });
+        console.log("Eventdate: ", $scope.Event_date);
          //console.log("DATEFORMAT: ", event.Event_date);
          //console.log("DATEtype: ", typeof event.Event_date);
         event.$save(function(response) {
-            console.log("response", response);
+           // console.log("response", response);
             //$state.go('viewCompany',{Company_name : responseid});
             $state.go('viewTech',{id: response.TechnologyId});
         });
@@ -194,7 +201,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
     };
 
     $scope.findOneEvent = function() {
-       // console.log("findoneeventran");
+        console.log("findoneeventran");
         Events.get({
             id: $stateParams.id 
         }, function(response) {
@@ -202,6 +209,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
             $scope.event = response;
            // console.log("$scope.event", $scope.event);
             $scope.contacts(response);
+
            // console.log("stupidateformatlookslike: ", $scope.event.Event_date);
            // console.log("typeofstupid: ", typeof $scope.event.Event_date);
             
@@ -243,7 +251,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
                // console.log("length", $scope.users.length, "$scope.users", $scope.users);
                 for (var x=0; x<$scope.users.length; x++){
                    // console.log("$scope.users[x]", $scope.users[x]);
-                    $scope.usernames.push($scope.users[x].name)
+                    $scope.usernames.push($scope.users[x].name);
                 }
 
            // console.log("$scope.usernames", $scope.usernames);
@@ -253,17 +261,6 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
             });
     };
 
-    $scope.followedup = function(answer){
-        if (answer==="Yes"){
-            $scope.event.Followedupanswer=true;
-        } else if (answer==="No"){
-            $scope.event.Followedupanswer=false;
-        
-        }
-        //$scope.event.Followedupanswer = answer;
-        console.log("FOLLLOWEDUPANSWEER", $scope.event.Followedupanswer);
-    };
-
     $scope.gettech = function(){
         $http({
             method: 'GET', 
@@ -271,7 +268,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
             params: {id: $stateParams.id}
         }).then(function(tec){
             $scope.technology=tec.data;
-            console.log("technoll", $scope.technology);
+          //  console.log("technoll", $scope.technology);
         });
     };
 
@@ -340,7 +337,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
     }; 
 
     $scope.selectoutcome = function (outcome){
-        $scope.event.Event_outcome = outcome;
+        $scope.Event_outcome = outcome;
     };
 
     $scope.sendemail = function(){
@@ -371,13 +368,26 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         $scope.sendemail();
     };
 
+    $scope.setfollowedup = function(answer){
+        if (answer==="Yes"){
+            $scope.event.Followedupanswer=true;
+            $scope.event.flagyes = false;
+            $scope.event.Event_flag = false;
+        } else if (answer==="No"){
+            $scope.event.Followedupanswer=false;
+        
+        }
+        //$scope.event.Followedupanswer = answer;
+        console.log("FOLLLOWEDUPANSWEER", $scope.event.Followedupanswer);
+    };
+
     $scope.setfollowupflag = function(answer){
         if(answer==="Yes"){
-            $scope.flagyes = true;
-            $scope.Event_flag = true;
+            $scope.event.flagyes = true;
+            $scope.event.Event_flag = true;
         } else {
-            $scope.flagyes = false;
-            $scope.Event_flag = false;
+            $scope.event.flagyes = false;
+            $scope.event.Event_flag = false;
         }
     }; 
 
@@ -468,6 +478,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         }).then(function(){
             $scope.Edit=false;
             $state.go('viewEvent',{id : event.id});
+            $scope.findOneEvent();
         });
     };
 
@@ -475,53 +486,28 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
          //find user object if a new user has been selected
         if ($scope.event.userchange===true){
             console.log("USERCHANGED!");
-            $http({
-                method: 'GET',
-                url: '/findnewuser',
-                params: {name: $scope.event.newusername}
-            }).then(function(user){
-                console.log("What came back: ", user.data);
-                $scope.event.newuser = user.data;
-                
 
-
-             
-                $scope.fixthedateformatandupdate();
-                console.log("$scope.event typeof", typeof $scope.event, "$scope.event", $scope.event);
-
-                
-                
-                
-            }).then(function(){
-                //$scope.updateEvent();
-                //$scope.updateEvent();
-                console.log('superstupid');
-            });
+//            $http({
+  //              method: 'GET',
+    //            url: '/findnewuser',
+      //          params: {name: $scope.event.newusername}
+        //    }).then(function(user){
+          //      console.log("What came back: ", user.data);
+            //    $scope.event.newuser = user.data;
+        
+                $scope.updateEvent();
+            
+               // console.log("$scope.event typeof", typeof $scope.event, "$scope.event", $scope.event);
+            
         } else {
-            console.log("ELLLLLLLLLLLLLSSSSSSSSSSSSEEEEEEEEEEE");
-           $scope.fixthedateformatandupdate();
+            //console.log("ELLLLLLLLLLLLLSSSSSSSSSSSSEEEEEEEEEEE");
+            $scope.updateEvent();
             //console.log("$scope.event typeof", typeof $scope.event, "$scope.event", $scope.event);
             //$scope.updateEvent();
             
         }
     };
 
-
-    $scope.fixthedateformatandupdate= function(){
-        $scope.event.Event_date = new Date($scope.event.Event_date);
-        //console.log("new eventdate: ", $scope.event.Event_date);
-        
-        $scope.event.Event_date = $filter('date')($scope.event.Event_date, "yyyy-MM-dd");
-       // console.log("typeTYPEPEPEPEPEP ofnew eventdate: ", typeof $scope.event.Event_date);
-        $scope.event.Event_date = new Date($scope.event.Event_date);
-        //console.log("typeTYPEPEPEPEPEP ofnew eventdate: ", typeof $scope.event.Event_date);
-        //$scope.event.Event_followupdate = $filter('date')($scope.event.Event_followupdate, "yyyy-MM-dd");
-        $scope.event.Event_followupdate = new Date($scope.event.Event_followupdate);
-         //console.log("UPDATEDEVENTT", $scope.event);
-        $scope.event.Event_followupdate = $filter('date')($scope.event.Event_followupdate, "yyyy-MM-dd");
-        $scope.event.Event_followupdate = new Date($scope.event.Event_followupdate);
-        $scope.updateEvent();
-    };
 
         
         

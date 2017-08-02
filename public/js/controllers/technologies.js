@@ -564,7 +564,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             method: 'GET',
             url: '/getem'
         }).then(function(response){
-            console.log("response.data", response.data);
+            //console.log("response.data", response.data);
             $scope.makeEventDataUseable2(response);
         });
     };

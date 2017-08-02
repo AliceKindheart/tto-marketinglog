@@ -67,8 +67,8 @@
 
     <h4 data-ng-init="choose(event.Company.Company_name)" id="colorrow">Select Contact(s)</h4 >
     <table class="table" colspan="3" >
-      <tr ng-repeat="eventcontacts in eventcontactschunked">
-        <td ng-repeat="eventcontact in eventcontacts"><input type="checkbox" ng-checked="exists(eventcontact, event.Contacts)> -1" name="eventcontact" ng-click="toggle(eventcontact, selected)"/>{{eventcontact.Contact_name}}</td>
+      <tr ng-repeat="compcontacts in compcontactschunked">
+        <td ng-repeat="compcontact in compcontacts"><input type="checkbox" ng-checked="exists(compcontact, event.Contacts)> -1" name="compcontact" ng-click="toggle(compcontact, selected)"/>{{compcontact.Contact_name}}</td>
       </tr>
       </table>
 
@@ -111,7 +111,7 @@
         <td ng-show="event.Event_flag===true">
           <table rowspan="2" >
             <tr data-ng-repeat="answer in yesno">
-              <td><input type="radio" ng-click="followedup(answer)" ng-checked="answer===event.Followedupanswer"  name="followedupanswer" id="followedupanswer" required/>{{answer}}
+              <td><input type="radio" ng-click="setfollowedup(answer)" ng-checked="answer===event.Followedupanswer"  name="followedupanswer" id="followedupanswer" required/>{{answer}}
               </td>
             </tr>
           </table>

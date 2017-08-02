@@ -152,44 +152,54 @@ exports.newuser = function(req,res) {
    // console.log("ReQ.QUERY", req.query);
     db.User.findOne({where: {name: req.query.name}})
         .then(function(user){
-            return res.jsonp(user)
+            return res.jsonp(user);
         });
 };
 
 exports.update = function(req, res) {
     //console.log("REQ.BODYORRRRRREVVVENT", req.body);
-    console.log("REQ.BODYYYYYYYYYYYYYYYYYY", req.body);
+   //console.log("REQ.BODYYYYYYYYYYYYYYYYYY", req.body);
+   console.log("THISGOTCSLELELELELELDDDDDDDDDDDDDDDDDDDDD");
 
     // create a new variable to hold the company that was placed on the req object.
     var event = req.event;
-    event.setCompany(req.body.Company, {through: 'CompanyEvents'});
-    event.setTechnology(req.body.Technology, {through: 'TechEvents'});
- //   event.setUser(req.body.newuser, {through: 'UserEvents'});
- //   event.setContact(req.body.Contact_name, {through: 'ContactEvents'});
+    var newuser;
+    if (req.body.userchange===true){
+        console.log("TOLDYOUSOOOOOOOOOOOOOOOO");
+        db.User.findOne({where: {name: req.body.newusername}})
+        .then(function(user){
+            console.log("USER: ", user);
+            newuser = user;
+            return user;
+          //  return res.jsonp(user)
+        }).then(function(){
+            return event.updateAttributes({
+                Event_date: req.body.Event_date,
+                Event_notes: req.body.Event_notes,
+                Event_outcome: req.body.Event_outcome,
+                Event_method: req.body.Event_method,
+                Event_flag: req.body.Event_flag,
+                Event_followupdate: req.body.Event_followupdate,
+            //FollowedUp: req.body.Followedupanswer
+        }).then(function(a){
+            //event.setCompany([req.body.Company]);
+            //event.setTechnology([req.body.Technology]);
+            //event.setUser(req.body.newuser);
+            a.setUser(newuser, {through: 'UserEvents'});
+          
 
-    event.updateAttributes({
-        //Event_date: req.body.Event_date,
-        Event_notes: req.body.Event_notes,
-        Event_outcome: req.body.Event_outcome,
-        Event_method: req.body.Event_method,
-        Event_flag: req.body.Event_flag,
-        //Event_followupdate: req.body.Event_followupdate,
-        //FollowedUp: req.body.Followedupanswer
-    }).then(function(a){
-        event.setCompany([req.body.Company]);
-        event.setTechnology([req.body.Technology]);
-      //  event.setUser([req.body.newuser]);
-      
-
-      //  event.setContact(req.body.Contact_name);
-      console.log("WHATISBEINGRETURNED: ", a); 
-        return res.jsonp(a);
-    }).catch(function(err){
-        return res.render('error', {
-            error: err, 
-            status: 500
+            //  event.setContact(req.body.Contact_name);
+           // console.log("WHATISBEINGRETURNED: ", event); 
+            return res.jsonp(a);
+        }).catch(function(err){
+            return res.render('error', {
+                error: err, 
+                status: 500
+            });
         });
-    });
+        });
+    }
+    
 };
 
 /**
