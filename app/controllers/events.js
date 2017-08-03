@@ -5,7 +5,6 @@
  */
 var StandardError = require('standard-error');
 var db = require('../../config/sequelize');
-
 /**
  * List of Events
  */
@@ -23,44 +22,6 @@ exports.all = function(req, res) {
     });
 };
 
-/**
- * Find event by id
- * Note: This is called every time that the parameter :id is used in a URL. 
- * Its purpose is to preload the company on the req object then call the next function. 
- */
-exports.event = function(req, res, next, id) {
-   // console.log('eventid => ' + id);
-   // console.log("EVENTS.EVENT");
-    db.Event.find({where: {id: id}, include: [{model: db.User}, {model: db.Technology}, {model: db.Contact}, {model: db.Company}]}).then(function(event){
-        //console.log(id);
-        if(!event) {
-     //       console.log("not an event");
-            //return next(new Error('Failed to load company ' + id));
-            return next();
-        } else {
-            req.event = event;
-       //     console.log("EVENT");
-       //     console.log(event);
-            //return res.jsonp(company);
-           return next();            
-        }
-    }).catch(function(err){
-        return next(err);
-    });
-};
-
-/* Show an event
- */
-exports.show = function(req, res) {
- //   console.log("EVENTS.SHOW");
-  //  console.log("LOOKEVENT!! SHOW!!!");
-        // Sending down the event that was just preloaded by the events.event function
-    // and saves event on the req object.
-    return res.jsonp(req.event);
-};
-/**
- * Create an event
- */
 exports.create = function(req, res) {
     var techtofind = req.body.Technology;
     //console.log("REQ>BODY.company", req.body.Company);
@@ -118,93 +79,6 @@ exports.create = function(req, res) {
         });
 };
 
-exports.getusers = function(req,res){
-    //console.log("REQ.QUERY", req.query);
-    db.User.findOne({where: {id: req.query.id}})
-    .then(function(user){
-        //console.log("Found USer", user);
-        return res.jsonp(user);
-    }).catch(function(err){
-        return res.render('error', {
-            error: err,
-            status: 500
-        });
-    });
-};
-
-exports.getcontactsforevents = function(req,res){
-    console.log("E:TLKJER:LKJEWT:KLWEJT:LWTEJ:WLTJK:WLTJ:WETJKW:ETJHEEEEEEEEEEEEEEEEEEEE");
-    db.Contact.getEvents({
-            where: {Event_rowId: req.query.id}
-        }).then(function(cntcs){
-            console.log("CATAAGDFADFG", cntcs);
-            return res.jsonp(cntcs);
-        }).catch(function(err){
-            return res.render('error', {
-                error: err,
-                status: 500
-            });
-        });
-};
-
-exports.newuser = function(req,res) {
-   // console.log("REQ.PARMSxxxxxxxxxxxxxxxxxxx", req.params);
-   // console.log("ReQ.QUERY", req.query);
-    db.User.findOne({where: {name: req.query.name}})
-        .then(function(user){
-            return res.jsonp(user);
-        });
-};
-
-exports.update = function(req, res) {
-    //console.log("REQ.BODYORRRRRREVVVENT", req.body);
-   //console.log("REQ.BODYYYYYYYYYYYYYYYYYY", req.body);
-   console.log("THISGOTCSLELELELELELDDDDDDDDDDDDDDDDDDDDD");
-
-    // create a new variable to hold the company that was placed on the req object.
-    var event = req.event;
-    var newuser;
-    if (req.body.userchange===true){
-        console.log("TOLDYOUSOOOOOOOOOOOOOOOO");
-        db.User.findOne({where: {name: req.body.newusername}})
-        .then(function(user){
-            console.log("USER: ", user);
-            newuser = user;
-            return user;
-          //  return res.jsonp(user)
-        }).then(function(){
-            return event.updateAttributes({
-                Event_date: req.body.Event_date,
-                Event_notes: req.body.Event_notes,
-                Event_outcome: req.body.Event_outcome,
-                Event_method: req.body.Event_method,
-                Event_flag: req.body.Event_flag,
-                Event_followupdate: req.body.Event_followupdate,
-            //FollowedUp: req.body.Followedupanswer
-        }).then(function(a){
-            //event.setCompany([req.body.Company]);
-            //event.setTechnology([req.body.Technology]);
-            //event.setUser(req.body.newuser);
-            a.setUser(newuser, {through: 'UserEvents'});
-          
-
-            //  event.setContact(req.body.Contact_name);
-           // console.log("WHATISBEINGRETURNED: ", event); 
-            return res.jsonp(a);
-        }).catch(function(err){
-            return res.render('error', {
-                error: err, 
-                status: 500
-            });
-        });
-        });
-    }
-    
-};
-
-/**
- * Delete an event
- */
 exports.destroy = function(req, res) {
     console.log("DESTROYEVENT");
     // create a new variable to hold the event that was placed on the req object.
@@ -220,6 +94,31 @@ exports.destroy = function(req, res) {
         });
     });
 };
+/**
+ * Find event by id
+ * Note: This is called every time that the parameter :id is used in a URL. 
+ * Its purpose is to preload the company on the req object then call the next function. 
+ */
+exports.event = function(req, res, next, id) {
+   // console.log('eventid => ' + id);
+   // console.log("EVENTS.EVENT");
+    db.Event.find({where: {id: id}, include: [{model: db.User}, {model: db.Technology}, {model: db.Contact}, {model: db.Company}]}).then(function(event){
+        //console.log(id);
+        if(!event) {
+     //       console.log("not an event");
+            //return next(new Error('Failed to load company ' + id));
+            return next();
+        } else {
+            req.event = event;
+       //     console.log("EVENT");
+       //     console.log(event);
+            //return res.jsonp(company);
+           return next();            
+        }
+    }).catch(function(err){
+        return next(err);
+    });
+};
 
 exports.findcompanies = function(req,res){
     console.log("FINDDDCOMPPPSSS");
@@ -230,18 +129,18 @@ exports.findcompanies = function(req,res){
         });
 };
 
+exports.findkomp = function(req, res){
+    db.Company.findOne({where: {id:req.query.CompId}})
+        .then(function(komp){
+            return res.jsonp(komp);
+        });
+};
+
 exports.findtech = function(req,res){
     //console.log("FINDDDTECCCCC");
     db.Technology.findOne({where: {id: req.query.id}})
         .then(function(tec){
             return res.jsonp(tec);
-        });
-};
-
-exports.findkomp = function(req, res){
-    db.Company.findOne({where: {id:req.query.CompId}})
-        .then(function(komp){
-            return res.jsonp(komp);
         });
 };
 
@@ -258,6 +157,21 @@ exports.getcontacts = function(req,res){
         .then(function(company){
             return res.jsonp(company);
             
+        });
+};
+
+exports.getcontactsforevents = function(req,res){
+    console.log("E:TLKJER:LKJEWT:KLWEJT:LWTEJ:WLTJK:WLTJ:WETJKW:ETJHEEEEEEEEEEEEEEEEEEEE");
+    db.Contact.getEvents({
+            where: {Event_rowId: req.query.id}
+        }).then(function(cntcs){
+            console.log("CATAAGDFADFG", cntcs);
+            return res.jsonp(cntcs);
+        }).catch(function(err){
+            return res.render('error', {
+                error: err,
+                status: 500
+            });
         });
 };
 
@@ -287,6 +201,19 @@ exports.geteventinfo = function(req,res){
         });
 };
 
+exports.getusers = function(req,res){
+    //console.log("REQ.QUERY", req.query);
+    db.User.findOne({where: {id: req.query.id}})
+    .then(function(user){
+        //console.log("Found USer", user);
+        return res.jsonp(user);
+    }).catch(function(err){
+        return res.render('error', {
+            error: err,
+            status: 500
+        });
+    });
+};
 /**
  * Article authorizations routing middleware
  */
@@ -296,5 +223,76 @@ exports.hasAuthorization = function(req, res, next) {
     }
     next();
 };
+
+exports.newuser = function(req,res) {
+   // console.log("REQ.PARMSxxxxxxxxxxxxxxxxxxx", req.params);
+   // console.log("ReQ.QUERY", req.query);
+    db.User.findOne({where: {name: req.query.name}})
+        .then(function(user){
+            return res.jsonp(user);
+        });
+};
+/* Show an event
+ */
+exports.show = function(req, res) {
+ //   console.log("EVENTS.SHOW");
+  //  console.log("LOOKEVENT!! SHOW!!!");
+        // Sending down the event that was just preloaded by the events.event function
+    // and saves event on the req object.
+    return res.jsonp(req.event);
+};
+
+exports.update = function(req, res) {
+    //console.log("REQ.BODYORRRRRREVVVENT", req.body);
+   //console.log("REQ.BODYYYYYYYYYYYYYYYYYY", req.body);
+  // console.log("THISGOTCSLELELELELELDDDDDDDDDDDDDDDDDDDDD");
+    // create a new variable to hold the company that was placed on the req object.
+    var event = req.event;
+    var newuser;
+    var newcomp;
+        //return user;
+      //  return res.jsonp(user)
+    //}).then(function(){
+    return event.updateAttributes({
+        Event_date: req.body.Event_date,
+        Event_notes: req.body.Event_notes,
+        Event_outcome: req.body.Event_outcome,
+        Event_method: req.body.Event_method,
+        Event_flag: req.body.Event_flag,
+        Event_followupdate: req.body.Event_followupdate,
+        //FollowedUp: req.body.Followedupanswer
+    }).then(function(event){
+        if(req.body.company){
+            db.Company.findOne({where: {Company_name: req.body.company}})
+            .then(function(comp){
+                newcomp=comp;
+            }).then(function(){
+                event.setCompany(newcomp, {through: 'CompanyEvents'});
+            });
+        }
+        if (req.body.userchange===true){
+        //  console.log("TOLDYOUSOOOOOOOOOOOOOOOO");
+            db.User.findOne({where: {name: req.body.newusername}})
+            .then(function(user){
+                console.log("USER: ", user);
+                newuser = user;
+            }).then(function(){
+                event.setUser(newuser, {through: 'UserEvents'});
+            });
+        }
+        return res.jsonp(event);
+    }).catch(function(err){
+        return res.render('error', {
+            error: err, 
+            status: 500
+        });
+    });
+};
+    
+
+
+
+
+
 
 

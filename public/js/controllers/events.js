@@ -7,7 +7,8 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
     $scope.comps = [];
     $scope.cntcts = [];
     $scope.emails=[];
-    $scope.methods = ["Phone", "Email", "Meeting"];   
+    $scope.methods = ["Phone", "Email", "Meeting"]; 
+    $scope.names=[];  
     $scope.selected = ["None"];
     $scope.selectedcompanies =[];
     $scope.selectedcontacts=[];
@@ -15,6 +16,8 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
     $scope.numberofoutcomes = $scope.outcomes.length;
     $scope.usernames=[];
     $scope.yesno = ["Yes", "No"];
+    
+    var stringonames;
 
     $scope.choose = function(comp){
        $scope.chooseforcreate(comp);
@@ -34,7 +37,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
             params: {Company_name: company}
         }).then(function(company){
             $scope.company = company.data;
-            //console.log("COMpanyfound", $scope.company);
+        //    console.log("COMpanyfound", $scope.company);
             $scope.compcontacts = $scope.company.Contacts;
          //  console.log($scope.compcontacts, "$scope.compcontacts");
             
@@ -62,20 +65,21 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
 
     $scope.contacts = function(event){
         //console.log("event.Contacts", event.Contacts);
-        var names=[];
+        $scope.names=[];
+        //var stringonames;
         for (var x=0; x<event.Contacts.length; x++){ 
             if (event.Contacts[x].length===0){
               //  console.log("triggered");
-                names.push(["None"]);
+                $scope.names.push(["None"]);
             } else {
-                names.push(event.Contacts[x].Contact_name);
+                $scope.names.push(event.Contacts[x].Contact_name);
                // console.log("contactname", event.Contacts[x].Contact_name);
             } 
         }
-        names = names.join(", ");
-        //console.log ("names", names, typeof names);
-        event.names = names;
-        $scope.eventcontacts =names;
+        stringonames = $scope.names.join(", ");
+      //  console.log ("$scope.names", $scope.names, typeof $scope.names);
+        event.names = stringonames;
+        $scope.eventcontacts = stringonames;
         //console.log("$scope.eventcontacts", $scope.eventcontacts);
         if ($scope.eventcontacts.length>=3) {
           //  console.log("SHORT");
@@ -156,6 +160,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
     };
 
     $scope.exists = function (tag, list) {
+      //  console.log("compcontact.Contact_name", compcontact.Contact_name, "$scope.names", $scope.names);
         return list.indexOf(tag) > -1;
     };
 
@@ -201,7 +206,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
     };
 
     $scope.findOneEvent = function() {
-        console.log("findoneeventran");
+       // console.log("findoneeventran");
         Events.get({
             id: $stateParams.id 
         }, function(response) {
@@ -209,11 +214,8 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
             $scope.event = response;
            // console.log("$scope.event", $scope.event);
             $scope.contacts(response);
-
            // console.log("stupidateformatlookslike: ", $scope.event.Event_date);
            // console.log("typeofstupid: ", typeof $scope.event.Event_date);
-            
-
             $scope.event.Event_date = new Date($scope.event.Event_date);
             $scope.event.Event_followupdate = new Date($scope.event.Event_followupdate);
              //$scope.event.Event_date=($scope.event.Event_date | date:'MM/dd/yyyy');
@@ -234,19 +236,32 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
             }
 
             $scope.event.CompanyId=$scope.event.Company.id;
-            console.log("$scope.eventonload", $scope.event);
+           // console.log("$scope.eventonload", $scope.event);
 
             
         });
         $scope.Edit = false;
         $scope.FollowUp = false;
-        
+       // console.log("made it to the end of findoneevent");
+    };
+
+    $scope.editEvent = function(){
+     //   console.log("editeventcalled");
+        $scope.Edit = true;
+        $scope.FollowUp = false;
         $scope.findusers();
+        $scope.findCompanies();
+        $scope.chooseforcreate($scope.event.Company.Company_name);
+        $scope.newcontactnames=$scope.names;
     };
 
     $scope.findusers = function(){
+        $scope.usernames = [];
+        $scope.chunkedusernames = [];
+       // console.log("findusers just called, here are the users before the call", $scope.users);
         $http.get('/showusers')
             .then(function(response){
+               // console.log("HEREARETHE USERS: ", response.data);
                 $scope.users = response.data;
                // console.log("length", $scope.users.length, "$scope.users", $scope.users);
                 for (var x=0; x<$scope.users.length; x++){
@@ -391,11 +406,6 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         }
     }; 
 
-    $scope.showEdit = function(){
-        $scope.Edit = true;
-        $scope.FollowUp = false;
-    };
-
     $scope.showFollowUp = function(){
         console.log("SHOWFOLLOWUP");
         $scope.FollowUp = true;
@@ -405,7 +415,9 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
     $scope.toggle = function (contact, selected) {
         var idx = selected.indexOf(contact);
         var idx2 = $scope.selectedcontacts.indexOf(contact);
+        console.log($scope.selectedcontacts, "$scope.selectedcontacts");
         console.log("idx", idx);
+
         if (idx > -1) {
           selected.splice(idx, 1);
         }
@@ -421,6 +433,34 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         }
         console.log("selected", selected);
     };
+
+    $scope.toggletoediteventcontacts = function (contact) {
+        //var newlyselectednames = $scope.names;
+        //var idx = selected.indexOf(contact);
+
+        //
+        var idx = $scope.newcontactnames.indexOf(contact);
+       // console.log(selected, "wth is selected");
+        console.log("$scope.newcontactnames", $scope.newcontactnames);
+        console.log("idx", idx);
+
+      //  if (idx > -1) {
+      //    $scope.names.splice(idx, 1);
+     //   }
+      //  else {
+      //    $scope.names.push(contact);
+      //  }
+
+        if (idx > -1) {
+          $scope.newcontactnames.splice(idx, 1);
+        }
+        else {
+          $scope.newcontactnames.push(contact);
+        }
+        console.log("$scope.newcontactnames afterchange", $scope.newcontactnames);
+    };
+
+
 
     $scope.toggleCompanies = function (company,selected) {
         $scope.selectedcompanynames=[];
@@ -467,7 +507,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
       };
 
     $scope.updateEvent = function() {
-        console.log("typeof", typeof $scope.event);
+      //  console.log("typeof", typeof $scope.event);
 
         var event = $scope.event;
         event.updated = [];
