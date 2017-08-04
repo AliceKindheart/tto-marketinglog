@@ -64,7 +64,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
     };
 
     $scope.contacts = function(event){
-        //console.log("event.Contacts", event.Contacts);
+     //   console.log("revisedrevisedevent.Contacts", event.Contacts);
         $scope.names=[];
         //var stringonames;
         for (var x=0; x<event.Contacts.length; x++){ 
@@ -89,12 +89,41 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         }
     };
 
+    $scope.contactids =[];
+    $scope.cleanupcontacts = function(){
+        //removing contacts that aren't from the event's selected company
+        for (var i=0; i<$scope.selectedcontacts.length; i++){
+            if ($scope.selectedcontacts[i].CompanyId!==$scope.company.id){
+                $scope.selectedcontacts.splice(i, 1);
+            }
+        }
+        //removing duplicate contacts
+        for (var j=0; j<$scope.selectedcontacts.length-1; j++){
+            for (var k=1; k<$scope.selectedcontacts.length; k++){
+                if($scope.selectedcontacts[j]===$scope.selectedcontacts[k]){
+                    $scope.selectedcontacts.splice(k,1);
+                }
+            }
+        }
+        console.log("cleanedupcontacts: ", $scope.selectedcontacts);
+        //get an array of contact ids
+        for (var m=0; m<$scope.selectedcontacts.length; m++){
+            $scope.contactids.push($scope.selectedcontacts[m].id);
+        }
+
+        $scope.event.contactids = $scope.contactids;
+        console.log("$scope.event.contactids", $scope.event.contactids);
+
+    };
+
     $scope.createEvent = function() {
+       // $scope.cleanupcontacts();
+
         var event = new Events({
             Event_date: this.Event_date,
             Event_notes: this.notes,
             Company: this.company,
-            Contacts: this.selected,
+            Contacts: this.selectedcontacts,
             Technology: this.technology,
             Event_flag: this.Event_flag,
             Event_followupdate: this.followupdate, 
@@ -398,10 +427,10 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
 
     $scope.setfollowupflag = function(answer){
         if(answer==="Yes"){
-            $scope.event.flagyes = true;
+            //$scope.event.flagyes = true;
             $scope.event.Event_flag = true;
         } else {
-            $scope.event.flagyes = false;
+            //$scope.event.flagyes = false;
             $scope.event.Event_flag = false;
         }
     }; 
@@ -412,37 +441,38 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         $scope.Edit = false;
     };
 
-    $scope.toggle = function (contact, selected) {
-        var idx = selected.indexOf(contact);
-        var idx2 = $scope.selectedcontacts.indexOf(contact);
-        console.log($scope.selectedcontacts, "$scope.selectedcontacts");
-        console.log("idx", idx);
+    $scope.toggle = function (contact) {
+        var idx = $scope.selectedcontacts.indexOf(contact);
+        //var idx2 = $scope.selectedcontacts.indexOf(contact);
+        //console.log($scope.selectedcontacts, "$scope.selectedcontacts");
+      //  console.log("idx", idx);
 
         if (idx > -1) {
-          selected.splice(idx, 1);
-        }
-        else {
-          selected.push(contact);
-        }
-
-        if (idx2 > -1) {
-          $scope.selectedcontacts.splice(idx2, 1);
+          $scope.selectedcontacts.splice(idx, 1);
         }
         else {
           $scope.selectedcontacts.push(contact);
         }
-        console.log("selected", selected);
+    //    console.log("$scope.selectedcontacts", $scope.selectedcontacts);
+
+        //if (idx2 > -1) {
+          //$scope.selectedcontacts.splice(idx2, 1);
+        //}
+        //else {
+          //$scope.selectedcontacts.push(contact);
+        //}
+        //console.log("selectedcontacts", selectedcontacts);
     };
 
-    $scope.toggletoediteventcontacts = function (contact) {
+//    $scope.toggletoediteventcontacts = function (contact) {
         //var newlyselectednames = $scope.names;
         //var idx = selected.indexOf(contact);
 
         //
-        var idx = $scope.newcontactnames.indexOf(contact);
+  //      var idx = $scope.newcontactnames.indexOf(contact);
        // console.log(selected, "wth is selected");
-        console.log("$scope.newcontactnames", $scope.newcontactnames);
-        console.log("idx", idx);
+    //    console.log("$scope.newcontactnames", $scope.newcontactnames);
+      //  console.log("idx", idx);
 
       //  if (idx > -1) {
       //    $scope.names.splice(idx, 1);
@@ -451,14 +481,14 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
       //    $scope.names.push(contact);
       //  }
 
-        if (idx > -1) {
-          $scope.newcontactnames.splice(idx, 1);
-        }
-        else {
-          $scope.newcontactnames.push(contact);
-        }
-        console.log("$scope.newcontactnames afterchange", $scope.newcontactnames);
-    };
+//        if (idx > -1) {
+  //        $scope.newcontactnames.splice(idx, 1);
+    //    }
+      //  else {
+        //  $scope.newcontactnames.push(contact);
+        //}
+        //console.log("$scope.newcontactnames afterchange", $scope.newcontactnames);
+    //};
 
 
 
@@ -508,8 +538,12 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
 
     $scope.updateEvent = function() {
       //  console.log("typeof", typeof $scope.event);
+        
 
         var event = $scope.event;
+        $scope.cleanupcontacts();
+        console.log("a;skdlf;aslkdjf;lskdjf", $scope.event.selectedcontacts);
+        console.log("EVENT", $scope.event);
         event.updated = [];
         event.updated.push(new Date().getTime());
         

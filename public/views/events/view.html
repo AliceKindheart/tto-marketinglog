@@ -68,7 +68,7 @@
     <h4 id="colorrow">Select Contact(s)</h4 >
     <table class="table" colspan="3" >
       <tr ng-repeat="compcontacts in compcontactschunked">
-        <td ng-repeat="compcontact in compcontacts" ><input type="checkbox" ng-checked="names.indexOf(compcontact.Contact_name)!==-1" name="compcontact" ng-click="toggletoediteventcontacts(compcontact.Contact_name)"/>{{compcontact.Contact_name}}</td>
+        <td ng-repeat="compcontact in compcontacts" ><input type="checkbox" ng-checked="names.indexOf(compcontact.Contact_name)!==-1" name="compcontact" ng-click="toggle(compcontact)"/>{{compcontact.Contact_name}}</td>
       </tr>
       </table>
 

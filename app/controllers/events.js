@@ -50,6 +50,8 @@ exports.create = function(req, res) {
                     //req.body.Contacts.forEach(function(cont){
                       //  console.log("CONTACT", cont);
                         //event.createContact(cont, {through: 'ContactEvents'});
+
+
                     //});
 
                     for(var i=0; i<req.body.Contacts.length; i++){
@@ -244,8 +246,8 @@ exports.show = function(req, res) {
 
 exports.update = function(req, res) {
     //console.log("REQ.BODYORRRRRREVVVENT", req.body);
-   //console.log("REQ.BODYYYYYYYYYYYYYYYYYY", req.body);
-  // console.log("THISGOTCSLELELELELELDDDDDDDDDDDDDDDDDDDDD");
+   console.log("REQ.BODYYYYYYYYYYYYYYYYYY", req.body);
+   console.log("THISGOTCSLELELELELELDDDDDDDDDDDDDDDDDDDDD");
     // create a new variable to hold the company that was placed on the req object.
     var event = req.event;
     var newuser;
@@ -258,7 +260,7 @@ exports.update = function(req, res) {
         Event_notes: req.body.Event_notes,
         Event_outcome: req.body.Event_outcome,
         Event_method: req.body.Event_method,
-        Event_flag: req.body.Event_flag,
+        //Event_flag: req.body.Event_flag,
         Event_followupdate: req.body.Event_followupdate,
         //FollowedUp: req.body.Followedupanswer
     }).then(function(event){
@@ -270,6 +272,8 @@ exports.update = function(req, res) {
                 event.setCompany(newcomp, {through: 'CompanyEvents'});
             });
         }
+
+
         if (req.body.userchange===true){
         //  console.log("TOLDYOUSOOOOOOOOOOOOOOOO");
             db.User.findOne({where: {name: req.body.newusername}})
@@ -278,6 +282,26 @@ exports.update = function(req, res) {
                 newuser = user;
             }).then(function(){
                 event.setUser(newuser, {through: 'UserEvents'});
+            });
+        }
+
+        console.log("REQ.BODY.CONTACTidS>LENGTH:", req.body.contactids.length);
+        //modify contacts if the company has been changed or contactids exist
+        if(req.body.company || req.body.contactids.length!==0){
+            
+            console.log("HELET:LTKE:WLTK:LWTEJ:WLTJa;sldkjf;aslkdjf;saldkjf");
+            
+            db.Contact.findAll({where: {id: req.body.contactids}})
+            .then(function(contact){
+                if(contact.length===0){
+                    event.setContacts([], {through: 'ContactEvents'});
+                }
+
+                console.log("THISISWHatCONTACTSLOOKSLIKE: ", contact);
+                for (var j=0; j<contact.length; j++){
+                    event.setContacts([contact[j]], {through: 'ContactEvents'});
+                }
+           // console.log("event.Contactsfor the seconddangtimealready", event.Contacts);
             });
         }
         return res.jsonp(event);
