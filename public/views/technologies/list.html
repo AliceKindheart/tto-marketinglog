@@ -49,7 +49,7 @@
 		</table>
 
 		<div class="panel panel-primary">
-          <div class="panel-heading" data-ng-init="findEvents()">
+          <div class="panel-heading" data-ng-init="findEventsForFollowUp()">
             <h4 class="panel-title ">{{global.user.name}}'s Events Marked for Follow-Up</h4>
           </div>
 
@@ -62,25 +62,32 @@
             <table ng-hide="noevents" class="table table-bordered">
             	<tr>
             		<th id="colorrow">Event Date</th>
+            		<th id="colorrow">Follow Up Due Date</th>
             		<th id="colorrow">Marketer</th>
             		<th id="colorrow">RU Number</th>
             		<th id="colorrow">Technology Title</th>
             		<th id="colorrow">Company</th>
             		<th id="colorrow">Contact(s)</th>
             		<th id="colorrow">Method</th>
-            		<th id="colorrow">Follow Up Date</th>
             		<th id="colorrow">Outcome</th>
+            		
+            		
+            		
         		</tr>
         		<tr data-ng-repeat="event in events" ui-sref="viewEvent({id: event.id})">
-        			<td>{{event.Event_date | date:'MM/dd/yyyy': '+0200'}}</td>
+        			<td>{{event.Event_date | date:'MM/dd/yyyy': '-0200'}}</td>
+        			<td ng-class="{'alert' : (event.Event_followupdate | date:'MM/dd/yyyy': '-0200')<=(getNow() | date:'MM/dd/yyyy')}">{{event.Event_followupdate | date:'MM/dd/yyyy'}}</td>
         			<td>{{users[$index].name}}</td>
         			<td>{{Eventtechs[$index].Tech_RUNumber}}</td>
         			<td>{{Eventtechs[$index].Tech_name}}</td>
         			<td>{{companies[$index].Company_name}}</td>
         			<td>{{contactnames[$index]}}</td>
         			<td>{{event.Event_method}}</td>
-        			<td ng-class="{'alert' : (event.Event_followupdate | date:'MM/dd/yyyy')<=(getNow() | date:'MM/dd/yyyy')}">{{event.Event_followupdate | date:'MM/dd/yyyy': '+0200'}}</td>
         			<td>{{event.Event_outcome}}</td>
+        			
+        			
+        			
+        			
     			</tr>
 			</table>
           

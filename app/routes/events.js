@@ -27,7 +27,7 @@ app.route('/findnewuser')
 	.get(events.newuser);
 app.route('/findtech')
 	.get(events.findtech);
-app.route('/getem')
+app.route('/geteventsneedingfollowup')
 	.get(events.getem);
 app.route('/getusers')
 	.get(events.getusers);

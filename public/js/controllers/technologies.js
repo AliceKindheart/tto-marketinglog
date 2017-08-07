@@ -201,11 +201,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         }
         names = names.join(", ");
         event.names = names;
-    };
-
-    
-
-    
+    };    
 
     $scope.makeEventDataUseable2 = function(response){    
         $scope.events = response.data;
@@ -254,8 +250,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             $scope.contactnames = contactnames;
        }
 
-    };
-          
+    };         
 
     $scope.findSuggestedCompanies = function(){
         $http({
@@ -553,7 +548,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
     };  
 
 
-    $scope.findEvents = function(){
+    $scope.findEventsForFollowUp = function(){
         $scope.Eventtechs =[];
         $scope.Technologytitles=[];
         $scope.followups=[];
@@ -562,7 +557,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         $scope.arrayofarrayofcontacts=[];
         $http({
             method: 'GET',
-            url: '/getem'
+            url: '/geteventsneedingfollowup'
         }).then(function(response){
             //console.log("response.data", response.data);
             $scope.makeEventDataUseable2(response);

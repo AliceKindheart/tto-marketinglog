@@ -186,6 +186,8 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
     $scope.editoutcome = function (outcome) {
         $scope.event.Event_outcome = outcome;
         console.log("NEWOUTCOME", $scope.event.Event_outcome);
+        console.log("revisedevent", $scope.event);
+        
     };
 
     $scope.exists = function (tag, list) {
@@ -282,6 +284,8 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         $scope.findCompanies();
         $scope.chooseforcreate($scope.event.Company.Company_name);
         $scope.newcontactnames=$scope.names;
+        $scope.getfollowupflaganswer($scope.event.Event_flag);
+        $scope.getfollowedupanswer($scope.event.FollowedUp);
     };
 
     $scope.findusers = function(){
@@ -303,6 +307,23 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
 
 
             });
+    };
+
+    $scope.getfollowedupanswer = function(truefalse){
+        if(truefalse===true){
+            $scope.event.followedupanswer = "Yes";
+        } else {
+            $scope.event.followedupanswer = "No";
+        }
+    };
+
+    $scope.getfollowupflaganswer = function(truefalse){
+        if(truefalse === true){
+            $scope.event.flagyes= "Yes";
+        } else {
+            $scope.event.flagyes = "No";
+        }
+        console.log("$scope.event.flagyes: ", $scope.event.flagyes)
     };
 
     $scope.gettech = function(){
@@ -415,8 +436,8 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
     $scope.setfollowedup = function(answer){
         if (answer==="Yes"){
             $scope.event.Followedupanswer=true;
-            $scope.event.flagyes = false;
-            $scope.event.Event_flag = false;
+            //$scope.event.flagyes = false;
+            //$scope.event.Event_flag = false;
         } else if (answer==="No"){
             $scope.event.Followedupanswer=false;
         
@@ -428,10 +449,21 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
     $scope.setfollowupflag = function(answer){
         if(answer==="Yes"){
             //$scope.event.flagyes = true;
+            $scope.Event_flag = true;
+        } else {
+            //$scope.event.flagyes = false;
+            $scope.Event_flag = false;
+        }
+    }; 
+
+    $scope.setfollowupflagtoedit = function(answer){
+        if(answer==="Yes"){
+            //$scope.event.flagyes = true;
             $scope.event.Event_flag = true;
         } else {
             //$scope.event.flagyes = false;
             $scope.event.Event_flag = false;
+            console.log("$scope.event.Event_flagrevised", $scope.event.Event_flag);
         }
     }; 
 
@@ -453,44 +485,8 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         else {
           $scope.selectedcontacts.push(contact);
         }
-    //    console.log("$scope.selectedcontacts", $scope.selectedcontacts);
-
-        //if (idx2 > -1) {
-          //$scope.selectedcontacts.splice(idx2, 1);
-        //}
-        //else {
-          //$scope.selectedcontacts.push(contact);
-        //}
-        //console.log("selectedcontacts", selectedcontacts);
+    
     };
-
-//    $scope.toggletoediteventcontacts = function (contact) {
-        //var newlyselectednames = $scope.names;
-        //var idx = selected.indexOf(contact);
-
-        //
-  //      var idx = $scope.newcontactnames.indexOf(contact);
-       // console.log(selected, "wth is selected");
-    //    console.log("$scope.newcontactnames", $scope.newcontactnames);
-      //  console.log("idx", idx);
-
-      //  if (idx > -1) {
-      //    $scope.names.splice(idx, 1);
-     //   }
-      //  else {
-      //    $scope.names.push(contact);
-      //  }
-
-//        if (idx > -1) {
-  //        $scope.newcontactnames.splice(idx, 1);
-    //    }
-      //  else {
-        //  $scope.newcontactnames.push(contact);
-        //}
-        //console.log("$scope.newcontactnames afterchange", $scope.newcontactnames);
-    //};
-
-
 
     $scope.toggleCompanies = function (company,selected) {
         $scope.selectedcompanynames=[];
@@ -538,12 +534,23 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
 
     $scope.updateEvent = function() {
       //  console.log("typeof", typeof $scope.event);
-        
+        if($scope.event.Followedupanswer===true){
+            $scope.event.flagyes = false;
+            $scope.event.Event_flag = false;
+            $scope.event.Event_followupdate = null;
+        }
 
         var event = $scope.event;
         $scope.cleanupcontacts();
-        console.log("a;skdlf;aslkdjf;lskdjf", $scope.event.selectedcontacts);
+//        console.log("a;skdlf;aslkdjf;lskdjf", $scope.event.selectedcontacts);
+        console.log("whynotworking", $scope.event.Event_outcome);
         console.log("EVENT", $scope.event);
+        if($scope.event.Event_outcome==="Not interested"){
+            $scope.event.Event_flag = false;
+            //$scope.event.flagyes = "No";
+            //console.log("NOTINETERESTED< BUTDIDNchange");
+            $scope.event.Event_followupdate=null;
+        }
         event.updated = [];
         event.updated.push(new Date().getTime());
         

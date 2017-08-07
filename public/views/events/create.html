@@ -8,7 +8,7 @@
 				<th id="colorrow">Contact Method</th>
 				<th id="colorrow">Event Outcome</th>
 				<th id="colorrow">Flag for Follow Up?</th>
-				<th id="colorrow" ng-show="flagyes">Follow Up Date</th>
+				<th id="colorrow" ng-show="Event_flag===true">Follow Up Due Date</th>
 				<th id="colorrow">Notes</th>
 			</tr>
 			<tr>
@@ -31,11 +31,11 @@
 				<td>
 					<table rowspan="2">
 						<tr data-ng-repeat="answer in yesno">
-							<td><input type="radio" data-ng-model="flag" ng-click="setfollowupflag(answer)" name="flag" id="flag" required/>{{answer}}</td>
+							<td><input type="radio" ng-click="setfollowupflag(answer)" name="flag" id="flag" required/>{{answer}}</td>
 						</tr>
 					</table>
 				</td>
-				<td ng-show="event.Event_flag===true"><input type="date" data-ng-model="followupdate" id="followupdate"/></td>
+				<td ng-show="Event_flag===true"><input type="date" data-ng-model="followupdate" id="followupdate"/></td>
 				<td><textarea data-ng-model="notes" id="Notes" placeholder="Notes"/></textarea></td>
 			</tr>
 		</table>
