@@ -150,6 +150,20 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         this.FollowedUp = "";
     };
 
+    $scope.createFollowUp = function(){
+       // $scope.findCompanies();
+        $scope.Edit = false;
+        $scope.FollowUp = true;
+        $scope.findusers();
+        $scope.findCompanies();
+        console.log("eventinscope: ", $scope.event);
+
+        $scope.chooseforcreate($scope.event.Company.Company_name);
+        $scope.newcontactnames=$scope.names;
+       // $scope.getfollowupflaganswer($scope.event.Event_flag);
+       // $scope.getfollowedupanswer($scope.event.FollowedUp);
+    };
+
     $scope.createMultEvent = function() {
         for (var x=0; x<$scope.selectedcompanies.length; x++){
             $scope.compny = $scope.selectedcompanies[x];
@@ -269,10 +283,11 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
             $scope.event.CompanyId=$scope.event.Company.id;
            // console.log("$scope.eventonload", $scope.event);
 
-            
+            console.log("EVENTFOUND", $scope.event);    
         });
         $scope.Edit = false;
         $scope.FollowUp = false;
+        console.log("EVENTFOUND", $scope.event);
        // console.log("made it to the end of findoneevent");
     };
 
