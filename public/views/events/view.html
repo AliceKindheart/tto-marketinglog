@@ -3,7 +3,7 @@
   
       
     <div style="margin-top:10px">
-      <a class="btn btn-primary" ng-show="event.Event_flag===true" data-ng-click="createFollowUp()">Add Follow Up</a>
+      <a class="btn btn-primary" ng-show="event.Event_flag===true" data-ng-click="startFollowUp()">Add Follow Up</a>
         <a class="btn btn-primary" data-ng-click="editEvent()">Edit</a>
         <a class="btn btn-danger" data-ng-click="removeEvent()">Delete</a>
     </div>
@@ -139,19 +139,19 @@
 
 <section data-ng-if="FollowUp">
   <h2>Create Follow Up Event</h2>
-  <form class="form-horizontal" data-ng-submit="createEvent()">
+  <form class="form-horizontal" data-ng-submit="createFollowUp()">
 
   <h4 id="colorrow" >Select Marketer</h4>
     <table class="table" colspan="3" >
       <tr ng-repeat="usernames in chunkedusernames">
-        <td ng-repeat="name in usernames"><input type="radio" required name="user"  ng-checked="name===event.User.name" ng-click="chooseuser(name)"/>{{name}}</td>
+        <td ng-repeat="name in usernames"><input type="radio" required name="user"  ng-checked="name===event.User.name" ng-click="chooseuserforfollowup(name)"/>{{name}}</td>
       </tr>
       </table>
 
     <h4 id="colorrow" >Select Company</h4>
     <table class="table" colspan="3" >
       <tr ng-repeat="companies in chunkedcompanies">
-        <td ng-repeat="company in companies"><input type="radio" required name="company" ng-checked="company===event.Company.Company_name" ng-click="choose(company)"/>{{company}}</td>
+        <td ng-repeat="company in companies"><input type="radio" required name="company" ng-checked="company===event.Company.Company_name" ng-click="chooseforcreate(company)"/>{{company}}</td>
       </tr>
       </table>
 
@@ -168,7 +168,7 @@
         <th id="colorrow">Contact Method</th>
         <th id="colorrow">Event Outcome</th>
         <th id="colorrow">Flag for Follow Up?</th>
-        <th id="colorrow" ng-show="flagyes">Follow Up Date</th>
+        <th id="colorrow" ng-show="Event_flag">Follow Up Date</th>
         <th id="colorrow">Notes</th>
       </tr>
       <tr>
@@ -195,9 +195,9 @@
             </tr>
           </table>
         </td>
-        <td ng-show="flagyes"><input type="date" data-ng-model="Event_followupdate" id="followupdate"/></td>
+        <td ng-show="Event_flag"><input type="date" data-ng-model="followupdate" id="followupdate"/></td>
 
-        <td><textarea data-ng-model="Event_notes" id="Notes" placeholder="Notes"/></textarea></td>
+        <td><textarea data-ng-model="notes" id="Notes" placeholder="Notes"/></textarea></td>
       </tr>
     </table>
 

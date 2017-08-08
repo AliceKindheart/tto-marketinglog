@@ -55,6 +55,10 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         $scope.event.userchange=true;
     }; 
 
+    $scope.chooseuserforfollowup = function(user){
+        $scope.user = user;
+    };
+
     $scope.chunk = function(arr, size){
         var newArr =[];
         for (var i=0; i<arr.length; i+=size) {
@@ -116,8 +120,11 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
 
     };
 
+    
+
     $scope.createEvent = function() {
        // $scope.cleanupcontacts();
+       console.log("NEWEVENT", $scope);
 
         var event = new Events({
             Event_date: this.Event_date,
@@ -131,7 +138,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
             Event_outcome: this.Event_outcome,
             FollowedUp: false
         });
-        console.log("Eventdate: ", $scope.Event_date);
+        console.log("Event", event);
          //console.log("DATEFORMAT: ", event.Event_date);
          //console.log("DATEtype: ", typeof event.Event_date);
         event.$save(function(response) {
@@ -151,6 +158,55 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
     };
 
     $scope.createFollowUp = function(){
+
+        var event = new Events({
+            Event_date: this.Event_date,
+            Event_notes: this.notes,
+            Company: this.company,
+            Contacts: this.selectedcontacts,
+            Technology: this.technology,
+            Event_flag: this.Event_flag,
+            Event_followupdate: this.followupdate, 
+            Event_method: this.Event_method, 
+            Event_outcome: this.Event_outcome,
+            FollowedUp: false
+        });
+        console.log("Event", event);
+         //console.log("DATEFORMAT: ", event.Event_date);
+         //console.log("DATEtype: ", typeof event.Event_date);
+        event.$save(function(response) {
+            
+            //update old event 
+            $scope.event.FollowedUp=true;
+            $scope.event.Event_followupdate=null;
+            $scope.event.Event_flag = false;
+            
+            $scope.event.updated = [];
+            $scope.event.updated.push(new Date().getTime());
+            
+            $scope.event.$update(function() {
+            //console.log("response", response.data);
+            }).then(function(){
+                $scope.Edit=false;
+                $scope.FollowUp=false;
+           // console.log("response", response);
+            //$state.go('viewCompany',{Company_name : responseid});
+            $state.go('viewTech',{id: response.TechnologyId});
+            });
+
+        
+          //  console.log("here'swhat'sleftonthescope", $scope);
+           // $scope.createEvent();
+            
+          //  $state.go('viewEvent',{id : event.id});
+          //  $scope.findOneEvent();
+        });
+
+
+        //$scope.createEvent();
+    };
+
+    $scope.startFollowUp = function(){
        // $scope.findCompanies();
         $scope.Edit = false;
         $scope.FollowUp = true;
@@ -160,6 +216,10 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
 
         $scope.chooseforcreate($scope.event.Company.Company_name);
         $scope.newcontactnames=$scope.names;
+        $scope.selectedcontacts=$scope.event.Contacts;
+        $scope.company=$scope.event.Company;
+        $scope.user=$scope.event.User;
+        $scope.technology=$scope.event.Technology;
        // $scope.getfollowupflaganswer($scope.event.Event_flag);
        // $scope.getfollowedupanswer($scope.event.FollowedUp);
     };

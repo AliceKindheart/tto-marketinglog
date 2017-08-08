@@ -76,7 +76,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             id: $stateParams.id 
             }, function(technology) {
                 $scope.technology = technology;
-                console.log("$scope.technology", $scope.technology);
+        //        console.log("$scope.technology", $scope.technology);
 
                 //get technology marketer
                 if (technology.User) {
@@ -139,7 +139,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         $scope.events = response.data;
         //var evnts = $scope.events;
         
-        console.log("events", $scope.events);
+  //      console.log("events", $scope.events);
         if($scope.events.length===0){
             //console.log("No events");
             //console.log("should hide");
@@ -176,7 +176,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             }
         }
 
-        console.log('parsedevents', $scope.parsedevents);
+   //     console.log('parsedevents', $scope.parsedevents);
     
 
         //push company names into $scope.companynames so that they can be compared to list of suggested companies and duplicates removed
@@ -218,7 +218,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
                 $scope.Eventtechs.push($scope.events[i].Technology);
                 $scope.users.push($scope.events[i].User);
                 $scope.companies.push($scope.events[i].Company);
-                console.log("$scope.events[i]", $scope.events[i]);
+        //        console.log("$scope.events[i]", $scope.events[i]);
 
                 //parse out contact info for each event
                 if($scope.events[i].Contacts){

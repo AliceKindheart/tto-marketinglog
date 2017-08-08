@@ -34,7 +34,7 @@
 			<tr data-ng-repeat="technology in technologies">
 				<td>{{arrayofusers[$index]}}</td>
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_RUNumber}}</td>
-				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_name}}</td>
+				<td ui-sref="viewTech({id : technology.id})" style="font-size: 20px">{{technology.Tech_name}}</td>
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_inventor}}</td>
 				<td>{{tagnames[$index]}}</td>
 				<td ng-show="showlovedstatus" ng-if="technology.isUnloved">No</td>
