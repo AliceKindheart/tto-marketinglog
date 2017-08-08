@@ -323,7 +323,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         } else {
             $scope.event.flagyes = "No";
         }
-        console.log("$scope.event.flagyes: ", $scope.event.flagyes)
+        console.log("$scope.event.flagyes: ", $scope.event.flagyes);
     };
 
     $scope.gettech = function(){
@@ -458,6 +458,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
 
     $scope.setfollowupflagtoedit = function(answer){
         if(answer==="Yes"){
+            console.log("flagshouldbeyes");
             //$scope.event.flagyes = true;
             $scope.event.Event_flag = true;
         } else {
@@ -465,6 +466,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
             $scope.event.Event_flag = false;
             console.log("$scope.event.Event_flagrevised", $scope.event.Event_flag);
         }
+        console.log("$scope.event.Event_flag", $scope.event.Event_flag);
     }; 
 
     $scope.showFollowUp = function(){
@@ -543,13 +545,27 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         var event = $scope.event;
         $scope.cleanupcontacts();
 //        console.log("a;skdlf;aslkdjf;lskdjf", $scope.event.selectedcontacts);
-        console.log("whynotworking", $scope.event.Event_outcome);
-        console.log("EVENT", $scope.event);
+        //console.log("whynotworking", $scope.event.Event_outcome);
+        //console.log("EVENT", $scope.event);
+        console.log("$scope.event.Event_flag", $scope.event.Event_flag);
         if($scope.event.Event_outcome==="Not interested"){
             $scope.event.Event_flag = false;
             //$scope.event.flagyes = "No";
             //console.log("NOTINETERESTED< BUTDIDNchange");
             $scope.event.Event_followupdate=null;
+        }
+        if($scope.event.Event_flag===false){
+            $scope.event.Event_followupdate=null;
+        }
+        if($scope.event.FollowedUp===true){
+            console.log("HELLOTRUE");
+            $scope.event.Event_followupdate=null;
+            if($scope.event.notes!==null){
+                ("Notnull");
+                $scope.event.notes=$scope.event.notes + "; Followed up";
+            } else {
+                $scope.event.notes = "Followed up";
+            }
         }
         event.updated = [];
         event.updated.push(new Date().getTime());

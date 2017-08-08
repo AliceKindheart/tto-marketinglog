@@ -3,7 +3,7 @@
   
       
     <div style="margin-top:10px">
-      <a class="btn btn-primary" data-ng-click="showFollowUp()">Add Follow Up</a>
+      <a class="btn btn-primary" ng-show="event.Event_flag===true" data-ng-click="showFollowUp()">Add Follow Up</a>
         <a class="btn btn-primary" data-ng-click="editEvent()">Edit</a>
         <a class="btn btn-danger" data-ng-click="removeEvent()">Delete</a>
     </div>
