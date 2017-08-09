@@ -234,7 +234,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
                     $scope.cntcts.push($scope.selectedcontacts[y]);
                 }
             }
-            console.log("cntctstosave", $scope.cntcts);
+      //      console.log("cntctstosave", $scope.cntcts);
 
             var event = new Events({
                 Event_date: this.Event_date,
@@ -249,8 +249,10 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
                 Followedup: false
             });
 
+          //  console.log("EVENT ABOUT TO SAVE", event);
+
             event.$save(function(response) {
-                console.log("response", response);
+            //    console.log("response", response);
             });  
             $scope.cntcts = [];     
         }
@@ -485,7 +487,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         
         //console.log($scope.selectedcontacts, "$scope.selectedcontacts");
         //$scope.emailbody =;
-        $scope.createEvent();
+        //$scope.createEvent();
         for(var x=0; x<$scope.selectedcontacts.length; x++){
             //console.log("$scope.selectedcontacts[x].Contact_email", $scope.selectedcontacts[x].Contact_email);
             $scope.emails.push($scope.selectedcontacts[x].Contact_email);
@@ -494,7 +496,9 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
 
         }
         $scope.emails = $scope.emails.join("; ");
+        console.log("$scope.emails", $scope.emails);
         $scope.addressees=$scope.addressees.join(", ");
+        console.log("$scope.addressees", $scope.adressees);
         window.open('mailto:' + $scope.emails + '?subject=' + $scope.technology.Tech_name + '&body=Dear ' + $scope.addressees + ", \n Any interest in " + $scope.technology.Tech_name + "? It's really good and I think you might like it.");       
     };
 
@@ -564,6 +568,27 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         }
     
     };
+
+    $scope.toggle2 = function (contact, selected) {
+        //$scope.selectedcontacts=[];
+         var idx = $scope.selectedcontacts.indexOf(contact);
+        // var idx2 = $scope.selectedcontactnames.indexOf(contact);
+         console.log("idx", idx);
+         //if (idx > -1) {
+           //selected.splice(idx, 1);
+         //}
+         //else {
+           //selected.push(contact);
+         //}
+ 
+         if (idx > -1){
+             $scope.selectedcontacts.splice(idx,1);
+         } else {
+             $scope.selectedcontacts.push(contact);
+         }
+ 
+         console.log("$scope.selectedcontacts", $scope.selectedcontacts);
+     };
 
     $scope.toggleCompanies = function (company,selected) {
         $scope.selectedcompanynames=[];
