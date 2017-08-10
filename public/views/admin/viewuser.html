@@ -12,6 +12,8 @@
             <th id="colorrow">Last Name</th>
             <th id="colorrow">Email</th>
             <th id="colorrow">Administrator?</th>
+            <th id="colorrow">Intern?</th>
+            <th id="colorrow">Advisor?</th>
         </tr>
         <tr>
             <td>{{user.username}}</td>
@@ -20,6 +22,9 @@
             <td>{{user.email}}</td>
             <td ng-show="user.admin">Yes</td>
             <td ng-show="!user.admin">No</td>
+            <td ng-show="user.intern">Yes</td>
+            <td ng-show="!user.intern">No</td>
+            <td ng-show="user.Advisor">{{user.Advisor.name}}</td>
         </tr>
     </table>
     

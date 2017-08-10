@@ -32,6 +32,14 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
         });
     };
 
+    $scope.getAdmins = function(){
+        $http.get('getadmins')
+            .then(function(response){
+                $scope.admins = response.data;
+                console.log("$scope.admins", $scope.admins);
+            });
+    };
+
 
     $scope.signUp = function(newuser) {
 
@@ -42,7 +50,9 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
             email: newuser.email,
             username : newuser.username,
             password : newuser.password,
-            admin: newuser.admin
+            admin: newuser.admin,
+            intern: newuser.intern,
+            advisor: newuser.advisor
         });
 
         signUp.$save(function(response) {
@@ -50,6 +60,11 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
                $state.go("users");
             }
         });
+    };
+
+    $scope.pickAdvisor= function(advisor){
+        $scope.newuser.advisor=advisor;
+        console.log("Advisor", $scope.newuser.advisor);
     };
 
     $scope.changepassword = function(){
@@ -82,6 +97,19 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
         console.log("$scope.user.admin", $scope.user.admin);
     };
 
+    $scope.internyes = function(){
+        $scope.user.intern = true;
+    };
+
+    $scope.internno = function(){    
+        $scope.user.intern = false;
+       // console.log("$scope.user.admin", $scope.user.admin);
+    };
+
+    $scope.selectAdvisor = function(advisor){
+        $scope.advisor = advisor;
+    };
+
     $scope.updateUser = function(){
         var user = $scope.user;
         console.log("user", user);
@@ -97,7 +125,9 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
                 firstname: $scope.user.first_name,
                 lastname: $scope.user.last_name,
                 name: $scope.name,
-                admin: $scope.user.admin
+                admin: $scope.user.admin,
+                intern: $scope.user.intern,
+                advisor: $scope.advisor
                 }
         }).then(function(){
             $state.go('users');

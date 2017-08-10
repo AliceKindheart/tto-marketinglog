@@ -14,6 +14,7 @@ app.get('/signout', users.signout);
 app.get('/users/me', users.me);
 app.get('/showusers', users.getall);
 app.get('/isadmin', users.isadmin);
+app.get('/getadmins', users.getadmins);
 app.get('/user/id', users.findOne);
 app.get('/currentuser', users.user);
 app.put('/updateuser', users.update);

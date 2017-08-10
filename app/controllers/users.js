@@ -48,8 +48,27 @@ exports.create = function(req, res, next) {
     user.salt = user.makeSalt();
     user.hashedPassword = user.encryptPassword(req.body.password, user.salt);
     console.log('New User (local) : { id: ' + user.id + ' username: ' + user.username + ' }');
-    
-    user.save().then(function(){
+   //user.save;
+    return user.save()
+    .then(function(user){
+      //console.log("reqQQQQQQQQQQQQQQQQQQQQQQQQQ.body", req.body);
+      //if (req.body.advisor){
+        //db.FindOne({where: {id: req.body.advisor.id}
+          //}).then(function(adv){
+            if(req.body.advisor){
+              console.log("HEELELEEEEEEEEEEEE");
+              user.setAdvisor(req.body.advisor.id);
+
+              //req.body.advisor.addIntern(user.id);
+              db.User.findOne({where: {id: req.body.advisor.id}
+                }).then(function(adv){
+                  console.log("FOUNDTHEADVISORHERE", user);
+                  adv.addIntern(user);
+                });
+              }
+          //});
+      //}
+      //user.setAdvisor(req.body.advisor);
       //req.login(user, function(err){
         //if(err) {
           //  return next(err);
@@ -82,9 +101,13 @@ exports.delete = function(req, res) {
 
 exports.findOne = function(req, res, id) {
  // console.log("reqQQQQQQQQQQQQQQQQQQQQQQQQQ.query", req.query);
-  db.User.findOne({where: {id: req.query.id}, include: [{model: db.Technology}]})
+  db.User.findOne({where: {id: req.query.id}, include: [{model: db.Technology}, {model: db.User, as: 'Advisor'}, {model: db.User, as: 'Interns'}]})
     .then(function(response){
-     // console.log("RESPPPPPPPPPPPONSE", response);
+      //console.log("RESPPPPPPPPPPPONSE", response);
+      //if(response.AdvisorId){
+        //response.getAdvisor();
+        //console.log("respose;akfdg;lkafdgndse", response);
+      //}
       res.jsonp(response);
     });
 };
@@ -93,6 +116,13 @@ exports.getall = function(req, res) {
   db.User.findAll({include: [{model: db.Technology}], order: "last_name"})
     .then(function(users){
       res.jsonp(users);
+    });
+};
+
+exports.getadmins = function(req, res){
+  db.User.findAll({where: {admin: true}})
+    .then(function(admins){
+      res.jsonp(admins);
     });
 };
 /**
@@ -176,9 +206,22 @@ exports.update = function(req, res) {
         email: req.query.email,
         admin: req.query.admin,
         first_name: req.query.first_name, 
-        last_name: req.query.last_name
+        last_name: req.query.last_name,
+        intern: req.query.intern
       });
     }).then(function(user){
+        if(req.query.advisor){
+              user.setAdvisor(req.query.advisor.id);
+
+              db.User.findOne({where: {id: req.query.advisor.id}
+                }).then(function(adv){
+                  //console.log("FOUNDTHEADVISORHERE", user);
+                  adv.addIntern(user);
+                });
+          }
+            //  req.query.advisor.addIntern(user);
+      
+        
       return res.jsonp(user);
     }).catch(function(err){
       return res.render('error',  {

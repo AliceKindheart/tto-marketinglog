@@ -24,7 +24,8 @@ module.exports = function(sequelize, DataTypes) {
 			//twitterSecret: DataTypes.STRING,
 			//github: DataTypes.STRING,
 			openId: DataTypes.STRING,
-			admin: DataTypes.BOOLEAN
+			admin: DataTypes.BOOLEAN,
+			intern: DataTypes.BOOLEAN
 		},
 		{
 			instanceMethods: {
@@ -52,6 +53,8 @@ module.exports = function(sequelize, DataTypes) {
 			associate: function(models) {
 				User.hasMany(models.Article);
 				User.belongsToMany(models.Technology, {through: 'UserTechnologies'});
+				User.belongsTo(models.User, {as: 'Advisor', foreignKey: "AdvisorId"});
+				User.hasMany(models.User, {as: 'Interns', foreignKey: 'AdvisorId'});
 				//User.belongsToMany(models.Events, {through: 'UserEvents'})
 			},
 			get fullName(){

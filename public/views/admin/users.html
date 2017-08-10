@@ -7,12 +7,15 @@
             <th id="colorrow">User Name</th>
             <th id="colorrow">Email</th>
             <th id="colorrow">Administrator?</th>
+            <th id="colorrow">Intern?</th>
         </tr>
         <tr ng-repeat="user in users">
             <td ui-sref="viewUser({id: user.id})">{{user.name}}</td>
             <td>{{user.email}}</td>
             <td ng-show="user.admin">Yes</td>
             <td ng-show="!user.admin">No</td>
+            <td ng-show="user.intern">Yes</td>
+            <td ng-show="!user.intern">No</td>
         </tr>
     </table>
 </span>
