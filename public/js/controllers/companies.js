@@ -70,7 +70,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             $scope.completecontacts = company.Contacts;
             $scope.events=company.Events;
 
-
+            console.log("contactarray", contactarray);
             if(contactarray!==0){
                 for (var i=0; i<contactarray.length; i++){
                     contacts.push(contactarray[i].Contact_name);

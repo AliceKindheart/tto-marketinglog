@@ -76,7 +76,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             id: $stateParams.id 
             }, function(technology) {
                 $scope.technology = technology;
-        //        console.log("$scope.technology", $scope.technology);
+                console.log("$scope.technology", $scope.technology);
 
                 //get technology marketer
                 if (technology.User) {

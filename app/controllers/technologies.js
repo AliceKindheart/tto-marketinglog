@@ -127,6 +127,15 @@ exports.searchfortech = function(req, res){
 
 exports.searchformine = function(req,res){
     //console.log("req.user:", req.user);
+//    var interns;
+  //  if(req.user.admin===true){
+    //    db.User.findAll({where: {AdvisorId: req.user.id}})
+      //      .then(function(users){
+        //        interns=users;
+
+          //  });
+    //}
+
     db.Technology.findAll({where: {UserId: req.user.id, isActive: true}, include: [{model: db.User}, {model: db.Tag}], order: 'Tech_RUNumber'})
         .then(function(tex){
             //console.log("TEXXXXXXXXX", tex);

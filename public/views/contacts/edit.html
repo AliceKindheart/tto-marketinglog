@@ -26,7 +26,7 @@
           <h4 id="colorrow">Company</h4>
           <table class="table" colspan="3" >
             <tr ng-repeat="companies in chunkedcompanies">
-              <td ng-repeat="company in companies"><input type="radio" name="company" ng-checked="exists(company)" ng-click="choose2edit(company)"/>{{company}}</td>
+              <td ng-repeat="company in companies"><input type="radio" name="company" ng-checked="company===contact.Company.Company_name" ng-click="choose2edit(company)"/>{{company}}</td>
             </tr>
           </table>
         </fieldset>

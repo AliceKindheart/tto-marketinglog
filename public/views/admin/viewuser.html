@@ -33,7 +33,7 @@
             <h4 class="panel-title ">Marketing Campaigns</h4>
           </div>
           <div class="panel-body"> 
-            <table class="table table-striped table-bordered">
+            <table class="table table-striped table-bordered" ng-show="tex.length>0">
                  <tr>
                     <th id="colorrow">RU Number</th>
                     <th id="colorrow">Technology Name</th>
@@ -47,6 +47,8 @@
                     <td ng-show="tec.isActive">Yes</td>
                     <td ng-show="!tec.isActive">No</td>
                 </tr>
+            </table>
+            <p ng-show="tex.length===0">No marketing campaigns</p>
           </div>
     </div>  
 
