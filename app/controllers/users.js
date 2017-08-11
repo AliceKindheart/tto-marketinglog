@@ -195,31 +195,38 @@ exports.signup = function(req, res) {
 };
 
 exports.update = function(req, res) {
-  //var user = req.user;
- // console.log("REQQQQQQ.query", req.query);
+  //var userupdated = req.user;
+  console.log("REQQQQQQ.query", req.query);
+  var advisor = req.query.advisor;
 
   db.User.findOne({where: {id: req.query.id}})
     .then(function(user){
       return user.updateAttributes({
-        name: req.query.first_name + " " + req.query.last_name,
+        name: req.query.name,
         username: req.query.username,
         email: req.query.email,
         admin: req.query.admin,
         first_name: req.query.first_name, 
         last_name: req.query.last_name,
         intern: req.query.intern
+        //AdvisorId: advisorid
       });
     }).then(function(user){
-        if(req.query.advisor){
-              user.setAdvisor(req.query.advisor.id);
+        console.log("user.intern", user.intern);
+        if(user.intern===true){
+              console.log("TRRRRRUUUEEEUEUEUEU", req.query.advisorid);
+              user.setAdvisor(req.query.advisorid);
 
-              db.User.findOne({where: {id: req.query.advisor.id}
+              db.User.findOne({where: {id: advisorid}
                 }).then(function(adv){
-                  //console.log("FOUNDTHEADVISORHERE", user);
+                  console.log("FOUNDTHEADVISORHERE", user);
                   adv.addIntern(user);
                 });
-          }
+          } else {
+            user.setAdvisor(null);
+            console.log("thisthinghappened did you even want it tooooooooooOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOo");
             //  req.query.advisor.addIntern(user);
+          }
       
         
       return res.jsonp(user);

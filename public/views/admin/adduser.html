@@ -20,15 +20,15 @@
             <th id="colorrow">Temporary Password</th>
             <th id="colorrow">Administrator?</th>
             <th id="colorrow">Intern?</th>
-            <th id="colorrow" ng-show="newuser.intern">Intern's Advisor</th>           
+            <th id="colorrow" ng-show="newuser.intern===true">Intern's Advisor</th>           
         </tr>
         <tr>
             <td><input type="password" ng-model="newuser.password" id="password"/></td>
             <td><input type="radio" value="true" name="admin" ng-model="newuser.admin">Yes<br>
             <input type="radio" value="false" name="admin" ng-model="newuser.admin">No<br></td>
-            <td><input type=radio value="true" name="intern" ng-model="newuser.intern">Yes<br>
-            <input type="radio" value="false" name="intern" ng-model="newuser.intern">No<br></td>
-            <td ng-show="newuser.intern" data-ng-repeat="admin in admins"><input type="radio" value="advisor" name="advisor" ng-click="pickAdvisor(admin)">{{admin.name}}</td>     
+            <td><input type=radio value="true" name="intern" ng-click="newuserinternyes()">Yes<br>
+            <input type="radio" value="false" name="intern" ng-click="newuserinternno()">No<br></td>
+            <td ng-show="newuser.intern===true" data-ng-repeat="admin in admins"><input type="radio" value="advisor" name="advisor" ng-click="pickAdvisor(admin)">{{admin.name}}</td>     
         </tr>
     </table>
 

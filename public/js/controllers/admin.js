@@ -1,25 +1,25 @@
 'use strict';
 
-angular.module('mean.auth').controller('AdminController', ['$scope','$window', 'Global','$state', 'SignUp', '$http', '$stateParams', function ($scope, $window, Global, $state, SignUp, $http, $stateParams) {
+angular.module('mean.auth').controller('AdminController', ['$scope','$window', 'Global', 'Users', '$state', 'SignUp', '$http', '$stateParams', function ($scope, $window, Global, Users, $state, SignUp, $http, $stateParams) {
     $scope.global = Global;
 
     $scope.findusers = function(){
         $http.get('/showusers')
             .then(function(response){
                 $scope.users = response.data;
-                console.log("$scope.users", $scope.users);
+         //       console.log("$scope.users", $scope.users);
             });
     };
 
     $scope.findUser = function(){
-        console.log($stateParams, "$stateParams");
+      //  console.log($stateParams, "$stateParams");
         $http({
             url: "/user/id", 
             method: "GET",
             params: {id: $stateParams.id}
         }).then(function(response){
                 $scope.user = response.data;
-                console.log('$scope.user', $scope.user);
+           //     console.log('$scope.user', $scope.user);
         }).then(function(){
             $http({
                 url: "/usercampaigns",
@@ -27,7 +27,7 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
                 params: {id: $scope.user.id}
             }).then(function(response){
                 $scope.tex = response.data;
-                console.log($scope.tex, "$scope.tex");
+          //      console.log($scope.tex, "$scope.tex");
             });
         });
     };
@@ -36,7 +36,7 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
         $http.get('getadmins')
             .then(function(response){
                 $scope.admins = response.data;
-                console.log("$scope.admins", $scope.admins);
+              //  console.log("$scope.admins", $scope.admins);
             });
     };
 
@@ -64,7 +64,7 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
 
     $scope.pickAdvisor= function(advisor){
         $scope.newuser.advisor=advisor;
-        console.log("Advisor", $scope.newuser.advisor);
+       // console.log("Advisor", $scope.newuser.advisor);
     };
 
     $scope.changepassword = function(){
@@ -102,32 +102,65 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
     };
 
     $scope.internno = function(){    
+
         $scope.user.intern = false;
-       // console.log("$scope.user.admin", $scope.user.admin);
+        console.log("$scope.user.intern", $scope.user.intern);
+    };
+
+    $scope.newuserinternyes = function(){
+        $scope.newuser.intern=true;
+    };
+
+    $scope.newuserinternno=function(){
+        $scope.newuser.intern=false;
     };
 
     $scope.selectAdvisor = function(advisor){
         $scope.advisor = advisor;
     };
 
+    $scope.editAdvisor = function(admin){
+        $scope.user.AdvisorId=admin.id;
+        console.log("AdvisorId", $scope.user.AdvisorId);
+    };
+
     $scope.updateUser = function(){
+       // var user = $scope.user;
+       //console.log("$scope.user first time", $scope.user);
+        $scope.user.name = $scope.user.first_name + " " + $scope.user.last_name;
+        if($scope.user.intern===false){
+            console.log("USERUSERUSERSERUINTERNINTERNINTERIN FALSE");
+            $scope.user.Advisor=null;
+            $scope.user.AdvisorId=null;
+        }
+       // console.log("$scope.user second time", $scope.user);
         var user = $scope.user;
+        console.log("typeof user", typeof user);
         console.log("user", user);
-        $scope.name = $scope.user.firstname + " " + $scope.user.lastname;
+
+//        user.updated =[];
+  //      user.updated.push(new Date().getTime());
+
+//        user.$update(function(){
+
+//        }).then(function(){
+  //          $state.go('viewUser', {id: user.id});
+    //    });
 
         $http({
             url: "/updateuser", 
             method: "PUT",
             params: {
-                id: $scope.user.id,
-                email: $scope.user.email,
-                username: $scope.user.username,
-                firstname: $scope.user.first_name,
-                lastname: $scope.user.last_name,
-                name: $scope.name,
-                admin: $scope.user.admin,
-                intern: $scope.user.intern,
-                advisor: $scope.advisor
+                id: user.id,
+                email: user.email,
+                username: user.username,
+                firstname: user.first_name,
+                lastname: user.last_name,
+                name: user.name,
+                admin: user.admin,
+                intern: user.intern,
+                advisor: user.Advisor,
+                advisorid: user.AdvisorId
                 }
         }).then(function(){
             $state.go('users');

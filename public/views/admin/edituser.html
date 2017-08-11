@@ -27,14 +27,14 @@
         </tr>
 
         <tr>
-            <td><input type="radio" value="true" name="admin" ng-checked="user.admin===true" ng-click="yes()">Yes<br>
-            <input type="radio" value="false" name="admin" ng-checked="user.admin===false || user.admin===null" ng-click="no()">No<br></td>
+            <td><input type="radio" value="true" name="admin" ng-checked="user.admin===true" ng-click="yes()" required>Yes<br>
+            <input type="radio" value="false" name="admin" ng-checked="user.admin===false || user.admin===null" ng-click="no()" required>No<br></td>
 
-            <td><input type="radio" value="true" name="intern" ng-checked="user.intern===true" ng-click="internyes()">Yes<br>
-            <input type="radio" value="false" name="intern" ng-checked="user.intern===false || user.intern===null" ng-click="internno()">No<br></td>
+            <td><input type="radio" value="true" name="intern" ng-checked="user.intern===true" ng-click="internyes()" required>Yes<br>
+            <input type="radio" value="false" name="intern" ng-checked="user.intern===false || user.intern===null" ng-click="internno()" required>No<br></td>
             
             
-            <td ng-show="user.intern" data-ng-repeat="admin in admins"><input type="radio" value="advisor" name="advisor" ng-checked="user.Advisor.name" ng-click="selectAdvisor(advisor)" />{{admin.name}}</td>
+            <td ng-show="user.intern" data-ng-repeat="admin in admins"><input type="radio" value="advisor" name="advisor" ng-checked="user.Advisor.name" ng-click="editAdvisor(admin)" />{{admin.name}}</td>
         </tr>
     </table>
 

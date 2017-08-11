@@ -10,6 +10,10 @@ module.exports = function(app) {
 var users = require('../../app/controllers/users');
 
 // User Routes
+app.route('/users/:usersid')
+    .put(users.update)
+
+
 app.get('/signout', users.signout);
 app.get('/users/me', users.me);
 app.get('/showusers', users.getall);
