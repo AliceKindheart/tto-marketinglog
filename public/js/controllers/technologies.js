@@ -571,6 +571,5 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             $scope.showthedetails=false;
         }
     };
-   
 
 }]);

@@ -20,20 +20,14 @@
 				<th id="colorrow">Contact Name</th>
 				<th id="colorrow">Company</th>
 				<th id="colorrow">Title</th>
-				<th id="colorrow">Email</th>
-				<th id="colorrow">Phone</th>
-				<th id="colorrow">Notes</th>
-				<th id="colorrow">Tags</th>
+				<th id="colorrow">Tags</th>								
 			</tr>
 			<tr data-ng-repeat="contact in contacts">
 				<td ui-sref="viewContact({id : contact.id})">{{contact.Contact_name}}</td>
 				<td ui-sref="viewContact({id : contact.id})">{{companies[$index].Company_name}}</td>
 				<td ui-sref="viewContact({id : contact.id})">{{contact.Contact_title}}</td>
-				<td ui-sref="viewContact({id : contact.id})">{{contact.Contact_email}}</td>
-				<td ui-sref="viewContact({id : contact.id})">{{contact.Contact_phone}}</td>
-				<td ui-sref="viewContact({id : contact.id})">{{contact.Contact_notes}}</td>
 				<td ui-sref="viewContact({id : contact.id})">
-				{{tags[$index]}}
+				{{tags[$index]}}</td>			
 			</tr>
 			<tr data-ng-show="!contacts">
 				<td>No contacts yet</td>

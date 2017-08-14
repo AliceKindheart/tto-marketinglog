@@ -11,21 +11,29 @@
       <tr>
         <th id="colorrow">Company Name</th>
         <th id="colorrow">Title/Position</th>
-        <th id="colorrow">Email</th>
-        <th id="colorrow">Phone</th>
         <th id="colorrow">Notes</th>
-        <th id="colorrow">Tags</th>
+               
       </tr>
       <tr>
         <td data-ng-model="company.Company_name" id="Contact_name" placeholder="Contact Name" required>{{company.Company_name}}
         </td><td data-ng-model="contact.Contact_title" id="title" placeholder="Title">{{contact.Contact_title}}</td>
-        <td tdata-ng-model="contact.Contact_email" id="Email" placeholder="Email" required >{{contact.Contact_email}}</td>
-        <td data-ng-model="contact.Contact_phone" id="Phone" placeholder="Phone number">{{contact.Contact_phone}}</td>
         <td data-ng-model="contact.Contact_notes" id="Notes" placeholder="Notes">{{contact.Contact_notes}}</td>
-        <td>{{tags}}</td>
       </tr>
     </table>
   </div>
+
+    <table class="table table-bordered">
+      <tr>
+        <th id="colorrow">Email</th> 
+        <th id="colorrow">Phone</th>
+        <th id="colorrow">Tags</th>
+      </tr>
+      <tr>
+        <td tdata-ng-model="contact.Contact_email" id="Email" placeholder="Email" required >{{contact.Contact_email}}</td> 
+        <td data-ng-model="contact.Contact_phone" id="Phone" placeholder="Phone number">{{contact.Contact_phone}}</td>        
+        <td>{{tags}}</td>
+      </tr>
+    </table>
 
     <div class="panel panel-primary">
         <div class="panel-heading">

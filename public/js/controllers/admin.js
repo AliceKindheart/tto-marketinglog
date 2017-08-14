@@ -237,6 +237,7 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
             //console.log("$scope.global", $scope.global);
             //$window.location.reload();
             $scope.findtags();
+            $scope.tagname = "";
         });
     };
 
@@ -244,6 +245,7 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
         $scope.tag = tag;
       };
 
+  
 
 
 }]);
