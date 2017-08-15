@@ -6,8 +6,8 @@ module.exports = function(sequelize, DataTypes) {
 			Tech_RUNumber: DataTypes.INTEGER,
 			Tech_name: DataTypes.STRING,
 			Tech_inventor: DataTypes.STRING,
-			isActive: DataTypes.BOOLEAN, 
-			isUnloved: DataTypes.BOOLEAN
+			isActive: DataTypes.BOOLEAN 
+			//isUnloved: DataTypes.BOOLEAN
 		},
 		{
 			associate: function(models) {

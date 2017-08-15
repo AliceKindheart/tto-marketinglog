@@ -16,7 +16,6 @@
               <th id="colorrow">Inventor</th>
               <th id="colorrow">Tags</th>
               <th id="colorrow">Active Campaign?</th>
-              <th id="colorrow">Loved?</th>
             </tr>
             <tr>
               <td>{{user.name}}</td>
@@ -25,8 +24,6 @@
               <td>{{tags}}</td>
               <td ng-show="technology.isActive">Yes</td>
               <td ng-show="!technology.isActive">No</td>
-              <td ng-show="!technology.isUnloved">Yes</td>
-              <td ng-show="technology.isUnloved">No</td>
             </tr>
           </table>
         

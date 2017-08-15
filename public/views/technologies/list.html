@@ -18,7 +18,7 @@
 		<button type="button"  ng-click="mymarketing()" class="btn btn-info">My Active Marketing Campaigns</button>
 		<button type="button"  ng-click="active()" class="btn btn-info">All Active Campaigns</button>
 		<button type="button" ng-click="allcamps()" class="btn btn-info">Active AND Inactive Campaigns</button>
-		<button type="button" ng-click="unloved()" class="btn btn-info">Unloved Campaigns</button>
+		
 	
 	</div>
 		<table class="table table-bordered table-striped" data-ng-init="mymarketing()" >
@@ -27,8 +27,7 @@
 				<th id="colorrow"">RU Number</th>
 				<th id="colorrow">Technology</th>
 				<th id="colorrow">Inventor</th>
-				<th id="colorrow">Tags</th>
-				<th id="colorrow" ng-show="showlovedstatus">Loved?</th>
+				<th id="colorrow">Tags</th>				
 				<th id="colorrow" ng-show="showall">Active Campaign?</th>
 			</tr>
 			<tr data-ng-repeat="technology in technologies">
@@ -37,8 +36,6 @@
 				<td ui-sref="viewTech({id : technology.id})" style="font-size: 20px">{{technology.Tech_name}}</td>
 				<td ui-sref="viewTech({id : technology.id})">{{technology.Tech_inventor}}</td>
 				<td>{{tagnames[$index]}}</td>
-				<td ng-show="showlovedstatus" ng-if="technology.isUnloved">No</td>
-				<td ng-show="showlovedstatus" ng-if="!technology.isUnloved">Yes</td>
 				<td ng-show="showall" ng-if="technology.isActive">Yes</td>
 				<td ng-show="showall" ng-if="!technology.isActive">No</td>
 			</tr>

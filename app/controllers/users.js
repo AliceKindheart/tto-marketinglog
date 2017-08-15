@@ -105,7 +105,7 @@ exports.findOne = function(req, res, id) {
     .then(function(response){
       //console.log("RESPPPPPPPPPPPONSE", response);
       //if(response.AdvisorId){
-        //response.getAdvisor();
+        response.getInterns();
         //console.log("respose;akfdg;lkafdgndse", response);
       //}
       res.jsonp(response);
@@ -125,6 +125,13 @@ exports.getadmins = function(req, res){
       res.jsonp(admins);
     });
 };
+
+exports.getadminsinterns = function(req, res){
+  db.User.getInterns({where: {AdvisorId: req.query.id}})
+    .then(function(interns){
+
+    })
+}
 /**
  * User authorizations routing middleware
  */

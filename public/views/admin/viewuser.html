@@ -27,6 +27,11 @@
             <td ng-show="user.Advisor">{{user.Advisor.name}}</td>
         </tr>
     </table>
+
+    <table class="table table-striped table-bordered" ng-show="user.Interns.length!==0">
+        <h4 ng-show="user.Interns.length!==0" id="colorrow">Interns</h4>
+        <tr><td ng-repeat="intern in user.Interns" ui-sref="viewUser({id: {{intern.id}}})">{{intern.name}}</td></tr>
+    </table>
     
     <div class="panel panel-primary">
         <div class="panel-heading">

@@ -19,7 +19,8 @@ angular.module('mean.auth').controller('AdminController', ['$scope','$window', '
             params: {id: $stateParams.id}
         }).then(function(response){
                 $scope.user = response.data;
-           //     console.log('$scope.user', $scope.user);
+                console.log('$scope.user', $scope.user);
+                console.log("$scope.user.Interns", $scope.user.Interns);
         }).then(function(){
             $http({
                 url: "/usercampaigns",
