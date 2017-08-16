@@ -126,19 +126,42 @@ exports.searchfortech = function(req, res){
 };
 
 exports.searchformine = function(req,res){
-    //console.log("req.user:", req.user);
-//    var interns;
-  //  if(req.user.admin===true){
-    //    db.User.findAll({where: {AdvisorId: req.user.id}})
-      //      .then(function(users){
-        //        interns=users;
 
-          //  });
+  //  db.Technology.findAll({where: {UserId: req.user.id, isActive: true}, include: [{model: db.User}, {model: db.Tag}], order: 'Tech_RUNumber'})
+    //    .then(function(tex){
+            //console.log("TEXXXXXXXXX", tex);
+      //      return res.jsonp(tex);
+        //}).catch(function(err){
+          //  return res.send({
+            //    errors: err,
+              //  status: 500
+    //        });
+      //  });
+    
+    //if(req.user.admin===true){
+      //  db.Technology.findAll({where: {
+        //                        UserId: req.user.id, 
+          //                      isActive: true,
+            //                    $or [
+              //                          {isActive: true,
+                //                          UserId:   
+
+                  //                  }]}})
     //}
 
-    db.Technology.findAll({where: {UserId: req.user.id, isActive: true}, include: [{model: db.User}, {model: db.Tag}], order: 'Tech_RUNumber'})
+    //UserId: {$in: req.query.internid}
+    console.log("REQqqqqqqqqqqqqqqq.query", req.query);
+    db.Technology.findAll({
+            where: {
+                $or: [
+                    {UserId: req.user.id, isActive: true},
+                    {isActive:true, UserId: {$in: req.query.internid}}
+                ]
+            }, 
+            include: [{model: db.User}, {model: db.Tag}], 
+            order: 'Tech_RUNumber'})
         .then(function(tex){
-            //console.log("TEXXXXXXXXX", tex);
+            console.log("TEXXXXXXXXX", tex);
             return res.jsonp(tex);
         }).catch(function(err){
             return res.send({
@@ -246,6 +269,24 @@ exports.usercampaigns = function(req,res){
         }).catch(function(err){
             return res.send({
                 errors: err,
+                status: 500
+            });
+        });
+};
+
+exports.getinterninfo = function(req,res){
+  //  console.log("hellow wast this even calllllllllllllllllled?????????????");
+    //console.log("req.query", req.query);
+    db.User.findOne({where: {id: req.query.id}})
+        .then(function(user){
+          //  console.log("USERERERERERER", user);
+            user.getInterns().then(function(user){
+              //  console.log("USERRRRRRRRRRRRRRRRR", user);
+                return res.jsonp(user);
+            });
+        }).catch(function(err){
+            return res.send({
+                errors: err, 
                 status: 500
             });
         });

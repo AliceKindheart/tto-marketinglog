@@ -416,20 +416,51 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         });
     };
 
+//     $scope.internid=[];
+
     $scope.mymarketing = function(){
         $scope.showall = false;
-        $scope.showlovedstatus = true;
-
-        $http({
-            method: "GET",
-            url: '/mymarketing'
-        }).then(function(tex){
-            $scope.technologies = tex.data;
-            $scope.gettagsandmarketers();
-        });
-        $scope.title = "My Active ";
+        if($scope.global.user.admin===true){
+            console.log("TRUE");
+            $scope.internid=[];
+            $http({
+                method: "GET", 
+                url: '/getinterninfo',
+                params: {id: $scope.global.user.id}
+            }).then(function(interninfo){
+                console.log("interninfo: ", interninfo.data);
+                for(var x=0; x<interninfo.data.length; x++){
+                    $scope.internid.push(interninfo.data[x].id);
+                }
+                console.log("internid", $scope.internid);
+            }).then(function(){
+                 $http({
+                    method: "GET",
+                    url: '/mymarketing',
+                    params: {internid: $scope.internid,
+                             id: $scope.global.user.id}
+                }).then(function(tex){
+                    $scope.technologies = tex.data;
+                    console.log("whatcameback:", $scope.technologies);
+                    $scope.gettagsandmarketers();
+                });
+                $scope.title = "My Active ";
+            });
+        } else {
+             $http({
+                    method: "GET",
+                    url: '/mymarketing',
+                    params: {id: $scope.global.user.id}
+                }).then(function(tex){
+                    $scope.technologies = tex.data;
+                    console.log("whatcameback:", $scope.technologies);
+                    $scope.gettagsandmarketers();
+                });
+                $scope.title = "My Active ";
+        }
     };
-
+  
+    
     $scope.allcamps = function(){
         $scope.showlovedstatus = true;
         $scope.title = "All Active and Inactive ";

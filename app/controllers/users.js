@@ -126,12 +126,7 @@ exports.getadmins = function(req, res){
     });
 };
 
-exports.getadminsinterns = function(req, res){
-  db.User.getInterns({where: {AdvisorId: req.query.id}})
-    .then(function(interns){
 
-    })
-}
 /**
  * User authorizations routing middleware
  */
