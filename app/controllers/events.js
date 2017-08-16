@@ -178,10 +178,51 @@ exports.getcontactsforevents = function(req,res){
 };
 
 exports.getem = function(req,res){
-    //console.log("THEHEHTHT:SWEKT");
-    db.Event.findAll({where: {UserId: req.user.id, Event_followupdate: {$ne:null}, Event_flag: true}, include: [{model: db.Contact}, {model: db.User}, {model:db.Company}, {model:db.Technology}], order: 'Event_date'})
+   // console.log("THEHEHTHT:SWEKT", req.query, req.user);
+  // console.log("REQqqqqqqqqqqqqqqq.query", req.query);
+    var internid = [];
+    //console.log(typeof req.query.internid);
+    if(typeof req.query.internid==="string"){
+      //  console.log("number!!!!");
+
+        internid.push(req.query.internid);
+    } else {
+        internid = req.query.internid;
+    }
+
+    db.Event.findAll({
+            where: {
+                $or: [
+                    {UserId: req.user.id},
+                    {UserId: {$in: internid}}
+                ],
+              //  UserId: req.user.id, 
+                Event_followupdate: {$ne:null}, 
+                Event_flag: true}, 
+            include: [{model: db.Contact}, {model: db.User}, {model:db.Company}, {model:db.Technology}], 
+            order: 'Event_date'})
         .then(function(evnts){
             //console.log("EVENTSEVENTSEVENTSEVETNTSEVENTESEVENTS", evnts);
+            return res.jsonp(evnts);
+        }).catch(function(err){
+            return res.render('error', {
+                error: err,
+                status: 500
+            });
+        });
+};
+
+exports.getemfornonadmin = function(req,res){
+
+    db.Event.findAll({
+            where: {
+                UserId: req.user.id, 
+                Event_followupdate: {$ne:null}, 
+                Event_flag: true}, 
+            include: [{model: db.Contact}, {model: db.User}, {model:db.Company}, {model:db.Technology}], 
+            order: 'Event_date'})
+        .then(function(evnts){
+            console.log("EVENTSEVENTSEVENTSEVETNTSEVENTESEVENTS", evnts);
             return res.jsonp(evnts);
         }).catch(function(err){
             return res.render('error', {

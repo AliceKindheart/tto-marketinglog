@@ -29,6 +29,8 @@ app.route('/findtech')
 	.get(events.findtech);
 app.route('/geteventsneedingfollowup')
 	.get(events.getem);
+app.route('/geteventsneedingfollowupfornonadmin')
+	.get(events.getemfornonadmin);
 app.route('/getusers')
 	.get(events.getusers);
 app.route('/getcontactsforevents')

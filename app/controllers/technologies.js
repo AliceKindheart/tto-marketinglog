@@ -126,41 +126,17 @@ exports.searchfortech = function(req, res){
 };
 
 exports.searchformine = function(req,res){
-
-  //  db.Technology.findAll({where: {UserId: req.user.id, isActive: true}, include: [{model: db.User}, {model: db.Tag}], order: 'Tech_RUNumber'})
-    //    .then(function(tex){
-            //console.log("TEXXXXXXXXX", tex);
-      //      return res.jsonp(tex);
-        //}).catch(function(err){
-          //  return res.send({
-            //    errors: err,
-              //  status: 500
-    //        });
-      //  });
-    
-    //if(req.user.admin===true){
-      //  db.Technology.findAll({where: {
-        //                        UserId: req.user.id, 
-          //                      isActive: true,
-            //                    $or [
-              //                          {isActive: true,
-                //                          UserId:   
-
-                  //                  }]}})
-    //}
-
-    //UserId: {$in: req.query.internid}
-    console.log("REQqqqqqqqqqqqqqqq.query", req.query);
     var internid = [];
-    console.log(typeof req.query.internid);
+    //console.log(typeof req.query.internid);
     if(typeof req.query.internid==="string"){
-        console.log("number!!!!");
+      //  console.log("number!!!!");
 
         internid.push(req.query.internid);
     } else {
         internid = req.query.internid;
     }
-    console.log(internid);
+
+    //console.log(internid);
     db.Technology.findAll({
             where: {
                 $or: [
@@ -171,7 +147,27 @@ exports.searchformine = function(req,res){
             include: [{model: db.User}, {model: db.Tag}], 
             order: 'Tech_RUNumber'})
         .then(function(tex){
-            console.log("TEXXXXXXXXX", tex);
+        //    console.log("TEXXXXXXXXX", tex);
+            return res.jsonp(tex);
+        }).catch(function(err){
+            return res.send({
+                errors: err,
+                status: 500
+            });
+        });
+};
+
+exports.searchforjustmine = function(req,res){
+     //console.log(internid);
+    db.Technology.findAll({
+            where: {
+                    UserId: req.user.id, 
+                    isActive: true,                    
+            }, 
+            include: [{model: db.User}, {model: db.Tag}], 
+            order: 'Tech_RUNumber'})
+        .then(function(tex){
+          //  console.log("TEXXXXXXXXX", tex);
             return res.jsonp(tex);
         }).catch(function(err){
             return res.send({

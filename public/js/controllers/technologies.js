@@ -428,11 +428,11 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
                 url: '/getinterninfo',
                 params: {id: $scope.global.user.id}
             }).then(function(interninfo){
-                console.log("interninfo: ", interninfo.data);
+    //            console.log("interninfo: ", interninfo.data);
                 for(var x=0; x<interninfo.data.length; x++){
                     $scope.internid.push(interninfo.data[x].id);
                 }
-                console.log("internid", $scope.internid);
+      //          console.log("internid", $scope.internid);
             }).then(function(){
                  $http({
                     method: "GET",
@@ -441,7 +441,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
                              id: $scope.global.user.id}
                 }).then(function(tex){
                     $scope.technologies = tex.data;
-                    console.log("whatcameback:", $scope.technologies);
+        //            console.log("whatcameback:", $scope.technologies);
                     $scope.gettagsandmarketers();
                 });
                 $scope.title = "My Active ";
@@ -449,7 +449,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         } else {
              $http({
                     method: "GET",
-                    url: '/mymarketing',
+                    url: '/mymarketingfornonadmins',
                     params: {id: $scope.global.user.id}
                 }).then(function(tex){
                     $scope.technologies = tex.data;
@@ -586,13 +586,34 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
         $scope.users=[];
         $scope.companies=[];
         $scope.arrayofarrayofcontacts=[];
+
+        if($scope.global.user.admin===true){
+            console.log("TRUtueE");
+            $scope.internid=[];
+            $http({
+                method: "GET", 
+                url: '/getinterninfo',
+                params: {id: $scope.global.user.id}
+            }).then(function(){
         $http({
             method: 'GET',
-            url: '/geteventsneedingfollowup'
+            url: '/geteventsneedingfollowup',
+            params: {internid: $scope.internid}
         }).then(function(response){
             //console.log("response.data", response.data);
             $scope.makeEventDataUseable2(response);
-        });
+            });
+            });
+        } else {
+             $http({
+                method: 'GET',
+                url: '/geteventsneedingfollowupfornonadmin',
+                params: {internid: $scope.internid}
+            }).then(function(response){
+                console.log("response.data", response.data);
+                $scope.makeEventDataUseable2(response);            
+            });
+        }
     };
 
     $scope.showdetails = function(){

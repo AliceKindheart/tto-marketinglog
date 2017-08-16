@@ -22,6 +22,9 @@ app.route('/technologies/:technologyid')
 app.route('/mymarketing')
 	.get(technologies.searchformine);
 
+app.route('/mymarketingfornonadmins')
+	.get(technologies.searchforjustmine);
+
 app.route('/allcampaigns')
 	.get(technologies.all);
 
