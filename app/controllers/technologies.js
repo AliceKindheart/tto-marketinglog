@@ -151,11 +151,21 @@ exports.searchformine = function(req,res){
 
     //UserId: {$in: req.query.internid}
     console.log("REQqqqqqqqqqqqqqqq.query", req.query);
+    var internid = [];
+    console.log(typeof req.query.internid);
+    if(typeof req.query.internid==="string"){
+        console.log("number!!!!");
+
+        internid.push(req.query.internid);
+    } else {
+        internid = req.query.internid;
+    }
+    console.log(internid);
     db.Technology.findAll({
             where: {
                 $or: [
                     {UserId: req.user.id, isActive: true},
-                    {isActive:true, UserId: {$in: req.query.internid}}
+                    {isActive:true, UserId: {$in: internid}}
                 ]
             }, 
             include: [{model: db.User}, {model: db.Tag}], 
