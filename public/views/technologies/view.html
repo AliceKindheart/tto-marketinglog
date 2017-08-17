@@ -1,8 +1,8 @@
 <section data-ng-init="findOne()">
     <h2>{{technology.Tech_name}} Marketing Campaign</h2>
     <div>
-        <a class="btn btn-primary" ui-sref="editTech({id : technology.id})">Edit</a>
-        <a class="btn btn-danger" data-ng-click="remove();">Delete</a>
+        <a class="btn btn-primary" ng-show="global.user.admin===true || technology.UserId===global.user.id" ui-sref="editTech({id : technology.id})">Edit</a>
+        <a class="btn btn-danger"  ng-show="global.user.admin===true || technology.UserId===global.user.id" data-ng-click="remove();">Delete</a>
     </div>
     <div class="panel panel-primary">
       <div class="panel-heading">
@@ -48,8 +48,8 @@
       </div>
 
 
-    <a class="btn btn-primary" ui-sref="addEvent({id : technology.id})">Add Event</a>
-    <a class="btn btn-primary" ui-sref="addManyEvents({id : technology.id})">Add Multiple Events</a>
+    <a class="btn btn-primary" ng-show="global.user.admin===true || technology.UserId===global.user.id" ui-sref="addEvent({id : technology.id})">Add Event</a>
+    <a class="btn btn-primary" ng-show="global.user.admin===true || technology.UserId===global.user.id" ui-sref="addManyEvents({id : technology.id})">Add Multiple Events</a>
    
     <div class="panel panel-primary">
           <div class="panel-heading">

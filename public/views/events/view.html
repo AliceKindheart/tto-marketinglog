@@ -16,27 +16,35 @@
       
         <table class="table table-bordered">
               <tr>
-                <th id="colorrow">Event Date</th>
-                <th id="colorrow">Follow Up Due Date</th>
                 <th id="colorrow">RU Number</th>
                 <th id="colorrow">Technology Title</th>
                 <th id="colorrow">Marketer</th>
                 <th id="colorrow">Company</th>
                 <th id="colorrow">Contact(s)</th>
-                <th id="colorrow">Method</th>
-                <th id="colorrow">Outcome</th>
-                <th id="colorrow">Notes</th>
             </tr>
             <tr>
-              <td>{{event.Event_date | date:'MM/dd/yyyy': '+0200'}}</td> 
-              <td ng-class="{'alert' : (event.Event_followupdate | date:'MM/dd/yyyy': '-0200')<=(getNow() | date:'MM/dd/yyyy')}" ng-if="event.Event_flag">{{event.Event_followupdate | date:'MM/dd/yyyy': '-0200'}}</td>
               <td ng-show="event.Event_flag===false">None</td>
               <td>{{event.Technology.Tech_RUNumber}}</td>
               <td>{{event.Technology.Tech_name}}</td>
               <td>{{event.User.name}}</td>
               <td>{{event.Company.Company_name}}</td>
               <td>{{event.names}}</td>                            
-              <td>{{event.Event_method}}</td>
+          </tr>
+        </table>
+
+        <table class="table table-bordered">
+       
+          <tr>
+             <th id="colorrow">Event Date</th>
+            <th id="colorrow">Follow Up Due Date</th>
+             <th id="colorrow">Method</th>
+                <th id="colorrow">Outcome</th>
+                <th id="colorrow">Notes</th>
+          </tr>
+          <tr>
+             <td>{{event.Event_date | date:'MM/dd/yyyy': '+0200'}}</td> 
+              <td ng-class="{'alert-danger' : (event.Event_followupdate | date:'MM/dd/yyyy': '-0200')<=(getNow() | date:'MM/dd/yyyy')}" ng-if="event.Event_flag">{{event.Event_followupdate | date:'MM/dd/yyyy': '-0200'}}</td>
+               <td>{{event.Event_method}}</td>
               <td>{{event.Event_outcome}}</td>
               <td>{{event.Event_notes}}</td>
           </tr>

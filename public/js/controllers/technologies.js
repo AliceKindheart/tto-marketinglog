@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mean.technologies').controller('TechController', ['$scope', '$stateParams', 'Global', 'Technologies', '$state', '$http', '$window', function ($scope, $stateParams, Global, Technologies, $state, $http, $window) {
+angular.module('mean.technologies').controller('TechController', ['$scope', '$stateParams', 'Global', 'Technologies', '$state', '$http', '$window', '$filter', function ($scope, $stateParams, Global, Technologies, $state, $http, $window, $filter) {
     $scope.global = Global;
 
     $scope.create = function() {
