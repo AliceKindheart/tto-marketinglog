@@ -1,6 +1,6 @@
 {
     "name": "marketing_log",
-    "description": "Marketing Log for the Zen Sisters",
+    "description": "Marketing Log for Tech Transfer",
     "repository": "https://github.com/AliceKindheart/marketing_log.git",
     "keywords": ["node", "express", "static"],
     "env": {
