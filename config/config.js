@@ -29,7 +29,7 @@ var computedConfig = {
 nconf.argv()
     .env(['PORT','NODE_ENV','FORCE_DB_SYNC','forceSequelizeSync'])// Load select environment variables
     .defaults({store:{
-            NODE_ENV:'development'
+            NODE_ENV:'production'
     }});
 var envConfigPath = rootPath + '/config/env/'+nconf.get('NODE_ENV')+'.json5';
 try{
