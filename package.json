@@ -10,8 +10,8 @@
     "url": "https://github.com/AliceKindheart/marketing_log"
   },
   "engines": {
-    "node": "4.2.x",
-    "npm": "2.14.x"
+    "node": "6.9.x",
+    "npm": "3.10.x"
   },
   "scripts": {
     "start": "node node_modules/grunt-cli/bin/grunt",
