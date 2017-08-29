@@ -225,9 +225,10 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
     };
 
     $scope.createMultEvent = function() {
+        //go through each selected company
         for (var x=0; x<$scope.selectedcompanies.length; x++){
             $scope.compny = $scope.selectedcompanies[x];
-
+            //find all the contacts associated with that company
             for (var y=0; y<$scope.selectedcontacts.length; y++){
                 
                 if($scope.selectedcontacts[y].CompanyId===$scope.compny.id){
@@ -235,7 +236,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
                 }
             }
       //      console.log("cntctstosave", $scope.cntcts);
-
+            //create an event for that company
             var event = new Events({
                 Event_date: this.Event_date,
                 Event_notes: this.notes,
@@ -435,23 +436,23 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
     };
 
     $scope.removeEvent = function(event) {
-        console.log("removeevent was called");
-        console.log($scope.event);
+       // console.log("removeevent was called");
+       // console.log($scope.event);
 
         if ($window.confirm("Are you sure you want to delete this event?")){
             if (event) {
-                console.log("THERE WAS AN EVENT");
+               // console.log("THERE WAS AN EVENT");
                 event.$remove();  
 
                 for (var i in $scope.events) {
                     if ($scope.events[i] === event) {
-                        console.log("that thing happened");
+                       // console.log("that thing happened");
                         $scope.events.splice(i, 1);
                     }
                 }
             }
             else {
-                console.log("hello event else");
+              //  console.log("hello event else");
                 $scope.event.$remove();
                 $state.go('techs');
             }
@@ -459,6 +460,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
     };
 
     $scope.selectmethod = function (method){
+        //selecting method when creating new event
         $scope.Event_method = method;
         if(method==="Email"){
             $scope.email=true;
@@ -468,6 +470,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
     }; 
 
     $scope.selectmethod2 = function (method){
+        //selecting method when modifying already existing event
         $scope.event.Event_method = method;
         if(method==="Email"){
             $scope.email=true;
@@ -482,7 +485,10 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         $scope.Event_outcome = outcome;
     };
 
-    $scope.sendemail = function(){
+    $scope.email;
+    $scope.nameofperson;
+
+    $scope.createandsendmanyemails = function(){
         //console.log("hello");
         
         //console.log($scope.selectedcontacts, "$scope.selectedcontacts");
@@ -491,25 +497,46 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         for(var x=0; x<$scope.selectedcontacts.length; x++){
             //console.log("$scope.selectedcontacts[x].Contact_email", $scope.selectedcontacts[x].Contact_email);
             $scope.emails.push($scope.selectedcontacts[x].Contact_email);
-            $scope.addressees.push($scope.selectedcontacts[x].Contact_name);
+            //$scope.addressees.push($scope.selectedcontacts[x].Contact_name);
             //console.log("$scope.addressees", $scope.addressees);
 
         }
-        $scope.emails = $scope.emails.join("; ");
+       // $scope.emails = $scope.emails.join("; ");
         console.log("$scope.emails", $scope.emails);
-        $scope.addressees=$scope.addressees.join(", ");
-        console.log("$scope.addressees", $scope.adressees);
-        window.open('mailto:' + $scope.emails + '?subject=' + $scope.technology.Tech_name + '&body=Dear ' + $scope.addressees + ", \n Any interest in " + $scope.technology.Tech_name + "? It's really good and I think you might like it.");       
+       // $scope.addressees=$scope.addressees.join(", ");
+       // console.log("$scope.addressees", $scope.addressees);
+        
+      // for(var y=0; y<$scope.emails.length; y++){
+          //  console.log("thisran");
+          //  $scope.email=$scope.emails[y];
+           // $scope.nameofperson=$scope.addressees[y];
+            //$scope.sendemail();       
+        
+
+        window.open('mailto:' + $scope.email
+                + '?subject=' + $scope.technology.Tech_name 
+                + '&body=Dear ' + $scope.nameofperson 
+                + ", \n Any interest in " + $scope.technology.Tech_name + "? It's really good and I think you might like it.")
     };
+
+    $scope.sendemail = function(){
+        window.open('mailto:' + $scope.global.user.email 
+                +'?bcc='+$scope.email
+                + '?subject=' + $scope.technology.Tech_name 
+                + '&body=Dear ' + $scope.nameofperson 
+                + ", \n Any interest in " + $scope.technology.Tech_name + "? It's really good and I think you might like it.");            
+    };  
+
 
     $scope.sendemailandsubmit=function(){
         $scope.createEvent();
-        $scope.sendemail();
+        $scope.createandsendemail();
     };
 
     $scope.sendemailandsubmit2=function(){
+        //for creating multiple events
         $scope.createMultEvent();
-        $scope.sendemail();
+        $scope.createandsendemail();
     };
 
     $scope.setfollowedup = function(answer){
@@ -573,7 +600,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         //$scope.selectedcontacts=[];
          var idx = $scope.selectedcontacts.indexOf(contact);
         // var idx2 = $scope.selectedcontactnames.indexOf(contact);
-         console.log("idx", idx);
+  //       console.log("idx", idx);
          //if (idx > -1) {
            //selected.splice(idx, 1);
          //}
@@ -587,7 +614,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
              $scope.selectedcontacts.push(contact);
          }
  
-         console.log("$scope.selectedcontacts", $scope.selectedcontacts);
+ //        console.log("$scope.selectedcontacts", $scope.selectedcontacts);
      };
 
     $scope.toggleCompanies = function (company,selected) {
@@ -598,7 +625,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         
         var idx = selected.indexOf(company);
         var idx2 = $scope.selectedcompanies.indexOf(company);
-        console.log("idx", idx);
+     //   console.log("idx", idx);
         if (idx > -1) {
           selected.splice(idx, 1);
           $scope.selectedcompanies.splice(idx2,1);
@@ -607,8 +634,8 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
           selected.push(company);
           $scope.selectedcompanies.push(company);
         }
-        console.log("selected", selected);
-        console.log("$scope.selectedcompanies", $scope.selectedcompanies);
+      //  console.log("selected", selected);
+        //console.log("$scope.selectedcompanies", $scope.selectedcompanies);
 
         //get contact objects into a separate array
         for (var x=0; x<$scope.selectedcompanies.length; x++){
@@ -617,7 +644,7 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
                 $scope.selectedcompanynames.push(selected[x].Company_name);
             }
         }
-        console.log("$scope.contacts", $scope.contacts);
+    //    console.log("$scope.contacts", $scope.contacts);
         //console.log("$scope.selectedcompanynames", $scope.selectedcompanynames);
 
         if($scope.contacts!=="undefined"){
@@ -705,28 +732,45 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         }
     };
 
-
-        
-        
-
-
-  
-
-
-
-   
+}])
+.directive('datepicker', function(){
+    return {
+        restrict: 'A',
+        require : 'ngModel',
+        link : function (scope, element, attrs, ngModelCtrl) {
+            var updateModel = function(dateText){
+                scope.$apply(function () {
+                  ngModelCtrl.$setViewValue(dateText);
+                });
+              };
+              var options = {
+                dateFormat: "dd/mm/yy",
+                showWeek: false,
+                onSelect: function (dateText) {
+                  updateModel(dateText);
+                }
+              };
+              element.datepicker(options);
+        }
+      }
+            //    element.datepicker({
+              //      dateFormat:'dd/mm/yy',
+                //    showWeek: false,
+                  //  showButtonPanel: true,
+                  //  showOn: "button",
+                  //  buttonImage: "/images/calendar.gif",
+                  //  buttonImageOnly: true,
+                  //  buttonText: "Select date",
+                  //  onSelect:function (date) {
+                    //    scope.$apply(function () {
+                      //      ngModelCtrl.$setViewValue(date);
+                    //    });
+        //            }
+          //      });
+            //});
+    //    }
+    //}
+});
 
     
-    
 
-    
-
-
-    
-
-    
-
-
-    
-
-}]);
