@@ -1,3 +1,9 @@
+#wrapper{
+  font: 20px Calibri;
+  width: 100px;
+  margin: 0 auto;
+}
+
 .alert {
   text-decoration-color: #DC143C;
 }

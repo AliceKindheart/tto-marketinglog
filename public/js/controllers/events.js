@@ -1,5 +1,45 @@
 'use strict';
 
+var app = angular.module('myApp', []);
+app.directive('datepicker', function(){
+    return {
+        restrict: 'A',
+        require : 'ngModel',
+        link : function (scope, elem, attrs, ngModelCtrl) {
+         //   var updateModel = function(dateText){
+           //     scope.$apply(function () {
+             //     ngModelCtrl.$setViewValue(dateText);
+               // });
+            //  };
+              //var options = {
+                //dateFormat: "dd/mm/yy",
+        //        showWeek: false,
+          //      onSelect: function (dateText) {
+            //      updateModel(dateText);
+              //  }
+     //         };
+       //       element.datepicker(options);
+    //    }
+      //}
+                elem.datepicker({
+                    dateFormat:'dd/mm/yy',
+                    showWeek: false,
+                    showButtonPanel: true,
+                    showOn: "button",
+                    buttonImage: "/images/calendar.gif",
+                    buttonImageOnly: true,
+                    buttonText: "Select date",
+                    onSelect:function (date) {
+                        scope.$apply(function () {
+                            ngModelCtrl.$setViewValue(date);
+                        });
+                    }
+                });
+            }
+        };
+        
+});
+
 angular.module('mean.events').controller('EventController', ['$window', '$filter', '$scope', '$http', '$stateParams', 'Global', 'Technologies', 'Events', '$state', function ($window, $filter, $scope, $http, $stateParams, Global, Technologies, Events, $state) {
     $scope.global = Global;
 
@@ -732,45 +772,9 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
         }
     };
 
-}])
-.directive('datepicker', function(){
-    return {
-        restrict: 'A',
-        require : 'ngModel',
-        link : function (scope, element, attrs, ngModelCtrl) {
-         //   var updateModel = function(dateText){
-           //     scope.$apply(function () {
-             //     ngModelCtrl.$setViewValue(dateText);
-               // });
-            //  };
-              //var options = {
-                //dateFormat: "dd/mm/yy",
-        //        showWeek: false,
-          //      onSelect: function (dateText) {
-            //      updateModel(dateText);
-              //  }
-     //         };
-       //       element.datepicker(options);
-    //    }
-      //}
-                element.datepicker({
-                    dateFormat:'dd/mm/yy',
-                    showWeek: false,
-                    showButtonPanel: true,
-                    showOn: "button",
-                    buttonImage: "/images/calendar.gif",
-                    buttonImageOnly: true,
-                    buttonText: "Select date",
-                    onSelect:function (date) {
-                        scope.$apply(function () {
-                            ngModelCtrl.$setViewValue(date);
-                        });
-                    }
-                });
-            }
-        };
-        
-    });
+}]);
+
+
 
 
     
