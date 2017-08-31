@@ -232,6 +232,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             var contactnames =[];
 
             //parse out contact names from each contact object
+            console.log("arrayofarrayofcontacts", $scope.arrayofarrayofcontacts);
             $scope.arrayofarrayofcontacts.forEach(function(array){
                 array.forEach(function(contact){
                     contactnames.push(contact.Contact_name);
