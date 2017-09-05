@@ -1,6 +1,5 @@
 <section>
-	<h2 data-ng-init="gettech()">Create New Event for the {{technology.Tech_name}} Campaign</h2>
-	<input type="text" datepicker ng-model="Event_date" required />
+	<h2 data-ng-init="gettech()" ng-app="myApp">Create New Event for the {{technology.Tech_name}} Campaign</h2>
 	<form class="form-horizontal" data-ng-submit="createEvent()" data-ng-init="findCompanies()">
 		
 
@@ -16,6 +15,7 @@
 			<tr>
 				
 				<td>
+					<input type="date" data-ng-model="Event_date" id="Event_date" placeholder="Event Date" required/>
 				</td>
 				<td>
 					<table rowspan="3">
