@@ -28,7 +28,7 @@ migrations/
 
 # Configuration Files
 
-/config/env/production.json5
+
 /config/env/test.json5
 /config/env/development.json5
 

@@ -736,5 +736,6 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
 
 
 
+
     
 
