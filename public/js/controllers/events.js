@@ -1,45 +1,5 @@
 'use strict';
 
-var app = angular.module('myApp', []);
-app.directive('datepicker', function(){
-    return {
-        restrict: 'A',
-        require : 'ngModel',
-        link : function (scope, elem, attrs, ngModelCtrl) {
-         //   var updateModel = function(dateText){
-           //     scope.$apply(function () {
-             //     ngModelCtrl.$setViewValue(dateText);
-               // });
-            //  };
-              //var options = {
-                //dateFormat: "dd/mm/yy",
-        //        showWeek: false,
-          //      onSelect: function (dateText) {
-            //      updateModel(dateText);
-              //  }
-     //         };
-       //       element.datepicker(options);
-    //    }
-      //}
-                elem.datepicker({
-                    dateFormat:'dd/mm/yy',
-                    showWeek: false,
-                    showButtonPanel: true,
-                    showOn: "button",
-                    buttonImage: "/images/calendar.gif",
-                    buttonImageOnly: true,
-                    buttonText: "Select date",
-                    onSelect:function (date) {
-                        scope.$apply(function () {
-                            ngModelCtrl.$setViewValue(date);
-                        });
-                    }
-                });
-            }
-        };
-        
-});
-
 angular.module('mean.events').controller('EventController', ['$window', '$filter', '$scope', '$http', '$stateParams', 'Global', 'Technologies', 'Events', '$state', function ($window, $filter, $scope, $http, $stateParams, Global, Technologies, Events, $state) {
     $scope.global = Global;
 
@@ -553,30 +513,30 @@ angular.module('mean.events').controller('EventController', ['$window', '$filter
             //$scope.sendemail();       
         
 
-        window.open('mailto:' + $scope.email
+        window.open('mailto:' + $scope.global.user.email
                 + '?subject=' + $scope.technology.Tech_name 
-                + '&body=Dear ' + $scope.nameofperson 
-                + ", \n Any interest in " + $scope.technology.Tech_name + "? It's really good and I think you might like it.")
+                +'&bcc='+$scope.emails
+                + '&body=Hello,%0D%0A%0D%0AAny interest in ' + $scope.technology.Tech_name + "? It's really good and I think you might like it.%0D%0A%0D%0ABest regards,%0D%0A" + $scope.global.user.name)
     };
 
     $scope.sendemail = function(){
-        window.open('mailto:' + $scope.global.user.email 
-                +'?bcc='+$scope.email
-                + '?subject=' + $scope.technology.Tech_name 
-                + '&body=Dear ' + $scope.nameofperson 
-                + ", \n Any interest in " + $scope.technology.Tech_name + "? It's really good and I think you might like it.");            
+        window.open('mailto:' + $scope.email 
+                
+                +'?subject=' + $scope.technology.Tech_name 
+                +'&body=Dear ' + $scope.nameofperson 
+                + ",%0D%0A%0D%0AAny interest in " + $scope.technology.Tech_name + "? It's really good and I think you might like it.%0D%0A%0D%0ABest regards,%0D%0A" + $scope.global.user.name);            
     };  
 
 
     $scope.sendemailandsubmit=function(){
         $scope.createEvent();
-        $scope.createandsendemail();
+        $scope.sendemail();
     };
 
     $scope.sendemailandsubmit2=function(){
         //for creating multiple events
         $scope.createMultEvent();
-        $scope.createandsendemail();
+        $scope.createandsendmanyemails();
     };
 
     $scope.setfollowedup = function(answer){
