@@ -75,7 +75,9 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
             company = contact.Company;
             $scope.contact = contact;
             $scope.company = company;
-            $scope.nameofcompany=company.Company_name;
+            if(company){
+                $scope.nameofcompany=company.Company_name;
+            }
             
             $scope.events = contact.Events;
             console.log("$scope.events", $scope.events);
@@ -90,6 +92,7 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
             } else {
                 tagarray.push({Tag_name:"None"});
             }
+            console.log("did this thing even happen?");
             
             tagarray.forEach(function(tag){
                 tags.push(tag.Tag_name);
@@ -97,10 +100,14 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
 
             $scope.whatyouneed = tags;
             whatyouneed = $scope.whatyouneed;
+            console.log("tags", tags);
         
-            $scope.tags = tags.join(", ");
+            $scope.tagnamest = tags.join(", ");
+            console.log("$scope.tagnames1", $scope.tagnames);
             $scope.findtags();
-            $scope.selected = $scope.tags;
+            console.log("$scope.tagnames", $scope.tagnames);
+            $scope.selected = $scope.tagnamest;
+            console.log("selected, ", $scope.selected);
         });
         
 
@@ -219,6 +226,7 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
       };
 
     $scope.findtags =  function(){
+        console.log("Find tags was called!");
         $scope.tagnames = [];
         $http.get('/tags')
         .then(function(response){

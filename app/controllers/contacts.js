@@ -108,13 +108,43 @@ exports.update = function(req, res) {
     var oldcompany = req.body.Company;
     console.log("oldcompany", oldcompany);
 
-    db.Company.findOne({where:{id: oldcompany.id}, include: {model: db.Contact}})
-        .then(function(oc){
-            oc.removeContact(contact);
-            return db.Company.findOne({where:{Company_name: req.body.compname}, include: {model: db.Contact}});
+    
+    if(oldcompany){
+        db.Company.findOne({where:{id: oldcompany.id}, include: {model: db.Contact}})
+            .then(function(oc){
+                oc.removeContact(contact);
+                return db.Company.findOne({where:{Company_name: req.body.compname}, include: {model: db.Contact}});
+            }).then(function(company){
+                newcompany=company;
+                compid = company.id;
+                return contact.updateAttributes({
+                    Contact_name: req.body.Contact_firstname + " " + req.body.Contact_lastname,
+                    Contact_firstname: req.body.Contact_firstname,
+                    Contact_lastname: req.body.Contact_lastname,
+                    Contact_title: req.body.Contact_title,
+                    Contact_email: req.body.Contact_email,
+                    Contact_phone: req.body.Contact_phone,
+                    Contact_notes: req.body.Contact_notes
+                });
+            }).then(function(contact){
+                contact.setCompany(newcompany);
+                newcompany.addContact(contact);
+                db.Tag.findAll({where: {Tag_name: {$in:newtags}}})
+                    .then(function(rowoftags){
+                        contact.setTags(rowoftags);
+                        return res.jsonp(contact);
+                    }).catch(function(err){
+                        return res.render('error', {
+                            error: err, 
+                            status: 500
+                        });
+                    });
+        });
+    } else {
+        return db.Company.findOne({where:{Company_name: req.body.compname}, include: {model: db.Contact}
         }).then(function(company){
             newcompany=company;
-            compid = company.id;
+            compid=company.id;
             return contact.updateAttributes({
                 Contact_name: req.body.Contact_firstname + " " + req.body.Contact_lastname,
                 Contact_firstname: req.body.Contact_firstname,
@@ -125,19 +155,21 @@ exports.update = function(req, res) {
                 Contact_notes: req.body.Contact_notes
             });
         }).then(function(contact){
-            contact.setCompany(newcompany);
-            newcompany.addContact(contact);
-            db.Tag.findAll({where: {Tag_name: {$in:newtags}}})
-                .then(function(rowoftags){
-                    contact.setTags(rowoftags);
-                    return res.jsonp(contact);
-                }).catch(function(err){
-                    return res.render('error', {
-                        error: err, 
-                        status: 500
-                    });
-                });
-        });
+                contact.setCompany(newcompany);
+                newcompany.addContact(contact);
+                db.Tag.findAll({where: {Tag_name: {$in:newtags}}})
+                        .then(function(rowoftags){
+                            contact.setTags(rowoftags);
+                            return res.jsonp(contact);
+                        }).catch(function(err){
+                            return res.render('error', {
+                                error: err, 
+                                status: 500
+                            });
+                        });
+
+            });
+    }
 };
 
 /**
