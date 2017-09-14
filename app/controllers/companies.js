@@ -28,8 +28,10 @@ exports.company = function(req, res, next, id) {
 /**
  * List of Companies
  */
-exports.all = function(req, res) {    
+exports.all = function(req, res) {  
+console.log("CALLLLLLLLLLLLLLLLLLLLLLLLLL");  
     db.Company.findAll({include: [{model: db.Tag}], order: 'Company_name'}).then(function(companies){
+        console.log("COMPSPSPSPS", companies);
         return res.jsonp(companies);
     }).catch(function(err){
         return res.render('error', {
@@ -157,6 +159,8 @@ exports.update = function(req, res) {
                 return company.updateAttributes({
                     Company_name: req.body.Company_name,
                     Notes: req.body.Notes,
+                    Company_email: req.body.Company_email,
+                    Company_phone: req.body.Company_phone
                 });
             }).then(function(company){
                 return res.jsonp(company);

@@ -8,17 +8,24 @@
     </div>  
     <table class="table table-bordered">
       <tr>
-        <th id="colorrow">Company Name</th>
+        <th id="colorrow">Email</th>
+        <th id="colorrow">Phone</th>
+      </tr>
+      <tr>
+        <td data-ng-model="Company_email" id="Company_email" placeholder="Company Email">{{company.Company_email}}
+        </td>
+        <td data-ng-model="Company_phone" id="Company_phone" placeholder="Company Phone">{{company.Company_phone}}
+        </td>
+      </tr>
+      <tr>
         <th id="colorrow">Notes</th>
         <th id="colorrow"> Tags</th>
       </tr>
       <tr>
-        <td data-ng-model="Company_name" id="Company_name" placeholder="Company Name">{{company.Company_name}}
-        </td>
         <td data-ng-model="Notes" id="Notes" placeholder="Notes">{{company.Notes}}</td>
         <td id="tags" placeholder="tags">{{tags}}</td>
       </tr>
-    </table> 
+    </table>
 
     <div class="panel panel-primary">
       <div class="panel-heading">

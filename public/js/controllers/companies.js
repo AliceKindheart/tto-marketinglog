@@ -10,7 +10,9 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
         var company = new Companies({
             Company_name: this.Company_name,
             Notes: this.Notes,
-            Tag_name: this.selected
+            Tag_name: this.selected,
+            Company_email: this.Company_email,
+            Company_phone: this.Company_phone
         });
         company.$save(function(response) {
             $state.go('viewCompany',{id : response.id});
@@ -19,6 +21,8 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
         this.Company_name = "";
         this.notes = "";
         this.Tag_name = "";
+        this.Company_email="",
+        this.Company_phone=""
     };
 
     
@@ -65,7 +69,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
         cmpnyid = $stateParams.id;
         Companies.get({id: $stateParams.id}, function(company) {
             $scope.company=company;
-            //console.log("$scope.company", $scope.company);
+            console.log("$scope.company", $scope.company);
             contactarray = company.Contacts;
             $scope.completecontacts = company.Contacts;
             $scope.events=company.Events;

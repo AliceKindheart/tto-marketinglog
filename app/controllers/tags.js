@@ -6,7 +6,7 @@ var db = require('../../config/sequelize');
 
 exports.listtags = function(req, res) {
     console.log("LISTTAGS RAN");
-    db.Tag.findAll()
+    db.Tag.findAll({order: "Tag_name"})
     	.then(function(tags){
         	return res.jsonp(tags);
     	}).catch(function(err){

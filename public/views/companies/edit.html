@@ -3,12 +3,20 @@
 	<form class="form-horizontal" data-ng-submit="update()">
 		<table class="table table-bordered">
       <tr>
-        <th id="colorrow">Company Name</th>
-        <th id="colorrow">Notes</th>
+        <th id="colorrow">Company Name</th>  
+        <th id="colorrow">Company Phone</th>   
       </tr>
       <tr>
-        <td><input type="text" data-ng-model="company.Company_name" id="Company_name" placeholder="Company Name" required/></td>
+        <td><input type="text" data-ng-model="company.Company_name" id="Company_name" placeholder="Company Name" required/></td>      
+        <td><input type="text" data-ng-model="company.Company_phone" id="Company_phone" placeholder="Company Phone"/></td>   
+      </tr>
+        <th id="colorrow">Company Email</th>
+        <th id="colorrow">Notes</th>
+      <tr>
+      </tr>
+        <td><input type="text" data-ng-model="company.Company_email" id="Company_email" placeholder="Company Email"/></td>
         <td><input type="text" data-ng-model="company.Notes" id="Notes" placeholder="Notes"/></td>
+      <tr>
       </tr>
     </table> 
 

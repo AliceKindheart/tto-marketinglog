@@ -218,7 +218,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
                 $scope.Eventtechs.push($scope.events[i].Technology);
                 $scope.users.push($scope.events[i].User);
                 $scope.companies.push($scope.events[i].Company);
-        //        console.log("$scope.events[i]", $scope.events[i]);
+                //console.log("$scope.events[i]", $scope.events[i]);
 
                 //parse out contact info for each event
                 if($scope.events[i].Contacts){
@@ -601,7 +601,7 @@ angular.module('mean.technologies').controller('TechController', ['$scope', '$st
             url: '/geteventsneedingfollowup',
             params: {internid: $scope.internid}
         }).then(function(response){
-            //console.log("response.data", response.data);
+            console.log("response.data", response.data);
             $scope.makeEventDataUseable2(response);
             });
             });
