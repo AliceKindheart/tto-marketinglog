@@ -73,8 +73,9 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             contactarray = company.Contacts;
             $scope.completecontacts = company.Contacts;
             $scope.events=company.Events;
+            //console.log("contactarray", contactarray);
 
-            console.log("contactarray", contactarray);
+            //getting contact information into a useaable form
             if(contactarray!==0){
                 for (var i=0; i<contactarray.length; i++){
                     contacts.push(contactarray[i].Contact_name);
@@ -86,6 +87,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             $scope.contactschunked = $scope.chunk($scope.contacts, 3);
             //console.log("$scope.contactschunked", $scope.contactschunked);
 
+            //getting tag information into a useable form
             if(company.Tags.length!==0){
                 tagarray = company.Tags;
             } else {
@@ -95,7 +97,9 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             tagarray.forEach(function(tag){
                 tags.push(tag.Tag_name);
             });
+            console.log("TAgs", tags);
 
+            //setting up to be able to edit company tags
             $scope.whatyouneed = tags;
             whatyouneed = $scope.whatyouneed;
         
