@@ -124,7 +124,7 @@ exports.event = function(req, res, next, id) {
 
 exports.findcompanies = function(req,res){
     console.log("FINDDDCOMPPPSSS");
-    db.Company.findAll({include: {model: db.Contact}})
+    db.Company.findAll({include: [{model: db.Contact}], order: 'Company_name'})
         .then(function(comps){
             //console.log("COMMPS", comps);
             return res.jsonp(comps);
