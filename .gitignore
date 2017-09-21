@@ -43,3 +43,7 @@ migrations/
 *~
 *.swp
 *.swo
+.env
+alltheinfo.sql
+pretend_db
+pretend_db.sql
