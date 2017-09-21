@@ -8,10 +8,10 @@
         //host:"825f1885@us-cdbr-iron-east-04.cleardb.net",
         //port:3306
 
-        //for tto-marketing log (real data)
-        name: "heroku_7ae9e7a8087567",
-        password: "5c42374c",
-        username: "b7f2827ebedd5b",
+       //for tto-marketing log (real data)
+        name: "heroku_219d069c26fc5c5",
+        password: "478bacab",
+        username: "b68f52ff8514c1",
         host: "us-cdbr-iron-east-05.cleardb.net",
         port:3306
     },
