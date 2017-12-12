@@ -1,7 +1,7 @@
 <section data-ng-init="findOne()">
-	<h2>Edit Company Information</h2>
-	<form class="form-horizontal" data-ng-submit="update()">
-		<table class="table table-bordered">
+  <h2>Edit Company Information</h2>
+  <form class="form-horizontal" data-ng-submit="update()">
+    <table class="table table-bordered">
       <tr>
         <th id="colorrow">Company Name</th>  
         <th id="colorrow">Company Phone</th>   
@@ -20,7 +20,7 @@
       </tr>
     </table> 
 
-		<div >
+    <div >
         <fieldset class="standard">
           <h4 id="colorrow">Tags</h4>
           <table class="table" colspan="5" >
@@ -30,11 +30,40 @@
           </table>
     </div>
 
+    <table class="table table-bordered" ng-show="addingContact">
+        <h2 ng-show="addingContact">Add Company Contact</h2>
+      <tr>
+        <th id="colorrow">First Name</th>
+        <th id="colorrow">Last Name</th>
+        <th id="colorrow">Title/Position</th>
+        
+      </tr>
+      <tr>
+        <td><input type="text" data-ng-model="Contact_firstname" id="Contact_name" placeholder="First Name"/>
+        <td><input type="text" data-ng-model="Contact_lastname" id="Contact_name" placeholder="Last Name"/>
+        </td><td><input type="text" data-ng-model="Contact_title" id="title" placeholder="Title"/></td>       
+      </tr>
+    </table>
 
-		<div class="control-group">
-			<div class="controls">
-				<input type="submit" class="btn btn-primary">
-			</div>
-		</div>
-	</form>
+    <table class="table table-bordered" ng-show="addingContact">
+      <tr>
+        <th id="colorrow">Email</th>
+        <th id="colorrow">Phone</th>
+        <th id="colorrow">Notes</th>
+      </tr>
+      <tr>
+        <td><input type="text" data-ng-model="Contact_email" id="Email" placeholder="Email"/></td>
+        <td><input type="text" data-ng-model="Contact_phone" id="Phone" placeholder="Phone number"/></td>
+        <td><textarea data-ng-model="Contact_notes" id="Notes" placeholder="Notes"/></textarea></td>
+      </tr>
+    </table>
+
+
+    <div class="control-group">
+      <div class="controls">
+        <a ng-if="showAddContactButton===true" class="btn btn-primary" data-ng-click="addContact()">Add Company Contact</a>
+        <input type="submit" class="btn btn-primary">
+      </div>
+    </div>
+  </form>
 </section>

@@ -1,11 +1,12 @@
 'use strict';
 
-angular.module('mean.companies').controller('CompaniesController', ['$scope', '$stateParams', 'Global', 'Companies', '$state', '$http', '$window', function ($scope, $stateParams, Global, Companies, $state, $http, $window) {
+angular.module('mean.companies').controller('CompaniesController', ['$scope', '$stateParams', 'Global', 'Companies', 'Contacts', '$state', '$http', '$window', function ($scope, $stateParams, Global, Companies, Contacts, $state, $http, $window) {
     $scope.global = Global;
+
+    $scope.showAddContactButton = true;
 
     $scope.create = function() {
         var Tagnames = [];
-        console.log("$scope.selected", $scope.selected);
 
         var company = new Companies({
             Company_name: this.Company_name,
@@ -15,10 +16,14 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             Company_phone: this.Company_phone
         });
         company.$save(function(response) {
+            if($scope.addingContact===true){
+                console.log("THEHEHEHEHEHEHjhhhhhhhjjjj");
+                $scope.createContact();
+            }
             $state.go('viewCompany',{id : response.id});
         });
 
-        this.Company_name = "";
+       // this.Company_name = "";
         this.notes = "";
         this.Tag_name = "";
         this.Company_email="",
@@ -34,8 +39,60 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
         company.updated = [];
         company.updated.push(new Date().getTime());
         company.$update(function() {
+            if($scope.addingContact===true){
+                console.log("THEHEHEHEHEHEHjhhhhhhhjjjj");
+                var contact = new Contacts({
+                Contact_firstname: $scope.Contact_firstname,
+                Contact_lastname: $scope.Contact_lastname,
+                Contact_name: $scope.Contact_firstname + " " + $scope.Contact_lastname,
+                Contact_email: $scope.Contact_email,
+                Contact_phone: $scope.Contact_phone,
+                Contact_title: $scope.Contact_title,
+                Company_name: $scope.company.Company_name,
+                Contact_notes: $scope.Contact_notes,
+              //  Tag_name: this.selected
+                });
+                contact.$save(function(response) {
+                    console.log("RESPOSENSE", response);
+                   // $state.go('viewCompany',{id : response.CompanyId});
+                });
+            }
             $state.go('viewCompany',{id : $stateParams.id});
         });
+    };
+
+    $scope.addContact = function(){
+        $scope.addingContact = true;
+        $scope.showAddContactButton = false;
+    };
+
+    $scope.createContact = function() {
+
+        //console.log($scope.selected, "Company_name");
+        var contact = new Contacts({
+            Contact_firstname: this.Contact_firstname,
+            Contact_lastname: this.Contact_lastname,
+            Contact_name: this.Contact_firstname + " " + this.Contact_lastname,
+            Contact_email: this.Contact_email,
+            Contact_phone: this.Contact_phone,
+            Contact_title: this.Contact_title,
+            Company_name: this.Company_name,
+            Contact_notes: this.Contact_notes,
+          //  Tag_name: this.selected
+        });
+        contact.$save(function(response) {
+            console.log("RESPOSENSE", response);
+            $state.go('viewCompany',{id : response.CompanyId});
+        });
+
+        this.Contact_name = "";
+        this.Contact_firstname="";
+        this.Contact_lastname="";
+        this.Contact_email = "";
+        this.Contact_phone = "";
+        this.Contact_title = "";
+        this.Company_name = "";
+        this.Contact_notes = "";
     };
 
     $scope.remove = function(company) {
@@ -65,15 +122,13 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
         var tags = [];
         var contactarray;
         var contacts = [];
-        //console.log("findOne ran");
+
         cmpnyid = $stateParams.id;
         Companies.get({id: $stateParams.id}, function(company) {
             $scope.company=company;
-            console.log("$scope.company", $scope.company);
             contactarray = company.Contacts;
             $scope.completecontacts = company.Contacts;
             $scope.events=company.Events;
-            //console.log("contactarray", contactarray);
 
             //getting contact information into a useaable form
             if(contactarray!==0){
@@ -85,7 +140,6 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             }
             $scope.contacts = contacts;
             $scope.contactschunked = $scope.chunk($scope.contacts, 3);
-            //console.log("$scope.contactschunked", $scope.contactschunked);
 
             //getting tag information into a useable form
             if(company.Tags.length!==0){
@@ -97,7 +151,6 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             tagarray.forEach(function(tag){
                 tags.push(tag.Tag_name);
             });
-            console.log("TAgs", tags);
 
             //setting up to be able to edit company tags
             $scope.whatyouneed = tags;
@@ -106,7 +159,6 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             $scope.tags = tags.join(", ");
             $scope.findtags();
             $scope.selected = $scope.tags;
-
             $scope.findCompanyEvents();
             
         });
@@ -146,7 +198,6 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             });
 
             $scope.tags=arrayoftagnames;
-
         });
     };
 
@@ -168,13 +219,8 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             });
             $scope.chunkedtagnames = $scope.chunk($scope.tagnames, 5);
             console.log("$scope.chunkedtagnames", $scope.chunkedtagnames);
-        });
-        
+        });        
     };
-
-    
-
-
 
     $scope.selected = [];
 
@@ -201,8 +247,6 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
       };
 
     $scope.toggle2 = function (tag, whatyouneed) {
-        console.log("whatyouneed", whatyouneed, typeof whatyouneed);
-        console.log("$scope.whatyouneed", $scope.whatyouneed, typeof $scope.whatyouneed);
         var idx = $scope.whatyouneed.indexOf(tag);
         if (idx > -1) {
             $scope.whatyouneed.splice(idx, 1);
@@ -222,11 +266,9 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             url: "/searchforcompany",
             params: {compname: $scope.compname}
         }).then(function(resp){
-            console.log("response", resp.data);
             $scope.companies = resp.data;
         });
     };
-
 
     $scope.findCompanyEvents = function(){
         $scope.Eventtechs =[];
@@ -240,18 +282,15 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             url: '/getcompanyevents',
             params: {compid: $scope.company.id}
         }).then(function(response){
-            //console.log("ReSPONSE", response);
             $scope.events = response.data;
             var evnts = $scope.events;
-            //console.log("TYpeof $scope.events", typeof $scope.events);
-            console.log("events", $scope.events);
+
             if($scope.events.length===0){
-                //console.log("should hide");
                 $scope.noevents = true;
             } else {
                 $scope.noevents = false;
             }
-            console.log("$scope.events.length", $scope.events.length, $scope.noevents);
+
             for(var i=0; i<$scope.events.length; i++){
                 $scope.Eventtechs.push($scope.events[i].Technology);
                 $scope.users.push($scope.events[i].User);
@@ -282,14 +321,7 @@ angular.module('mean.companies').controller('CompaniesController', ['$scope', '$
             });
 
             $scope.contactnames = contactnames;
-            //$scope.geteventsinfo();
-            console.log("$scope.arrayofarrayofcontacts", $scope.arrayofarrayofcontacts);
         });
     };
-
-
-   
-
-
 
 }]);

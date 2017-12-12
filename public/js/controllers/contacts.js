@@ -133,6 +133,7 @@ angular.module('mean.contacts').controller('ContactsController', ['$scope', '$st
 
         Contacts.query(function(contacts) {
             $scope.contacts = contacts;
+            console.log("CONTACTSSSSSS: ", contacts);
             var companies = [];
 
             contacts.forEach(function(contact){
